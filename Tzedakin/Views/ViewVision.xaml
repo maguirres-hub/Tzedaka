@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Tzedaka.Views.ViewVision" BackgroundColor="White">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout>
+                <Image Source="presentacion" WidthRequest="250" HeightRequest="150"/>
+                <Label Text="Vision" FontSize="Title" HorizontalTextAlignment="Center" TextColor="#2196F3" Margin="7, 15, 0, 40" />
+                <Label Text="Nuestra visión en Tzedaka es crear un mundo más amoroso y compasivo, donde la solidaridad y la
+empatía sean los valores fundamentales. Visualizamos un mundo donde la gente se preocupa por los
+
+demás y actúa" TextColor="Black" HorizontalTextAlignment="Start"  Margin="7, 15" />
+                <Label Text="Imaginamos un futuro donde cada persona tenga la oportunidad de ser parte de un cambio positivo en
+el mundo, independientemente de su situación económica o social. Queremos que la generosidad y la
+compasión sean parte de la vida cotidiana de las personas, para que todos puedan experimentar el
+poder transformador de hacer el bien." TextColor="Black" HorizontalTextAlignment="Start" Margin="7, 15"  />
+                <Label Text="En Tzedaka, queremos ser una fuerza impulsora de esta visión. Nos esforzamos por hacer que la
+donación sea fácil, accesible y gratificante para todos, y por fomentar una cultura de solidaridad y
+empatía en todo el mundo. Nos apasiona nuestra visión de un mundo más amoroso y esperamos
+inspirar a otros a unirse a nosotros en este viaje hacia un futuro mejor y más humano." TextColor="Black" HorizontalTextAlignment="Start" Margin="7, 15"  />
+
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

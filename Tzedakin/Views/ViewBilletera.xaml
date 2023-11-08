@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Tzedaka.ViewModels"
+             x:Class="Tzedaka.Views.ViewBilletera" BackgroundColor="White">
+    <ContentPage.BindingContext>
+        <local:ViewModel_Billetera></local:ViewModel_Billetera>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <StackLayout>
+            <ScrollView>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <BoxView CornerRadius="5" Margin="7, 7, 7, 1" Color="#2196F3" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Frame CornerRadius="5" Padding="0"  BackgroundColor="Transparent"  Grid.Row="0" Grid.Column="0" Margin="0, 15">
+                            <ImageButton Source="recargar"  BackgroundColor="Transparent" HeightRequest="25" WidthRequest="25"  Command="{Binding Comando_Btn_Cargar}"/>
+                        </Frame>
+                        <Label Text="Saldo Actual:" TextColor="White" FontAttributes="Bold" FontSize="Body" Grid.Row="1" Grid.Column="0" HorizontalTextAlignment="Start" Margin="15,0, 0, 0"/>
+                        <Label Text="{Binding Cliente_Billetera.Total}" TextColor="RosyBrown" HorizontalTextAlignment="End" FontAttributes="Bold" FontSize="Body" Grid.Row="1"  Grid.Column="1" Margin="0,0,10,0"/>
+                        <Label Text="Ultima Transacción:" TextColor="White" FontAttributes="Bold"  HorizontalTextAlignment="Start" FontSize="Body" Grid.Row="1"  Grid.Column="2" />
+                        <Label Text="{Binding Billetera_Reporte.cantidad}" TextColor="RosyBrown"  FontAttributes="Bold" FontSize="Body" HorizontalTextAlignment="end" Grid.Row="1"  Grid.Column="3" />
+                        <Label Text="Cargar" TextColor="White" FontAttributes="Bold"  HorizontalTextAlignment="Start" FontSize="Body" Grid.Row="2"  Grid.Column="0" Margin="15,15, 0, 0"/>
+                        <Frame CornerRadius="5" Padding="0"  BackgroundColor="Transparent" Grid.Row="3" Grid.Column="0" Margin="0,0, 15, 0">
+                            <ImageButton Source="pasarela"  BackgroundColor="Transparent"   HeightRequest="45" WidthRequest="45" Command="{Binding Comando_Btn}"/>
+                        </Frame>
+                        <Label Text="Retirar" TextColor="White" FontAttributes="Bold"  HorizontalTextAlignment="Start" FontSize="Body" Grid.Row="2"  Grid.Column="3" Margin="0,15, 0, 0"/>
+                        <Frame CornerRadius="5" Padding="0"  BackgroundColor="Transparent" Grid.Row="3" Grid.Column="3">
+                            <ImageButton Source="retirar"  BackgroundColor="Transparent"  HeightRequest="45" WidthRequest="45" Command="{Binding Btn_ir_retiro}"/>
+                        </Frame>
+                    </Grid>
+                    <ActivityIndicator  IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" />
+                    <BoxView CornerRadius="5"  Color="#2196F3" Grid.Row="3" Margin="7" Grid.ColumnSpan="2"/>
+                    <Grid Grid.Row="3" Margin="10, 25, 0, 10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Text="Fecha" TextColor="white" FontSize="Header" FontAttributes="Bold" Grid.Row="0" Grid.Column="1"/>
+                        <Label Text="Cantidad" TextColor="white" FontSize="Header" FontAttributes="Bold" Grid.Row="0" Grid.Column="2"/>
+                        <Label Text="Motivo" TextColor="white" FontSize="Header" FontAttributes="Bold" Grid.Row="0" Grid.Column="3" />
+                        <Label Text="Codigo Producto" TextColor="white" FontSize="Header" FontAttributes="Bold" Grid.Row="0" Grid.Column="4"/>
+                    </Grid>
+                    <ListView 
+                      SeparatorColor="Black"
+                      HasUnevenRows="True"
+                              Margin="7"
+                            Grid.Row="4" ItemsSource="{Binding Billetera_Reportes}" Grid.ColumnSpan="2">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Text="{Binding fecha}" TextColor="DarkBlue" FontSize="Header" FontAttributes="Bold" Grid.Row="0" Grid.Column="1"/>
+                                        <Label Text="{Binding cantidad}" TextColor="Green" FontSize="Header" FontAttributes="Bold" Grid.Row="0" Grid.Column="2"  HorizontalTextAlignment="Center"/>
+                                        <Label Text="{Binding motivo}" TextColor="DarkBlue" FontSize="Header" FontAttributes="Bold" Grid.Row="0" Grid.Column="3"/>
+                                        <Label Text="{Binding codigo_producto}" TextColor="Blue" FontSize="Header" FontAttributes="Bold" Grid.Row="0" Grid.Column="4" HorizontalTextAlignment="Center"/>
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+                </ScrollView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

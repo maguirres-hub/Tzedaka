@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Tzedaka.ViewModels"
+             x:Class="Tzedaka.Views.ViewInicio" BackgroundColor="White">
+    <ContentPage.BindingContext>
+        <local:ViewModel_Perfil></local:ViewModel_Perfil>
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout>
+                <Image Source="presentacion" WidthRequest="250" HeightRequest="150"/>
+                <Label Text="{Binding Nombre_Completo}" TextColor="#2196F3"   HorizontalTextAlignment="Center" FontSize="Subtitle" FontAttributes="Bold"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+                    <Label Text="Arcas" TextColor="#2196F3"   HorizontalTextAlignment="Center" FontSize="Title" FontAttributes="Bold" Grid.ColumnSpan="3"/>
+                    <Frame Padding="0" Grid.Column="0" Grid.Row="1" Margin="1" >
+                        <ImageButton Source="salud" WidthRequest="25" BackgroundColor="Transparent"/>
+                    </Frame>
+                    <Label Text="0" TextColor="#2196F3"   HorizontalTextAlignment="Center" FontSize="Body" FontAttributes="Bold" Grid.Column="0" Grid.Row="2"/>
+                    <Frame Padding="0" Grid.Column="1" Grid.Row="1" Margin="1">
+                        <ImageButton Source="comunidad" WidthRequest="25" BackgroundColor="Transparent"/>
+                    </Frame>
+                    <Label Text="0" TextColor="#2196F3"   HorizontalTextAlignment="Center" FontSize="Body" FontAttributes="Bold" Grid.Column="1" Grid.Row="2"/>
+                    <Frame Padding="0" Grid.Column="2" Grid.Row="1" Margin="1">
+                        <ImageButton Source="educacion" WidthRequest="25" BackgroundColor="Transparent"/>
+                    </Frame>
+                    <Label Text="0" TextColor="#2196F3"   HorizontalTextAlignment="Center" FontSize="Body" FontAttributes="Bold" Grid.Column="2" Grid.Row="2"/>
+                    <Frame Padding="0" Grid.Column="0" Grid.Row="3" Margin="5">
+                        <Button Text="Misión" TextColor="Purple" BackgroundColor="WhiteSmoke" IsTabStop="True" Command="{Binding Btn_ir_mision}"/>
+                    </Frame>
+                    <Frame Padding="0" Grid.Column="1" Grid.Row="3" Margin="5">
+                        <Button Text="Visión" TextColor="Purple" BackgroundColor="WhiteSmoke" Command="{Binding Btn_ir_vision}"/>
+                    </Frame>
+                    <Frame Padding="0" Grid.Column="2" Grid.Row="3" Margin="5">
+                        <Button Text="Quienes Somos" TextColor="Purple" BackgroundColor="WhiteSmoke" Command="{Binding Btn_ir_quinesSomso}"/>
+                    </Frame>
+                </Grid>
+        
+        </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

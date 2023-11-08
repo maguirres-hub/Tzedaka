@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewsmodel="clr-namespace:Tzedaka.ViewModels"
+             x:DataType="viewsmodel:ViewModel_Pasarela"
+             x:Class="Tzedaka.Views.ViewPasarela" BackgroundColor="white"> 
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout>
+                <Frame BackgroundColor="White"  CornerRadius="5" BorderColor="Transparent" Margin="0,25">
+                    <Image Source="img_pasarela.png" HorizontalOptions="CenterAndExpand" WidthRequest="350" HeightRequest="100" VerticalOptions="FillAndExpand"/>
+                </Frame>
+                <Label Text="Recargar Wallet" TextColor="#2196F3" FontAttributes="Bold" FontSize="Title" HorizontalOptions="Center"/>
+                <Label Text="Nombre Completo" MaxLines="35" TextColor="#2196F3" Margin="20, 35,15, 1"/>
+                <Frame Padding="0" Margin="15, 4,15, 1" CornerRadius="10">
+                    <Entry Text="{Binding Nombre_Tarjeta}" TextColor="Black" Keyboard="Text"/>
+                </Frame>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="210"/>
+                        <ColumnDefinition Width="150"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Text="Fecha vencimiento" TextColor="#2196F3" Margin="20, 25, 15, 1" Grid.Row="0" Grid.Column="0"/>
+                    <Frame Padding="10" CornerRadius="10" Margin="0, 1, 40, 1" HorizontalOptions="Center" TranslationX="5" Grid.Row="1" Grid.Column="0">
+                        <DatePicker  Format="yyyy-MM-dd" Date="{Binding FechaSeleccionadaTarjeta}"  TextColor="black"/>
+                    </Frame>
+                    <Label Text="Codigo CV" HorizontalTextAlignment="center" TextColor="#2196F3"  Margin="20, 25, 15, 1" Grid.Row="0" Grid.Column="1"/>
+                    <Frame Padding="10" CornerRadius="10" Margin="15, 1, 15, 1" Grid.Row="1"  TranslationX="5" Grid.Column="1">
+                        <Entry Placeholder="CV" Text="{Binding CV}"  Keyboard="Numeric" MaxLength="3" TextColor="Black"/>
+                    </Frame>
+                </Grid>
+                <Label Text="Cantidad a Cargar" TextColor="#2196F3" Margin="20, 20,15, 1"/>
+                <Frame Padding="0" CornerRadius="10" Margin="15, 4,15, 1">
+                    <Entry Text="{Binding Cantidad}" TextColor="Black" Keyboard="Numeric"/>
+                </Frame>
+                <Frame Padding="0" Margin="15, 20,15, 1">
+                    <Button Text="Recargar" BackgroundColor="#2196F3" TextColor="White" CornerRadius="10" BorderColor="White" Command="{Binding Btn_Recargar}"/>
+                </Frame>
+                <ActivityIndicator  IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" />
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

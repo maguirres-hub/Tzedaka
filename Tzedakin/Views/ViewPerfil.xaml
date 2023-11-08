@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewsmodel="clr-namespace:Tzedaka.ViewModels"
+             x:DataType="viewsmodel:ViewModel_Perfil"
+             x:Class="Tzedaka.Views.ViewPerfil"  
+            BackgroundColor="White">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout>
+                <Label Text="Datos Usuario" Margin="5"  HorizontalTextAlignment="Center" FontSize="Title" FontFamily="loravariablefontwght" TextColor="#2196F3" Padding="30,10,30,10"/>
+                <Frame CornerRadius="4"  Margin="50, 5" HasShadow="True" BorderColor="#2196F3" Padding="1">
+                    <Entry Placeholder="Nombres"  HorizontalTextAlignment="Center" PlaceholderColor="Black"   FontFamily="loravariablefontwght" Text="{Binding Cliente.Nombres}" TextColor="Black" />
+                </Frame>
+                <Frame CornerRadius="4"  Margin="50, 5" HasShadow="True"  BorderColor="#2196F3" Padding="1">
+                    <Entry  Placeholder="Apellidos"  HorizontalTextAlignment="Center" PlaceholderColor="Black"  FontFamily="loravariablefontwght" Text="{Binding Cliente.Apellidos}" TextColor="Black" />
+                </Frame>
+                <Frame CornerRadius="4"  Margin="50, 5" HasShadow="True" BorderColor="#2196F3" Padding="1">
+                    <Entry  Placeholder="Dirección"  HorizontalTextAlignment="Center"  PlaceholderColor="Black"  FontFamily="loravariablefontwght" Text="" TextColor="Black" />
+                </Frame>
+                <Frame CornerRadius="4"  Margin="50, 5" HasShadow="True" BorderColor="#2196F3" Padding="1">
+                    <Entry  Placeholder="Correo Electronico"  HorizontalTextAlignment="Center" IsReadOnly="True"  PlaceholderColor="Black"   FontFamily="loravariablefontwght" Text="{Binding Cliente.Correo}" TextColor="Black" />
+                </Frame>
+                <Frame CornerRadius="4"  Margin="50, 5" HasShadow="True" BorderColor="#2196F3" Padding="1">
+                    <Entry  Placeholder="Pais"  HorizontalTextAlignment="Center" IsReadOnly="True"  PlaceholderColor="Black"   FontFamily="loravariablefontwght" Text="{Binding Cliente.Pais}" TextColor="Black" />
+                </Frame>
+                <Frame CornerRadius="4"  Margin="50, 5" HasShadow="True" BorderColor="#2196F3" Padding="1">
+                    <Entry  Placeholder="Ciudad"  HorizontalTextAlignment="Center" IsReadOnly="True"  PlaceholderColor="Black"   FontFamily="loravariablefontwght" Text="{Binding Cliente.Ciudad}" TextColor="Black" />
+                </Frame>
+                <Frame CornerRadius="4" Margin="50, 5" BorderColor="#2196F3" Padding="1">
+                    <Entry x:Name="Pass"  Placeholder="Escriba su Contraseña" HorizontalTextAlignment="center" PlaceholderColor="Black"  FontFamily="loravariablefontwght" Text="{Binding Cliente.Password}" IsPassword="True" TextColor="Black"/>
+                </Frame>
+                <Frame Margin="45,0,45,0" Padding="0" CornerRadius="10">
+                    <Button Text="Mostrar Contraseña" Clicked ="ShowPassword" />
+                </Frame>
+                <Frame BackgroundColor="Transparent" Margin="45,0,45,0" Padding="0" CornerRadius="10">
+                    <Button  Text="Modificar" Command="{Binding Btn_Modificar_Perfil}"  BackgroundColor="#2196F3" CornerRadius="4" TextColor="white" FontSize="Body" FontFamily="loravariablefontwght" />
+                </Frame>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Tzedakim - Tzedaká</title>
+    <meta charset="utf-8">
+    <link rel="icon" type="image/x-icon" href="img/logo.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+        crossorigin="anonymous"></script>
+    <style>
+        #loading {
+            display: none;
+            font-weight: bold;
+            font-size: 30px;
+            color: blue;
+            text-align: center;
+            margin: 15px;
+        }
+
+        .my-custom-scrollbar {
+            position: relative;
+            overflow-y: scroll;
+        }
+
+        .table-custom {
+            display: block;
+            height: 320px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container-fluid p-5 bg-primary text-white text-center">
+        <h1>Club Tzedakim - Tzedaká</h1>
+        <p id="nombre_empleado"></p>
+    </div>
+
+    <div class="container p-4">
+        <ul class="nav nav-pills" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="inicio-tab" data-bs-toggle="tab" data-bs-target="#inicio"
+                    type="button" role="tab" aria-controls="inicio" aria-selected="false">Inicio</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link " id="paises-tab" data-bs-toggle="tab" data-bs-target="#paises" type="button"
+                    role="tab" aria-controls="paises" aria-selected="false" onclick="Get_Paises();">Paises</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link " id="ciudades-tab" data-bs-toggle="tab" data-bs-target="#ciudades"
+                    type="button" role="tab" aria-controls="ciudades" aria-selected="false"
+                    onclick="Get_Ciudades();">Ciudades</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link " id="empleados-tab" data-bs-toggle="tab" data-bs-target="#empleados"
+                    type="button" role="tab" aria-controls="empleados" aria-selected="false"
+                    onclick="Get_Empleados();">Empleados</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="clientes-tab" data-bs-toggle="tab" data-bs-target="#clientes" type="button"
+                    role="tab" aria-controls="clientes" aria-selected="false"
+                    onclick="Get_Clientes();">Clientes</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="productos-tab" data-bs-toggle="tab" data-bs-target="#productos"
+                    type="button" role="tab" aria-controls="productos" aria-selected="false"
+                    onclick="Get_Producto();">Productos</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="cursos-tab" data-bs-toggle="tab" data-bs-target="#cursos" type="button"
+                    role="tab" aria-controls="cursos" aria-selected="false" onclick="Get_Cursos();">Cursos</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="subscripcion-tab" data-bs-toggle="tab" data-bs-target="#subscripcion"
+                    type="button" role="tab" aria-controls="subscripcion" aria-selected="false"
+                    onclick="Get_Detalles_Subscripcion(); Get_Subscriptores();">Detalles Subscripcion</button>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="inicio" role="tabpanel" aria-labelledby="inicio-tab">
+                <h1 class="text-center mt-5 mb-5"> Bienvenido </h1>
+                <h1 class="text-center mt-5 mb-5"> Sistema Administrativo</h1>
+            </div>
+            <div class="tab-pane fade" id="paises" role="tabpanel" aria-labelledby="paises-tab">
+                <h1 class="text-center mb-5 mt-5">Paises</h1>
+                <div id="loading_pais" class="text-center text-danger h2">Cargando...</div>
+                <form name="formulario_paises" onsubmit="return Validar_Paises();">
+                    <div class="mb-3 d-none">
+                        <label for="id_paises" class="form-label">ID:</label>
+                        <input type="text" class="form-control" id="id_paises">
+                    </div>
+                    <div class="mb-3">
+                        <label for="nombre_pais" class="form-label">Nombre Pais:</label>
+                        <input type="text" class="form-control" id="nombre_pais" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-success" id="btn_pais">Registrar</button>
+                    <a class="btn btn-primary disabled" id="btn_update_pais" onclick="Put_Pais()" disabled>Actualizar</a>
+                    <a class="btn btn-danger" onclick="Limpiar_Formulario_Pais()">Limpiar</a>
+                </form>
+
+                <div class="table-responsive">
+
+                    <table id="tabla_paises_" class="table table-wrapper-scroll-y my-custom-scrollbar">
+                        <thead style="position: sticky; top:0">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Pais</th>
+                                <th scope="col">Opcion</th>
+                                <th scope="col">Opcion</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla_paises">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="ciudades" role="tabpanel" aria-labelledby="ciudades-tab">
+                <h1 class="text-center mb-5 mt-5">Ciudades</h1>
+                <div id="loading_ciudad" class="text-center text-danger">Cargando...</div>
+                <form name="formulario_ciudades" onsubmit="return Validar_Ciudades();">
+                    <div class="mb-3 d-none">
+                        <label for="id_ciudades" class="form-label">ID:</label>
+                        <input type="text" class="form-control" id="id_ciudades">
+                    </div>
+                    <div class="mb-3">
+                        <label for="pass" class="form-label">Paises:</label>
+                        <select class="form-select" id="select_paises" required>
+                            <option selected value="default">Seleccione Pais</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="nombre_ciudad" class="form-label">Nombre Ciudad:</label>
+                        <input type="text" class="form-control" id="nombre_ciudad" required>
+                    </div>
+                    <button type="submit" class="btn btn-success" id="btn_ciudad">Registrar</button>
+                    <a class="btn btn-primary disabled" id="btn_update_ciudad" onclick="Put_Ciudad()" disabled>Actualizar</a>
+                    <a class="btn btn-danger" onclick="Limpiar_Formulario_Ciudad()">Limpiar</a>
+                </form>
+                <div class="table-responsive">
+                    <table id="tabla_ciudades_" class="table table-wrapper-scroll-y my-custom-scrollbar">
+                        <thead style="position: sticky; top:0">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Ciudad</th>
+                                <th scope="col">Pais</th>
+                                <th scope="col">Opcion</th>
+                                <th scope="col">Opcion</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla_ciudades">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="tab-pane fade show" id="empleados" role="tabpanel" aria-labelledby="empleados-tab">
+                <h1 class="text-center mb-5 mt-5">Empleados</h1>
+                <div id="loading_empleados" class="text-center text-danger h2">Cargando...</div>
+                <form name="formulario_empleados" onsubmit="return Validar_Empleado();">
+                    <div class="mb-3 d-none">
+                        <label for="id_empleado" class="form-label">ID:</label>
+                        <input type="number" class="form-control" id="id_empleado" disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label for="nombres" class="form-label">Nombres:</label>
+                        <input type="text" class="form-control" id="nombres" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="apellidos" class="form-label">Apellidos:</label>
+                        <input type="text" class="form-control" id="apellidos" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="correo" class="form-label">Correo:</label>
+                        <input type="email" class="form-control" id="correo">
+                    </div>
+                    <label for="pass" class="form-label">Contraseña:</label>
+                    <div class="input-group mb-3">
+                        <input type="password" class="form-control" id="pass" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="mostrar_pass" class="form-label">Mostrar Contraseña</label>
+                        <input type="checkbox" class="form-check-inline" id="btn_mostrar_pass"
+                            onclick="Mostrar_Password_Empleado()">
+                    </div>
+                    <button type="submit" class="btn btn-success" id="btn_empleado">Registrar</button>
+                    <a class="btn btn-primary" onclick="Put_Empleado()" disabled>Actualizar</a>
+                    <a class="btn btn-danger" onclick="Limpiar_Formulario_Empleado()">Limpiar</a>
+                </form>
+                <div class="table-responsive">
+                    <table id="tabla_empleados_" class="table table-wrapper-scroll-y my-custom-scrollbar">
+                        <thead style="position: sticky; top:0">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nombres</th>
+                                <th scope="col">Apellidos</th>
+                                <th scope="col">Correo</th>
+                                <th scope="col">Opción</th>
+                                <th scope="col">Opción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla_empleados">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="clientes" role="tabpanel" aria-labelledby="clientes-tab">
+                <h1 class="text-center mb-5 mt-5">Clientes</h1>
+                <form name="formulario_clientes" onsubmit="return Validar_Cliente();">
+                    <div class="mb-3 d-none">
+                        <label for="id_cliente" class="form-label">ID:</label>
+                        <input type="text" class="form-control" id="id_cliente">
+                    </div>
+                    <div class="mb-3">
+                        <label for="nombres_cliente" class="form-label">Nombres:</label>
+                        <input type="text" class="form-control" id="nombres_cliente" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="apellidos_cliente" class="form-label">Apellidos:</label>
+                        <input type="text" class="form-control" id="apellidos_cliente" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="telefono_cliente" class="form-label">Telefono(+57):</label>
+                        <input type="text" class="form-control" id="telefono_cliente" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="direccion_cliente" class="form-label">Direccion:</label>
+                        <input type="text" class="form-control" id="direccion_cliente" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="correo" class="form-label">Correo:</label>
+                        <input type="email" class="form-control" id="correo" required>
+                    </div>
+                    <label for="pass" class="form-label">Contraseña:</label>
+                    <div class="input-group mb-3">
+                        <input type="password" class="form-control" id="pass_cliente" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="mostrar_pass" class="form-label">Mostrar Contraseña</label>
+                        <input type="checkbox" class="form-check-inline" id="btn_mostrar_pass"
+                            onclick="Mostrar_Password_Cliente()">
+                    </div>
+                    <!--<div class="mb-3">
+                        <label for="pais" class="form-label">Pais:</label>
+                        <input type="text" class="form-control" id="pais">
+                    </div>-->
+                    <div class="mb-3">
+                        <label for="pass" class="form-label">Ciudad:</label>
+                        <select class="form-select" id="select_ciudades" required>
+                            <option selected value="default">Seleccione Ciudad</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-success" id="btn_cliente">Registrar</button>
+                    <a class="btn btn-primary" onclick="Put_Cliente()" disabled>Actualizar</a>
+                    <a class="btn btn-danger" onclick="Limpiar_Formulario_Clientes()">Limpiar</a>
+                </form>
+                <div class="table-responsive">
+                    <table id="tabla_empleados_" class="table table-wrapper-scroll-y my-custom-scrollbar">
+                        <thead style="position: sticky; top:0">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nombres</th>
+                                <th scope="col">Apellidos</th>
+                                <th scope="col">Telefono</th>
+                                <th scope="col">Direccion</th>
+                                <th scope="col">Correo</th>
+                                <th scope="col">Ciudad</th>
+                                <th scope="col">Subscripcion</th>
+                                <th scope="col">Fecha Registro</th>
+                                <th scope="col">Estatus</th>
+                                <th scope="col">Opción</th>
+                                <th scope="col">Opción</th>
+                                <th scope="col">Opción</th>
+                                <th scope="col">Opción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla_clientes">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="productos" role="tabpanel" aria-labelledby="productos-tab">
+                <h1 class="text-center mb-5 mt-5">Productos</h1>
+                <div class="table-responsive">
+                    <img id="imagen_blob">
+                    <table id="tabla_empleados_" class="table table-wrapper-scroll-y my-custom-scrollbar">
+                        <thead style="position: sticky; top:0">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Descripcion</th>
+                                <th scope="col">Precio</th>
+                                <th scope="col">Categoria</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col">Imagen</th>
+                                <th scope="col">Codigo_Producto</th>
+                                <th scope="col">Vendedor</th>
+                                <th scope="col">Correo Vendedor</th>
+                                <th scope="col">Opción</th>
+                                <th scope="col">Opción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla_productos">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="cursos" role="tabpanel" aria-labelledby="cursos-tab">
+                <h1 class="text-center mt-5 mb-5">Cursos</h1>
+                <form name="formulario_cursos" onsubmit="return Validar_Curso();">
+                    <div class="mb-3 d-none">
+                        <label for="id_curso" class="form-label">ID:</label>
+                        <input type="text" class="form-control" id="id_curso">
+                    </div>
+                    <div class="ratio ratio-21x9 bg-dark">
+                        <iframe width="661" src="" height="372" title="video_cursos" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen id="curso_video"></iframe>
+                    </div>
+                    <div class="mb-3">
+                        <label for="url_video" class="form-label">Url Video:</label>
+                        <input type="url" class="form-control" id="url_video" oninput="Mostrar_Video();" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="titulo_curso" class="form-label">Titulo Curso:</label>
+                        <input type="text" class="form-control" id="titulo_curso" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="descripcion_curso" class="form-label">Descripcion Curso</label>
+                        <input type="text" class="form-control" id="descripcion_curso" required>
+                    </div>
+                    <button type="submit" class="btn btn-success" id="btn_curso">Registrar</button>
+                    <a class="btn btn-primary" onclick="Put_Cursos()">Actualizar</a>
+                    <a class="btn btn-danger" onclick="Limpiar_Formulario_Cursos()">Limpiar</a>
+                </form>
+                <div class="table-responsive">
+                    <table id="tabla_cursos_" class="table table-wrapper-scroll-y my-custom-scrollbar">
+                        <thead style="position: sticky; top:0">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">URL Video</th>
+                                <th scope="col">Titulo Curso</th>
+                                <th scope="col">Descripcion</th>
+                                <th scope="col">Opción</th>
+                                <th scope="col">Opción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla_cursos">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="subscripcion" role="tabpanel" aria-labelledby="subscripcion-tab">
+                <h1 class="text-center mb-5 mt-5">Subscripcion</h1>
+                <form name="formulario_detalles_sub" onsubmit="return Validar_Detalles_Sub();">
+                    <div class="mb-3 d-none">
+                        <label for="id_detalles_sub" class="form-label">ID:</label>
+                        <input type="number" class="form-control" id="id_detalles_sub" disabled min="0">
+                    </div>
+                    <div class="mb-3">
+                        <label for="precio_actual_subscripcion" class="form-label">Precio Actual(USD):</label>
+                        <input type="number" class="form-control" id="precio_actual_subscripcion" step="0.01" min="0"
+                            disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label for="precio_subscripcion" class="form-label">Precio:</label>
+                        <input type="number" class="form-control" id="precio_subscripcion" step="0.01" min="0" required>
+                    </div>
+                    <a class="btn btn-primary" onclick="Put_Detalles_Sub()">Actualizar</a>
+                    <a class="btn btn-danger" onclick="Limpiar_Formulario_Detalles_Sub()">Limpiar</a>
+                </form>
+                <h1 class="text-center">Clientes Subscriptos</h1>
+                <div class="table-responsive">
+                    <table id="tabla_subscriptos" class="table table-wrapper-scroll-y my-custom-scrollbar">
+                        <thead style="position: sticky; top:0">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nombres</th>
+                                <th scope="col">Apellidos</th>
+                                <th scope="col">Telefono</th>
+                                <th scope="col">Correo</th>
+                                <th scope="col">Ciudad</th>
+                                <th scope="col">Bloque</th>
+                                <th scope="col">Posicion_Bloque</th>
+                                <th scope="col">Opcion</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla_subscriptores">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js?v1.0.1"></script>
+</body>
+
+</html>

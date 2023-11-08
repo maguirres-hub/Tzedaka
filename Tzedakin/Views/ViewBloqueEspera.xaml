@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Tzedaka.ViewModels"
+             x:Class="Tzedaka.Views.ViewBloqueEspera" BackgroundColor="White"
+             >
+    <ContentPage.BindingContext>
+        <local:ViewModel_Perfil></local:ViewModel_Perfil>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout>
+                <Image Source="presentacion" WidthRequest="250" HeightRequest="150"/>
+                <Label Text="{Binding Nombre_Completo}" TextColor="#2196F3"   HorizontalTextAlignment="Center" FontSize="Subtitle" FontAttributes="Bold"/>
+                <Label Text="Espera aun no estas en el bloque 3" TextColor="Red" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="Title"/>
+                <Label Text="{Binding Bloque_Actual}" TextColor="Red"  HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="Title"/>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

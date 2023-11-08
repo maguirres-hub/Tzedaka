@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewsmodel="clr-namespace:Tzedaka.ViewModels" 
+             x:DataType="viewsmodel:ViewModel_Login" 
+             x:Class="Tzedaka.MainPage" 
+               BackgroundColor="White">
+    <ScrollView>
+        <StackLayout>
+            <Frame BackgroundColor="White"  CornerRadius="5" BorderColor="Transparent" Padding="0">
+                <Image Source="presentacion.png" HorizontalOptions="Center" WidthRequest="300" HeightRequest="225" VerticalOptions="Center"/>
+            </Frame>
+            <Label Text="INICIAR SESIÓN"  HorizontalTextAlignment="Center" FontSize="Title" FontFamily="loravariablefontwght" TextColor="#2196F3" Padding="30,10,30,10"/>
+            <Frame CornerRadius="15" Margin="50, 5, 50, 5" HasShadow="True" BorderColor="#2196F3" Padding="10" >
+                <Entry  Placeholder="Correo Electronico" PlaceholderColor="Black" FontFamily="loravariablefontwght" TextColor="Black" Text="{Binding Cliente.Correo}"/>
+            </Frame>
+            <Frame CornerRadius="15" Margin="50, 25, 50, 5" BorderColor="#2196F3" Padding="10">
+                <Entry x:Name="Pass" Placeholder="************" PlaceholderColor="Black" IsPassword="True" Text="{Binding Cliente.Password}" FontFamily="loravariablefontwght" TextColor="Black"/>
+            </Frame>
+            <Frame Margin="80, 3, 80, 5" Padding="0" BackgroundColor="Transparent">
+                <Button Text="Mostrar Contraseña" Clicked="ShowPassword" BackgroundColor="Transparent" FontSize="Small" TextColor="green"/>
+            </Frame>
+            <ActivityIndicator  IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" />
+            <!-- <Button Text="Recuperar contraseña" Margin="50, 5, 50, 5" CornerRadius="15" TextColor="#2196F3" BackgroundColor="Transparent" FontSize="Body" FontFamily="loravariablefontwght"/>-->
+            <Button Text="Iniciar" Margin="50, 5, 50, 5" CornerRadius="15" TextColor="white" BackgroundColor="#2196F3" FontSize="Body" BorderColor="black" BorderWidth="1" FontFamily="loravariablefontwght" Command="{Binding Loguearse}"/>
+            <Button Text="Registrarse" Clicked="Ir_Registro"  Margin="50, 5, 50, 5" CornerRadius="15" TextColor="white" BackgroundColor="Red" BorderColor="black" BorderWidth="1" FontSize="Body" FontFamily="loravariablefontwght"/>
+            <Frame Margin="80, 0, 80, 0" Padding="0" BackgroundColor="Transparent">
+                <Button Text="Recuperar Contraseña"  BackgroundColor="Transparent" FontSize="Micro" FontAttributes="Bold" TextColor="blue" Command="{Binding Recuperar}"/>
+            </Frame>
+            <Label HorizontalTextAlignment="Center" Text="V 1.0.25" TextColor="#2196F3"/>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

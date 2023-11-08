@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Tzedaka.Views.ViewMision" BackgroundColor="White">
+    <ContentPage.Content>
+        <ScrollView>
+        <StackLayout>
+                <Image Source="presentacion" WidthRequest="250" HeightRequest="150"/>
+                <Label Text="Mision" FontSize="Title" HorizontalTextAlignment="Center" TextColor="#2196F3" Margin="7, 15, 0, 30" />
+                <Label Text="La misión de la aplicación Tzedaka es fomentar la empatía y la solidaridad en todo el mundo, al mismo
+tiempo que se aborda la pobreza y la desigualdad. Creemos que la generosidad y la compasión son
+valores universales, y nuestra plataforma está diseñada para permitir que cualquier persona, en
+cualquier lugar, pueda contribuir a mejorar la vida de aquellos que lo necesitan." TextColor="Black" HorizontalTextAlignment="Start"  Margin="7, 15" />
+                <Label Text="Nuestro objetivo es hacer que la donación sea una experiencia accesible y gratificante para
+todos.También estamos comprometidos con la innovación y la mejora constante. Nos esforzamos por
+utilizar la tecnología para mejorar la eficiencia y la efectividad de las donaciones, al mismo tiempo que
+mantenemos los más altos estándares de seguridad y privacidad para nuestros usuarios." TextColor="Black" HorizontalTextAlignment="Start" Margin="7, 15"  />
+                <Label Text="En resumen, nuestra misión es mejorar la vida de las personas a través de la generosidad y la
+compasión. Creemos que al trabajar juntos, podemos hacer una diferencia significativa en el mundo y
+ayudar a crear un futuro mejor y más justo para todos." TextColor="Black" HorizontalTextAlignment="Start" Margin="7, 15"  />
+
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

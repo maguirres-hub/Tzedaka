@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Tzedaka.ViewModels"
+             x:Class="Tzedaka.Views.ViewSubscripcionDonador" BackgroundColor="White">
+    <ContentPage.BindingContext>
+        <local:ViewModel_Club></local:ViewModel_Club>
+    </ContentPage.BindingContext>
+    <ScrollView>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Frame CornerRadius="5" Padding="0"  BackgroundColor="Transparent"   Grid.Row="0" Grid.Column="0" Margin="5, 5, 0, 0">
+                <ImageButton Source="recargar" Margin="0, 0, 0, 0"  BackgroundColor="#2196F3" HeightRequest="5" Padding="5"  Command="{Binding Comando_Btn_Club}"/>
+            </Frame>
+            <Label Text="Club-Tzadikim" HorizontalTextAlignment="Start" TextColor="#2296F3" Grid.Column="1" Grid.ColumnSpan="2" VerticalTextAlignment="Center" FontSize="25"/>
+            <Label Text="Saldo Actual : USD." Grid.Column="3"  FontSize="Caption" TextColor="#2196F3" FontAttributes="Bold" HorizontalTextAlignment="Start" Margin="-20,20, 0, 0"/>
+            <Label Text="{Binding Cliente_Billetera.Total}" Grid.Column="3" FontSize="Caption" TextColor="Green" FontAttributes="Bold" HorizontalTextAlignment="Start" Margin="15,35,0,0"/>
+            <BoxView CornerRadius="5" Margin="5" Color="#2196F3" Grid.Row="1" Grid.RowSpan="4" Grid.ColumnSpan="4" />
+            <Label Text="Bloque" TextColor="White" FontAttributes="Bold" FontSize="Body" Grid.Row="1" Grid.Column="0" Margin="20, 10, 0, 0"/>
+            <Label Text="{Binding Subscripcion_Cliente.Bloque}" TextColor="White" FontAttributes="Bold" FontSize="Body"  Margin="40, 30, 0, 0" Grid.Row="1" Grid.Column="0" />
+            <Label Text="Posicion" TextColor="White" FontAttributes="Bold" FontSize="Body"  Margin="1, 10, 0, 0" Grid.Row="1" Grid.Column="1" />
+            <Label Text="{Binding Subscripcion_Cliente.Posicion_Bloque}" TextColor="White" FontAttributes="Bold" FontSize="Body" Margin="30, 30, 0, 0" Grid.Row="1" Grid.Column="1" />
+            <Label Text="Vuelta" TextColor="White" FontAttributes="Bold" FontSize="Body"  Margin="1, 10, 0, 0" Grid.Row="1" Grid.Column="2" />
+            <Label Text="{Binding Subscripcion_Cliente.Vueltas}" TextColor="White" FontAttributes="Bold" FontSize="Body" Margin="20, 30, 0, 0" Grid.Row="1" Grid.Column="2" />
+            <Label Text="Ult. Donacion" TextColor="White" FontAttributes="Bold" FontSize="Body"  Margin="-15, 10, 0, 0" Grid.Row="1" Grid.Column="3" />
+            <Label Text="{Binding Subscripcion_Cliente.Ultima_Donacion}" TextColor="White" FontAttributes="Bold" FontSize="Body" Margin="30, 30, 0, 0" Grid.Row="1" Grid.Column="3"/>
+            <Label Text="{Binding Clientes_Donar.Nombre_Completo}" TextColor="White" FontAttributes="Bold" FontSize="Body"  Margin="20, 10, 0, 0" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" HorizontalTextAlignment="Center" />
+            <Label Text="Cantidad:" TextColor="White" FontAttributes="Bold" FontSize="Body"  Margin="20, 10, 0, 0" Grid.Row="3" Grid.Column="0" HorizontalTextAlignment="Start" />
+            <Frame Margin="10, 1, 0, 15" Padding="0" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2">
+                <Entry Placeholder="0" TextColor="Black" Text="{Binding Cantidad_Donacion}" Keyboard="Numeric" PlaceholderColor="Gray" Margin="0, 0, 0, 0" HeightRequest="50" HorizontalTextAlignment="Center" VerticalTextAlignment="End" />
+            </Frame>
+            <Frame Margin="10, 1, 10, 15" Padding="0" Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2">
+                <Button BackgroundColor="Green" Margin="0, 0, 0, 0" TextColor="White" Text="Donar" Command="{Binding Btn_Donar}"/>
+            </Frame>
+            <Label Text="Solicitudes para subscripcion" Grid.Row="5" Grid.ColumnSpan="4" TextColor="Black" FontSize="Title" HorizontalTextAlignment="Center"/>
+            <Grid Grid.Row="6" BackgroundColor="#2296F3" Grid.ColumnSpan="4" Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Text="ID" Grid.Row="0" Grid.Column="0" TextColor="white" FontSize="Body" HorizontalTextAlignment="Center"/>
+                <Label Text="Nombre" Grid.Row="0" Grid.Column="1" TextColor="white" FontSize="Body" HorizontalTextAlignment="Center"/>
+                <Label Text="Apellidos" Grid.Row="0" Grid.Column="2" TextColor="white" FontSize="Body" HorizontalTextAlignment="Center"/>
+                <Label Text="opcion" Grid.Row="0" Grid.Column="3" TextColor="white" FontSize="Body" HorizontalTextAlignment="Center"/>
+                <ActivityIndicator Color="#2196F3" IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" Grid.Row="1" Grid.ColumnSpan="4"/>
+                <ListView ItemsSource="{Binding Soli}" Grid.Row="1" Grid.ColumnSpan="4"  BackgroundColor="White" SeparatorColor=" Black" HasUnevenRows="True">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="5"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label HorizontalTextAlignment="center" TextColor="Purple" Text="{Binding id_cliente}" Grid.Row="1" Grid.Column="0"  />
+                                    <Label HorizontalTextAlignment="center" TextColor="Purple" Text="{Binding Nombres}"  Grid.Row="1" Grid.Column="1" />
+                                    <Label HorizontalTextAlignment="center" TextColor="Purple" Text="{Binding Apellidos}" Grid.Row="1" Grid.Column="2" />
+                                    <Button Text="Regalar" TextColor="white" BackgroundColor="Purple" Grid.Row="1" Grid.Column="3" Margin="0,0,0,10" Command="{Binding BindingContext.SelectItem, Source={x:Reference Pagina_Subs}}" CommandParameter="{Binding .}"/>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </Grid>
+    </ScrollView>
+</ContentPage>

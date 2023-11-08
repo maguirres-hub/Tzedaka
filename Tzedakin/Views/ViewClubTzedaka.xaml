@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewsmodel="clr-namespace:Tzedaka.ViewModels"
+             x:DataType="viewsmodel:ViewModel_Club"
+             x:Class="Tzedaka.Views.ViewClubTzedaka" BackgroundColor="White">
+    <ScrollView>
+        <StackLayout>
+            <Label Text="Saldo Actual : USD." FontSize="Caption" TextColor="#2196F3" FontAttributes="Bold" HorizontalTextAlignment="Start"  Margin="10,20, 0, 0"/>
+            <Label Text="{Binding Cliente_Billetera.Total}" FontSize="Caption" TextColor="Green" FontAttributes="Bold" HorizontalTextAlignment="Start" Margin="60,0,0,0"/>
+            <Button Text="Cargar" BackgroundColor="Orange" TextColor="White" FontAttributes="Bold" Command="{Binding Comando_Btn_Cargar_Billetera}"  CornerRadius="10" Margin="150, 0, 150, 0"/>
+            <Label FontSize="Medium" TranslationY="60" Text="Club Tzedaka-Tzadikim" HorizontalTextAlignment="Center" TextColor="#2196F3" FontAttributes="Bold"/>
+            <Label FontSize="Medium" TranslationY="80" Text="Si accedes a la subscripcion puedes tener acceso a cursos y donaciones por bloques" HorizontalTextAlignment="Center" TextColor="Black" FontAttributes="Bold"/>
+            
+            <Frame CornerRadius="10" Padding="0" Margin="50, 100">
+                <Button BackgroundColor="Green" TextColor="White"  Text="Subscribirse" Command="{Binding Btn_Comprar_Subs}"></Button>
+            </Frame>
+            <Frame CornerRadius="10" Padding="0" Margin="50, 0">
+                <Button BackgroundColor="Purple" TextColor="White"  Text="Solicitar Subscribirse" Command="{Binding Btn_Solicitar_Subs}"></Button>
+            </Frame>
+            <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" />
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

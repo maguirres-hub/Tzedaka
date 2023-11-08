@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:loca="clr-namespace:Tzedaka.ViewModels"
+             x:Class="Tzedaka.Views.ViewRegistro" xmlns:viewsmodel="clr-namespace:Tzedaka.ViewModels" 
+             BackgroundColor="White"
+             >
+    <ContentPage.BindingContext>
+        <loca:ViewModel_Registro/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout >
+                <ActivityIndicator  IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" />
+                <Label Text="Registro Usuario" Margin="0, 5"  HorizontalTextAlignment="Center" FontSize="Title" FontFamily="loravariablefontwght" TextColor="#2196F3" Padding="30,10,30,10"/>
+                <Frame CornerRadius="15"  Margin="50, 5, 50, 5" HasShadow="True" BorderColor="#2196F3" Padding="10">
+                    <Entry Placeholder="Escriba sus Nombres" PlaceholderColor="Black"   FontFamily="loravariablefontwght" Text="{Binding Cliente.Nombres}" TextColor="Black" />
+                </Frame>
+                <Frame CornerRadius="15" Margin="50, 20, 50, 5" BorderColor="#2196F3" Padding="10">
+                    <Entry  Placeholder="Escriba sus Apellidos" PlaceholderColor="Black"  FontFamily="loravariablefontwght" Text="{Binding Cliente.Apellidos}" TextColor="Black" />
+                </Frame>
+                <Frame CornerRadius="15" Margin="50, 20, 50, 5" BorderColor="#2196F3" Padding="10">
+                    <Entry Placeholder="Escriba Correo Electronico" PlaceholderColor="Black"   FontFamily="loravariablefontwght" Text="{Binding Cliente.Correo}" TextColor="Black" Keyboard="Email"/>
+                </Frame>
+                <Frame CornerRadius="15" Margin="50, 20, 50, 5" BorderColor="#2196F3" Padding="10">
+                    <Picker  VerticalTextAlignment="Start" HorizontalTextAlignment="Start" Title="Seleccione el pais"  TitleColor="Black"  ItemsSource="{Binding Pais}" ItemDisplayBinding="{Binding Nombre_Pais}" SelectedItem="{Binding PaisSeleccionado}" TextColor="black" IsVisible="true"/>
+                </Frame>
+                <Frame CornerRadius="15" Margin="50, 20, 50, 5" BorderColor="#2196F3" Padding="10">
+                    <Picker  VerticalTextAlignment="Start" HorizontalTextAlignment="Start" Title="Seleccione la ciudad" TitleColor="Black"  ItemsSource="{Binding Ciudad}" ItemDisplayBinding="{Binding Ciudad}" SelectedItem="{Binding CiudadSeleccionada}" TextColor="Black" IsVisible="true"/>
+                </Frame>
+                <Frame CornerRadius="15" Margin="50, 20, 50, 5" BorderColor="#2196F3" Padding="10">
+                    <Entry   Placeholder="Escriba su Contraseña" IsPassword="True" PlaceholderColor="Black"  FontFamily="loravariablefontwght" Text="{Binding Cliente.Password}" TextColor="Black"/>
+                </Frame>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="110"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Text="Acepto las condiciones y politicas de la aplicacion" Grid.Row="0" Grid.ColumnSpan="2" HorizontalTextAlignment="Center" FontAttributes="Bold" TextColor="red"/>
+                    <CheckBox Grid.Row="1" Grid.Column="0" Margin="55, 0, 0, 0" IsChecked="{Binding AceptarTerminos}"/>
+                    <Button BackgroundColor="White" Padding="5" Text="Condiciones del servicio y politicas de privacidad" TextColor="Green" Grid.Row="1" Grid.Column="1" Clicked="Button_Clicked" Margin="0, 0, 20, 0"/>
+                </Grid>
+                <Button  Text="Registrarse" Command="{Binding Registrar}" IsEnabled="{Binding ActivarBtnRG}"  Margin="50, 0, 50, 5" CornerRadius="15" TextColor="white" BackgroundColor="Red" FontSize="Body" FontFamily="loravariablefontwght" />
+                <ActivityIndicator  IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" />
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

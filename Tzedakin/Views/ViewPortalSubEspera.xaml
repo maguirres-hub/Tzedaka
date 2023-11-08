@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:local="clr-namespace:Tzedaka.Views"
+            CurrentPageChanged="OnCurrentPageChanged"
+             x:Class="Tzedaka.Views.ViewPortalSubEspera">
+    <TabbedPage.ToolbarItems >
+        <ToolbarItem Text="Salir" Clicked="ToolbarItem_Clicked" />
+    </TabbedPage.ToolbarItems>
+    <local:ViewInicio IconImageSource="inicio"/>
+    <local:ViewBloqueEspera IconImageSource="bloques"/>
+    <local:ViewCursos IconImageSource="cursos"/>
+    <local:ViewTienda IconImageSource="tienda"/>
+    <local:ViewBilletera IconImageSource="wallet"/>
+    <local:ViewPerfil IconImageSource="perfil"/>
+</TabbedPage>

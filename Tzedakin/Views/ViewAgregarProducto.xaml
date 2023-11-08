@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Tzedaka.ViewModels"
+             x:Class="Tzedaka.Views.ViewAgregarProducto" BackgroundColor="White">
+    <ContentPage.BindingContext>
+        <local:ViewModel_Tienda></local:ViewModel_Tienda>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout>
+                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" TextColor="Black" FontAttributes="Bold" FontSize="Title" Text="Registro Producto" Margin="0, 0, 0, 35"/>
+                <Label Text="Nombre" HorizontalTextAlignment="Center"  FontSize="Subtitle" TextColor="Black"/>
+                <Frame Margin="45,5,45,5" Padding="0" CornerRadius="10" BorderColor="#2296F3">
+                    <Entry Text="{Binding Producto_.Nombre}" TextColor="Black" HorizontalTextAlignment="Center"/>
+                </Frame>
+                <Label Text="Descripción" HorizontalTextAlignment="Center"  FontSize="Subtitle" TextColor="Black"/>
+                <Frame Margin="45,5,45,5" Padding="0" CornerRadius="10" BorderColor="#2296F3">
+                    <Entry Text="{Binding Producto_.Descripcion}" TextColor="Black" HorizontalTextAlignment="Center" />
+                </Frame>
+                <Label Text="Precio" HorizontalTextAlignment="Center"  FontSize="Subtitle" TextColor="Black"/>
+                <Frame Margin="45,5,45,25" Padding="0" CornerRadius="10" BorderColor="#2296F3">
+                    <Entry Text="{Binding Producto_.Precio}" TextColor="Black" Keyboard="Numeric" HorizontalTextAlignment="Center"/>
+                </Frame>
+                <Label Text="Categoría" HorizontalTextAlignment="Center"  FontSize="Subtitle" TextColor="Black"/>
+                
+                <Frame Margin="45,5,45,5" Padding="0" CornerRadius="10" BorderColor="#2296F3">
+                    <Picker Title="Seleccione categoria" TitleColor="Red" ItemsSource="{Binding Categoria}"  ItemDisplayBinding="{Binding Categoria_Nombre}" SelectedItem="{Binding Seleccion_Categoria}" TextColor="black" HorizontalTextAlignment="Center" />
+                </Frame>
+                <Label Text="Imagen" HorizontalTextAlignment="Center"  FontSize="Subtitle" TextColor="Black"/>
+                <ActivityIndicator  IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}"/>
+                <Frame Margin="45,5,45,5" Padding="5" CornerRadius="10" BorderColor="#2296F3">
+                    <Image Source="{Binding Ubicacion_Imagen}" HeightRequest="150"/>
+                </Frame>
+                <Frame Margin="45,5,45,5" Padding="0" CornerRadius="10" BorderColor="#2296F3">
+                    <Button Text="Seleccionar imagen" BackgroundColor="Green" TextColor="White" Command="{Binding Btn_Seleccion_Imagen}"/>
+                </Frame>
+                <ActivityIndicator  IsRunning="{Binding IsLoadingRegistro}" IsVisible="{Binding IsLoadingRegistro}"/>
+                <Frame Margin="45,5,45,5" Padding="0" CornerRadius="10" BorderColor="#2296F3">
+                    <Button Text="Registrar" BackgroundColor="Red" TextColor="White" Command="{Binding Btn_Agregar_Producto}"/>
+                </Frame>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage 
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup" xmlns:views="clr-namespace:Tzedaka.Views"
+    x:Class="Tzedaka.Views.ViewPoliticas">
+    <ScrollView>
+        <StackLayout Padding="20" BackgroundColor="White">
+            <Label Text="Términos y Condiciones de la aplicación  tzedaká 
+Al utilizar esta aplicación, usted acepta los siguientes términos y condiciones:
+La aplicación de tzedaká es una plataforma para que los miembros de la comunidad realicen donaciones a otros miembros de la misma comunidad.
+Al utilizar esta aplicación, usted reconoce y acepta que todas las donaciones realizadas son voluntarias y no otorgan ningún derecho, título o interés en la aplicación.
+La aplicación no es responsable de la exactitud o integridad de la información proporcionada por los miembros de la comunidad, y no garantiza la calidad, seguridad o legalidad de ninguna donación.
+La aplicación se reserva el derecho de rechazar cualquier donación que considere inapropiada o ilegal, y puede solicitar información adicional sobre el donante y la donación en cualquier momento.
+La aplicación podria almacenar  información financiera del usuario,  recopilar información personal del usuario y utilizarla de acuerdo con su Política de Privacidad.
+El usuario es responsable de garantizar que las donaciones realizadas a través de la aplicación sean legales y no violen ninguna ley o regulación aplicable.
+una vez que el usuario realice el pago de la suscripcion a la comunidad Tzadikin este pago se dirigira a otro usuario a manera de donativo, cada usuario recibira dos veces la misma cantidad por turno,de las cuales una y solo una de las cantidades recibidas por cada turno le pertenece; la segunda cantidad recibida sera enviada a otro usuario de la comunidad que la aplicacion Tzedaka le mostrara previamente. una vez confirmado el envio de uno de los donativos el usuario pasa nuevamente al ultimo lugar a la espera de dos nuevos donativos de los cuales uno le pertenece. este proceso se repite por 8 ocasiones y finaliza su siclo, para volver a ingresar el usuario debe de cancelar el valor de la suscripcion nuevamente.las ultimas 2 donaciones (octavo turno) no le pertenecen al usuario y este debe de enviar uno de los donativos a otro usuario de la comunidad que el palicativo previamente le dara a conocer y el otro donativo sera enviado a la aplicacion para sostenimiento, mantenimiento y actualizacion de la palicacion.
+los retiros del dinero se solicitan de domingo a jueves y pueden tardar en versen reflejados en la cuenta bancaria del usuario de 24 a 72 horas 
+El usuario acepta indemnizar y eximir de responsabilidad a la aplicación, sus afiliados y sus respectivos directores, funcionarios, empleados y agentes, de cualquier responsabilidad, pérdida, daño, costo o gasto (incluidos los honorarios legales razonables) que surjan o estén relacionados con el uso de la aplicación o las donaciones realizadas a través de ella.
+La aplicación se reserva el derecho de modificar o actualizar estos términos y condiciones en cualquier momento, y es responsabilidad del usuario revisar regularmente estos términos y condiciones para mantenerse informado de cualquier cambio.
+Al utilizar esta aplicación, el usuario acepta y reconoce que ha leído, entendido y aceptado estos términos y condiciones, y se compromete a cumplir con ellos en todo momento.
+
+
+
+
+
+
+Política de Privacidad de la aplicación  tzedaká 
+Esta Política de Privacidad describe cómo se recopila, utiliza y comparte la información personal del usuario cuando utiliza la aplicación tzedaká . Al utilizar esta aplicación, el usuario acepta y consiente a esta Política de Privacidad.
+Recopilación de información personal
+La aplicación puede recopilar información personal del usuario, como su nombre, dirección de correo electrónico, número de teléfono, dirección postal y otra información relevante para el uso de la aplicación. También podemos recopilar información sobre las transacciones de donaciones realizadas a través de la aplicación.
+Uso de la información personal
+La información personal recopilada se utiliza para procesar y administrar las donaciones realizadas a través de la aplicación, para identificar a los miembros de la comunidad y para enviar información y actualizaciones sobre la aplicación y las actividades de la comunidad.
+
+Compartir información personal
+La aplicación no vende, alquila ni comparte información personal del usuario con terceros para fines comerciales o de marketing. Podemos compartir información personal del usuario con organizaciones benéficas y sin fines de lucro para facilitar las donaciones realizadas a través de la aplicación.
+
+Seguridad de la información personal
+La aplicación toma medidas de seguridad razonables para proteger la información personal del usuario contra la pérdida, el uso indebido, el acceso no autorizado, la divulgación o la alteración. Sin embargo, no se puede garantizar la seguridad absoluta de la información transmitida a través de Internet o almacenada en nuestros sistemas.
+
+Cambios a esta Política de Privacidad
+La aplicación se reserva el derecho de actualizar o modificar esta Política de Privacidad en cualquier momento y sin previo aviso. Se alienta al usuario a revisar regularmente esta Política de Privacidad para mantenerse informado sobre cómo se está utilizando y protegiendo su información personal.
+Contacto
+Si el usuario tiene alguna pregunta o inquietud sobre esta Política de Privacidad, puede ponerse en contacto con nosotros a través de la aplicación.
+Al utilizar esta aplicación, el usuario acepta y consiente a esta Política de Privacidad y reconoce que ha leído, comprendido y aceptado sus términos y condiciones.
+
+
+Política de Cookies de la aplicación tzedaká 
+Esta Política de Cookies describe cómo se utilizan las cookies y otras tecnologías similares en la aplicación de tzedaká . Al utilizar esta aplicación, el usuario acepta y consiente a esta Política de Cookies.
+¿Qué son las cookies?
+Las cookies son pequeños archivos de datos que se almacenan en el dispositivo del usuario cuando se visita un sitio web o una aplicación. Las cookies se utilizan para mejorar la experiencia del usuario, recordar sus preferencias y permitir el funcionamiento adecuado de la aplicación.
+¿Qué cookies utilizamos?
+La aplicación puede utilizar cookies propias y de terceros para los siguientes fines:
+Mejorar la funcionalidad y el rendimiento de la aplicación
+Personalizar la experiencia del usuario y recordar sus preferencias
+Proporcionar publicidad relevante a través de terceros
+Realizar análisis de uso y rendimiento de la aplicación
+¿Cómo se pueden gestionar las cookies?
+El usuario puede controlar el uso de cookies y otras tecnologías similares a través de la configuración de su dispositivo o navegador. El usuario puede eliminar las cookies existentes y configurar su navegador para rechazar nuevas cookies o alertar al usuario cuando se está utilizando una cookie.Sin embargo, la desactivación de las cookies puede limitar la funcionalidad de la aplicación y afectar la experiencia del usuario. Al utilizar la aplicación, el usuario acepta el uso de cookies y otras tecnologías similares en la forma descrita en esta Política de Cookies.
+
+Cambios a esta Política de Cookies
+La aplicación se reserva el derecho de actualizar o modificar esta Política de Cookies en cualquier momento y sin previo aviso. Se alienta al usuario a revisar regularmente esta Política de Cookies para mantenerse informado sobre cómo se están utilizando las cookies en la aplicación.
+Contacto
+Si el usuario tiene alguna pregunta o inquietud sobre esta Política de Cookies, puede ponerse en contacto con nosotros a través de la aplicación.
+Al utilizar esta aplicación, el usuario acepta y consiente a esta Política de Cookies y reconoce que ha leído, comprendido y aceptado sus términos y condiciones.
+
+
+" 
+               FontSize="Large" 
+               FontAttributes="Bold" 
+               HorizontalOptions="Center" 
+               VerticalOptions="CenterAndExpand" LineBreakMode="WordWrap"/>
+            <Button Text="Cerrar" 
+                HorizontalOptions="Center" 
+                VerticalOptions="End" 
+                Clicked="Button_Clicked"/>
+        </StackLayout>
+    </ScrollView>
+</pages:PopupPage>
