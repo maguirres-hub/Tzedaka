@@ -53,7 +53,7 @@ namespace Tzedaka.ViewModels
             {
                 Http_Cliente = new HttpClient();
                 Http_Cliente.Timeout = TimeSpan.FromSeconds(120);
-                var Url = $"https://berajotweb.com/tzedakin/api/billetera_virtual/{Cliente.Id_Cliente}";
+                var Url = Settings.Url + $"tzedakin/api/billetera_virtual/{Cliente.Id_Cliente}";
 
                 HttpResponseMessage respuesta = await Http_Cliente.GetAsync(Url);
                 if (respuesta.IsSuccessStatusCode)
@@ -90,7 +90,7 @@ namespace Tzedaka.ViewModels
                     };
                     var json = JsonConvert.SerializeObject(nuevaCarga);
                     var contenido = new StringContent(json, Encoding.UTF8, "application/json");
-                    HttpResponseMessage respuesta = await Http_Cliente.PutAsync($"https://berajotweb.com/tzedakin/api/billetera_virtual/{Cliente.Id_Cliente}", contenido);
+                    HttpResponseMessage respuesta = await Http_Cliente.PutAsync(Settings.Url + $"tzedakin/api/billetera_virtual/{Cliente.Id_Cliente}", contenido);
 
                     if (respuesta.IsSuccessStatusCode)
                     {
@@ -138,7 +138,7 @@ namespace Tzedaka.ViewModels
                 };
                 var json = JsonConvert.SerializeObject(nuevaCarga);
                 var contenido = new StringContent(json, Encoding.UTF8, "application/json");
-                HttpResponseMessage respuesta = await Http_Cliente.PostAsync($"https://berajotweb.com/tzedakin/api/reportes_billetera", contenido);
+                HttpResponseMessage respuesta = await Http_Cliente.PostAsync(Settings.Url + $"tzedakin/api/reportes_billetera", contenido);
 
                 if (respuesta.IsSuccessStatusCode)
                 {

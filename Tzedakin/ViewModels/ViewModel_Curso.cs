@@ -37,7 +37,7 @@ namespace Tzedaka.ViewModels
                 clienteHttp = new HttpClient();
                 clienteHttp.Timeout = TimeSpan.FromSeconds(10);
 
-                var url = "https://berajotweb.com/tzedakin/api/cursos/";
+                var url = Settings.Url + "tzedakin/api/cursos/";
 
                 HttpResponseMessage respuesta = await clienteHttp.GetAsync(url);
                 if (respuesta.IsSuccessStatusCode)

@@ -56,7 +56,7 @@ namespace Tzedaka.ViewModels
 
                 HttpCliente_ = new HttpClient();
                 HttpCliente_.Timeout = TimeSpan.FromSeconds(120);
-                var Url = $"https://berajotweb.com/tzedakin/api/ciudades_inner_pais/{PaisSeleccionado.Id_Pais}";
+                var Url = Settings.Url + $"tzedakin/api/ciudades_inner_pais/{PaisSeleccionado.Id_Pais}";
 
                 HttpResponseMessage respuesta = await HttpCliente_.GetAsync(Url);
                 Debug.WriteLine(Url);
@@ -95,7 +95,7 @@ namespace Tzedaka.ViewModels
             try
             {
                 HttpCliente_ = new HttpClient();
-                HttpResponseMessage respuesta = await HttpCliente_.GetAsync("https://berajotweb.com/tzedakin/api/paises");
+                HttpResponseMessage respuesta = await HttpCliente_.GetAsync(Settings.Url + "tzedakin/api/paises");
                 if (respuesta.IsSuccessStatusCode)
                 {
                     var paisesJson = await respuesta.Content.ReadAsStringAsync();
@@ -158,7 +158,7 @@ namespace Tzedaka.ViewModels
 
                             var json = JsonConvert.SerializeObject(nuevoCliente);
                             var contenido = new StringContent(json, Encoding.UTF8, "application/json");
-                            HttpResponseMessage respuesta = await HttpCliente_.PostAsync("https://berajotweb.com/tzedakin/api/clientes/", contenido);
+                            HttpResponseMessage respuesta = await HttpCliente_.PostAsync(Settings.Url + "tzedakin/api/clientes/", contenido);
 
 
                             if (respuesta.IsSuccessStatusCode)
@@ -212,7 +212,7 @@ namespace Tzedaka.ViewModels
             try
             {
                 HttpCliente_ = new HttpClient();
-                var URL = "https://berajotweb.com/tzedakin/api/correo_rg_gmail";
+                var URL = Settings.Url + "tzedakin/api/correo_rg_gmail";
                 var Email_RG = new
                 {
                     from = "berajot@jorgehernandezr.dev",
@@ -250,7 +250,7 @@ namespace Tzedaka.ViewModels
 
                 var json = JsonConvert.SerializeObject(nuevoBilletera);
                 var contenido = new StringContent(json, Encoding.UTF8, "application/json");
-                HttpResponseMessage respuesta = await HttpCliente_.PostAsync("https://berajotweb.com/tzedakin/api/billetera_virtual/", contenido);
+                HttpResponseMessage respuesta = await HttpCliente_.PostAsync(Settings.Url + "tzedakin/api/billetera_virtual/", contenido);
 
                 if (respuesta.IsSuccessStatusCode)
                 {

@@ -2,17 +2,16 @@ var mysql = require('mysql');
 var express = require('express');
 var cors = require('cors');
 var nodemailer = require('nodemailer');
-var con;
 
 
 app = express();
 app.use(express.json());
 function conectar() {
-    con = mysql.createConnection({
+    const con = mysql.createConnection({
         host: "localhost",
-        user: "beravngj_jitohn",
-        password: "0mL9HH27oN0t",
-        database: "beravngj_tzedakin"
+        user: "root",
+        password: "password",
+        database: "tzedakin"
     });
     return con;
 }
@@ -53,7 +52,7 @@ app.post('/tzedakin/api/correo_rg_gmail', (req, res) => {
 
 // ------------------------------------- pais ---------------------//
 app.get('/tzedakin/api/paises/', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((error) => {
         if (error) {
             res.send(err);
@@ -71,7 +70,7 @@ app.get('/tzedakin/api/paises/', (req, res) => {
     })
 });
 app.post('/tzedakin/api/paises/', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -90,7 +89,7 @@ app.post('/tzedakin/api/paises/', (req, res) => {
     });
 });
 app.put('/tzedakin/api/paises/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -130,7 +129,7 @@ app.delete('/tzedakin/api/paises/:id', (req, res) => {
 // ------------------------------------- Ciudades ---------------------------//
 
 app.get('/tzedakin/api/ciudades/', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((error) => {
         if (error) {
             res.send(err);
@@ -148,7 +147,7 @@ app.get('/tzedakin/api/ciudades/', (req, res) => {
     })
 });
 app.get('/tzedakin/api/ciudades/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((error) => {
         if (error) {
             res.send(err);
@@ -166,7 +165,7 @@ app.get('/tzedakin/api/ciudades/:id', (req, res) => {
     })
 });
 app.get('/tzedakin/api/ciudades_inner_pais/', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((error) => {
         if (error) {
             res.send(err);
@@ -184,7 +183,7 @@ app.get('/tzedakin/api/ciudades_inner_pais/', (req, res) => {
     })
 });
 app.get('/tzedakin/api/ciudades_inner_pais/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((error) => {
         if (error) {
             res.send(err);
@@ -202,7 +201,7 @@ app.get('/tzedakin/api/ciudades_inner_pais/:id', (req, res) => {
     })
 });
 app.post('/tzedakin/api/ciudades/', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -221,7 +220,7 @@ app.post('/tzedakin/api/ciudades/', (req, res) => {
     });
 });
 app.put('/tzedakin/api/ciudades/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -239,7 +238,7 @@ app.put('/tzedakin/api/ciudades/:id', (req, res) => {
     });
 });
 app.delete('/tzedakin/api/ciudades/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -258,7 +257,7 @@ app.delete('/tzedakin/api/ciudades/:id', (req, res) => {
 });
 // ------------------------------------- estados -----------------------------//
 app.get('/tzedakin/api/estados/', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -276,7 +275,7 @@ app.get('/tzedakin/api/estados/', (req, res) => {
     });
 });
 app.get('/tzedakin/api/estados/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -294,7 +293,7 @@ app.get('/tzedakin/api/estados/:id', (req, res) => {
     });
 });
 app.post('/tzedakin/api/estados/', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -313,7 +312,7 @@ app.post('/tzedakin/api/estados/', (req, res) => {
     });
 });
 app.put('/tzedakin/api/estados/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -332,7 +331,7 @@ app.put('/tzedakin/api/estados/:id', (req, res) => {
     });
 });
 app.delete('/tzedakin/api/estados/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -351,7 +350,7 @@ app.delete('/tzedakin/api/estados/:id', (req, res) => {
 });
 //---------------------------------- empleados -------------------------------------
 app.get('/tzedakin/api/login_empleados/:email/:pass', (req, res) => {
-    con = conectar();
+    const con = conectar();
     let sql = 'SELECT count(1) is_valid FROM empleados where correo = ? and password = ?'; /* and active = 1 */
     let parametros = [
         req.params.email,
@@ -378,7 +377,7 @@ app.get('/tzedakin/api/login_empleados/:email/:pass', (req, res) => {
 
 });
 app.get('/tzedakin/api/empleados/', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -397,7 +396,7 @@ app.get('/tzedakin/api/empleados/', (req, res) => {
 });
 app.get('/tzedakin/api/empleados/:id', (req, res) => {
 
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -415,7 +414,7 @@ app.get('/tzedakin/api/empleados/:id', (req, res) => {
     });
 });
 app.get('/tzedakin/api/empleado_email/:email', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -433,7 +432,7 @@ app.get('/tzedakin/api/empleado_email/:email', (req, res) => {
     });
 });
 app.post('/tzedakin/api/empleados/', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -452,7 +451,7 @@ app.post('/tzedakin/api/empleados/', (req, res) => {
     });
 });
 app.put('/tzedakin/api/empleados/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -471,7 +470,7 @@ app.put('/tzedakin/api/empleados/:id', (req, res) => {
     });
 });
 app.delete('/tzedakin/api/empleados/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -490,7 +489,7 @@ app.delete('/tzedakin/api/empleados/:id', (req, res) => {
 });
 // --------------------------------------------------- clientes ---------------------------
 app.get('/tzedakin/api/login_clientes/:email/:pass', (req, res) => {
-    con = conectar();
+    const con = conectar();
     let sql = 'SELECT count(1) as is_valid, CASE WHEN cl.active IS NULL THEN 0 ELSE 1 END As active, CASE WHEN subs.id_subscripcion IS NULL THEN 0 ELSE 1 END AS id_subscripcion FROM clientes cl left join subscripciones subs on cl.id_cliente = subs.id_cliente where correo = ? and password = ?'; /* and active = 1 */
     let parametros = [
         req.params.email,
@@ -517,7 +516,7 @@ app.get('/tzedakin/api/login_clientes/:email/:pass', (req, res) => {
 });
 
 app.get('/tzedakin/api/clientes/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -535,7 +534,7 @@ app.get('/tzedakin/api/clientes/:id', (req, res) => {
     });
 });
 app.get('/tzedakin/api/clientes/', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -553,7 +552,7 @@ app.get('/tzedakin/api/clientes/', (req, res) => {
     });
 });
 app.get('/tzedakin/api/cliente_email/:email', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -571,7 +570,7 @@ app.get('/tzedakin/api/cliente_email/:email', (req, res) => {
     });
 });
 app.post('/tzedakin/api/clientes/', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -590,7 +589,7 @@ app.post('/tzedakin/api/clientes/', (req, res) => {
     });
 });
 app.put('/tzedakin/api/clientes/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -609,7 +608,7 @@ app.put('/tzedakin/api/clientes/:id', (req, res) => {
     });
 });
 app.put('/tzedakin/api/clientes_actualizacion_app/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -628,7 +627,7 @@ app.put('/tzedakin/api/clientes_actualizacion_app/:id', (req, res) => {
     });
 });
 app.put('/tzedakin/api/clientes_estatus/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -650,7 +649,7 @@ app.put('/tzedakin/api/recuperar_password/:correo', (req, res) => {
     const correo = req.params.correo;
     const password = req.body.password;
 
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -681,7 +680,7 @@ app.put('/tzedakin/api/recuperar_password/:correo', (req, res) => {
     });
 });
 app.delete('/tzedakin/api/clientes/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -699,7 +698,7 @@ app.delete('/tzedakin/api/clientes/:id', (req, res) => {
     }); // delete from clientes where id_cliente = ?; probar doble params
 });
 app.delete('/tzedakin/api/clientes_inner_delete/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -716,7 +715,7 @@ app.delete('/tzedakin/api/clientes_inner_delete/:id', (req, res) => {
     }); // delete from clientes where id_cliente = ?;
 });
 app.get('/tzedakin/api/clientes_inner/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -733,7 +732,7 @@ app.get('/tzedakin/api/clientes_inner/:id', (req, res) => {
     });
 });
 app.get('/tzedakin/api/clientes_inner/', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -751,7 +750,7 @@ app.get('/tzedakin/api/clientes_inner/', (req, res) => {
     });
 });
 app.get('/tzedakin/api/clientes_InnerCiudad/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -769,7 +768,7 @@ app.get('/tzedakin/api/clientes_InnerCiudad/:id', (req, res) => {
     });
 });
 app.get('/tzedakin/api/clientes_InnerCiudad/', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -788,7 +787,7 @@ app.get('/tzedakin/api/clientes_InnerCiudad/', (req, res) => {
 });
 // ----------------------------------- billetera virtual ------------------------------//
 app.get('/tzedakin/api/billetera_virtual_cliente/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -807,7 +806,7 @@ app.get('/tzedakin/api/billetera_virtual_cliente/:id', (req, res) => {
     });
 });
 app.get('/tzedakin/api/billetera_virtual/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -826,7 +825,7 @@ app.get('/tzedakin/api/billetera_virtual/:id', (req, res) => {
     });
 });
 app.get('/tzedakin/api/billetera_virtual_inner/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -844,7 +843,7 @@ app.get('/tzedakin/api/billetera_virtual_inner/:id', (req, res) => {
     });
 });
 app.get('/tzedakin/api/billetera_virtual/', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -862,7 +861,7 @@ app.get('/tzedakin/api/billetera_virtual/', (req, res) => {
     });
 });
 app.post('/tzedakin/api/billetera_virtual/', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -881,7 +880,7 @@ app.post('/tzedakin/api/billetera_virtual/', (req, res) => {
     });
 });
 app.put('/tzedakin/api/billetera_virtual/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -900,7 +899,7 @@ app.put('/tzedakin/api/billetera_virtual/:id', (req, res) => {
     });
 });
 app.delete('/tzedakin/api/billetera_virtual/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -919,7 +918,7 @@ app.delete('/tzedakin/api/billetera_virtual/:id', (req, res) => {
 });
 // ----------------------------------- reportes billetera virtual ------------------------------//
 app.get('/tzedakin/api/reportes_billetera/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -938,7 +937,7 @@ app.get('/tzedakin/api/reportes_billetera/:id', (req, res) => {
     });
 });
 app.get('/tzedakin/api/reportes_billetera/', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -956,7 +955,7 @@ app.get('/tzedakin/api/reportes_billetera/', (req, res) => {
     });
 });
 app.get('/tzedakin/api/reportes_billetera_inner/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -974,7 +973,7 @@ app.get('/tzedakin/api/reportes_billetera_inner/:id', (req, res) => {
     });
 });
 app.post('/tzedakin/api/reportes_billetera/', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -993,7 +992,7 @@ app.post('/tzedakin/api/reportes_billetera/', (req, res) => {
     });
 });
 app.post('/tzedakin/api/reportes_retiro/', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1012,7 +1011,7 @@ app.post('/tzedakin/api/reportes_retiro/', (req, res) => {
     });
 });
 app.put('/tzedakin/api/reportes_billetera/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1030,7 +1029,7 @@ app.put('/tzedakin/api/reportes_billetera/:id', (req, res) => {
     });
 });
 app.put('/tzedakin/api/reportes_billetera_carga/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1048,7 +1047,7 @@ app.put('/tzedakin/api/reportes_billetera_carga/:id', (req, res) => {
     });
 });
 app.put('/tzedakin/api/reportes_billetera_retiro/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1066,7 +1065,7 @@ app.put('/tzedakin/api/reportes_billetera_retiro/:id', (req, res) => {
     });
 });
 app.delete('/tzedakin/api/reportes_billetera/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1085,7 +1084,7 @@ app.delete('/tzedakin/api/reportes_billetera/:id', (req, res) => {
 });
 // ----------------------------------- reporte clientes ----------------------///
 app.get('/tzedakin/api/reportes_clientes/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1104,7 +1103,7 @@ app.get('/tzedakin/api/reportes_clientes/:id', (req, res) => {
     });
 });
 app.get('/tzedakin/api/reportes_clientes/', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1122,7 +1121,7 @@ app.get('/tzedakin/api/reportes_clientes/', (req, res) => {
     });
 });
 app.post('/tzedakin/api/reportes_clientes/', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1142,7 +1141,7 @@ app.post('/tzedakin/api/reportes_clientes/', (req, res) => {
     });
 });
 app.put('/tzedakin/api/reportes_clientes/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1161,7 +1160,7 @@ app.put('/tzedakin/api/reportes_clientes/:id', (req, res) => {
     });
 });
 app.delete('/tzedakin/api/reportes_clientes/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1180,7 +1179,7 @@ app.delete('/tzedakin/api/reportes_clientes/:id', (req, res) => {
 });
 // ------------------------------------ cursos -------------------------------//
 app.get('/tzedakin/api/cursos/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1198,7 +1197,7 @@ app.get('/tzedakin/api/cursos/:id', (req, res) => {
     });
 });
 app.get('/tzedakin/api/cursos/', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1216,7 +1215,7 @@ app.get('/tzedakin/api/cursos/', (req, res) => {
     });
 });
 app.post('/tzedakin/api/cursos/', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1235,7 +1234,7 @@ app.post('/tzedakin/api/cursos/', (req, res) => {
     });
 });
 app.put('/tzedakin/api/cursos/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1254,7 +1253,7 @@ app.put('/tzedakin/api/cursos/:id', (req, res) => {
     });
 });
 app.delete('/tzedakin/api/cursos/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1273,7 +1272,7 @@ app.delete('/tzedakin/api/cursos/:id', (req, res) => {
 });
 // ------------------------------------ comentarios -------------------------------//
 app.get('/tzedakin/api/comentarios/', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1291,7 +1290,7 @@ app.get('/tzedakin/api/comentarios/', (req, res) => {
     });
 });
 app.get('/tzedakin/api/comentarios/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1310,7 +1309,7 @@ app.get('/tzedakin/api/comentarios/:id', (req, res) => {
     });
 });
 app.get('/tzedakin/api/comentarios_inner/', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1328,7 +1327,7 @@ app.get('/tzedakin/api/comentarios_inner/', (req, res) => {
     });
 });
 app.post('/tzedakin/api/comentarios/', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1347,7 +1346,7 @@ app.post('/tzedakin/api/comentarios/', (req, res) => {
     });
 });
 app.put('/tzedakin/api/comentarios/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1366,7 +1365,7 @@ app.put('/tzedakin/api/comentarios/:id', (req, res) => {
     });
 });
 app.delete('/tzedakin/api/comentarios/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1385,7 +1384,7 @@ app.delete('/tzedakin/api/comentarios/:id', (req, res) => {
 });
 // ----------------------------------- pago ----------------------///
 app.get('/tzedakin/api/pago/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1404,7 +1403,7 @@ app.get('/tzedakin/api/pago/:id', (req, res) => {
     });
 });
 app.get('/tzedakin/api/pago', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1440,7 +1439,7 @@ app.post('/tzedakin/api/pago', (req, res) => {
     });
 });
 app.put('/tzedakin/api/pago/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1459,7 +1458,7 @@ app.put('/tzedakin/api/pago/:id', (req, res) => {
     });
 });
 app.delete('/tzedakin/api/pago/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1478,7 +1477,7 @@ app.delete('/tzedakin/api/pago/:id', (req, res) => {
 });
 // ------------------------------------ detalles subscripcion ---------------------------
 app.get('/tzedakin/api/detalles_subscripcion/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1496,7 +1495,7 @@ app.get('/tzedakin/api/detalles_subscripcion/:id', (req, res) => {
     });
 });
 app.get('/tzedakin/api/detalles_subscripcion', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1514,7 +1513,7 @@ app.get('/tzedakin/api/detalles_subscripcion', (req, res) => {
     });
 });
 app.post('/tzedakin/api/detalles_subscripcion', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1533,7 +1532,7 @@ app.post('/tzedakin/api/detalles_subscripcion', (req, res) => {
     });
 });
 app.put('/tzedakin/api/detalles_subscripcion/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1552,7 +1551,7 @@ app.put('/tzedakin/api/detalles_subscripcion/:id', (req, res) => {
     });
 });
 app.delete('/tzedakin/api/detalles_subscripcion/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
 
     con.connect((err) => {
         if (err) {
@@ -1572,7 +1571,7 @@ app.delete('/tzedakin/api/detalles_subscripcion/:id', (req, res) => {
 });
 // ----------------------------------- subscripciones ----------------------///
 app.get('/tzedakin/api/subscripciones/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1590,7 +1589,7 @@ app.get('/tzedakin/api/subscripciones/:id', (req, res) => {
     });
 });
 app.get('/tzedakin/api/subscripcion_cliente/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1608,7 +1607,7 @@ app.get('/tzedakin/api/subscripcion_cliente/:id', (req, res) => {
     });
 });
 app.get('/tzedakin/api/subscripciones', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1627,7 +1626,7 @@ app.get('/tzedakin/api/subscripciones', (req, res) => {
 });
 
 app.get('/tzedakin/api/subscriptor_vueltas/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1646,7 +1645,7 @@ app.get('/tzedakin/api/subscriptor_vueltas/:id', (req, res) => {
 });
 
 app.get('/tzedakin/api/subscripciones_innner', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1665,7 +1664,7 @@ app.get('/tzedakin/api/subscripciones_innner', (req, res) => {
 });
 
 app.get('/tzedakin/api/primer_subscriptor', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1684,7 +1683,7 @@ app.get('/tzedakin/api/primer_subscriptor', (req, res) => {
 });
 
 app.get('/tzedakin/api/segundo_subscriptor', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1704,7 +1703,7 @@ app.get('/tzedakin/api/segundo_subscriptor', (req, res) => {
 
 
 app.post('/tzedakin/api/subscripciones', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1723,7 +1722,7 @@ app.post('/tzedakin/api/subscripciones', (req, res) => {
     });
 });
 app.put('/tzedakin/api/subscripciones/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1743,7 +1742,7 @@ app.put('/tzedakin/api/subscripciones/:id', (req, res) => {
 });
 
 app.put('/tzedakin/api/subscripciones/', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1770,7 +1769,7 @@ app.put('/tzedakin/api/subscripciones/', (req, res) => {
     });
 });
 app.put('/tzedakin/api/unsubscribir/', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1787,7 +1786,7 @@ app.put('/tzedakin/api/unsubscribir/', (req, res) => {
     });
 })
 app.delete('/tzedakin/api/subscripciones/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1808,7 +1807,7 @@ app.delete('/tzedakin/api/subscripciones/:id', (req, res) => {
 
 // ------------------------------------------ categorias producto -----------------------//
 app.get('/tzedakin/api/categorias/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1825,7 +1824,7 @@ app.get('/tzedakin/api/categorias/:id', (req, res) => {
     });
 });
 app.get('/tzedakin/api/categorias/', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1843,7 +1842,7 @@ app.get('/tzedakin/api/categorias/', (req, res) => {
     });
 });
 app.post('/tzedakin/api/categorias/', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1862,7 +1861,7 @@ app.post('/tzedakin/api/categorias/', (req, res) => {
     });
 });
 app.put('/tzedakin/api/categorias/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1880,7 +1879,7 @@ app.put('/tzedakin/api/categorias/:id', (req, res) => {
     });
 });
 app.delete('/tzedakin/api/categorias/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
 
     con.connect((err) => {
         if (err) {
@@ -1900,7 +1899,7 @@ app.delete('/tzedakin/api/categorias/:id', (req, res) => {
 });
 // --------------------------------------- productos -------------------------- //
 app.get('/tzedakin/api/productos/', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1919,7 +1918,7 @@ app.get('/tzedakin/api/productos/', (req, res) => {
 });
 
 app.get('/tzedakin/api/productos_inner/', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1938,7 +1937,7 @@ app.get('/tzedakin/api/productos_inner/', (req, res) => {
 });
 
 app.get('/tzedakin/api/productos_inner/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1958,7 +1957,7 @@ app.get('/tzedakin/api/productos_inner/:id', (req, res) => {
 
 app.get('/tzedakin/api/productos/:id', (req, res) => {
 
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1976,7 +1975,7 @@ app.get('/tzedakin/api/productos/:id', (req, res) => {
     });
 });
 app.post('/tzedakin/api/productos/', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -1995,7 +1994,7 @@ app.post('/tzedakin/api/productos/', (req, res) => {
     });
 });
 app.put('/tzedakin/api/productos/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -2015,7 +2014,7 @@ app.put('/tzedakin/api/productos/:id', (req, res) => {
 });
 
 app.put('/tzedakin/api/producto_autorizacion/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -2066,7 +2065,7 @@ app.post('/tzedakin/api/correo_aceptar_producto', (req, res) => {
 });
 
 app.delete('/tzedakin/api/productos/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -2084,7 +2083,7 @@ app.delete('/tzedakin/api/productos/:id', (req, res) => {
     });
 });
 app.get('/tzedakin/api/productos_innercategorias/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -2102,7 +2101,7 @@ app.get('/tzedakin/api/productos_innercategorias/:id', (req, res) => {
     }); 0
 });
 app.get('/tzedakin/api/productos_innercategorias/', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -2120,7 +2119,7 @@ app.get('/tzedakin/api/productos_innercategorias/', (req, res) => {
     });
 });
 app.get('/tzedakin/api/productos_innerestados/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -2138,7 +2137,7 @@ app.get('/tzedakin/api/productos_innerestados/:id', (req, res) => {
     });
 });
 app.get('/tzedakin/api/productos_innerestados/', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -2157,7 +2156,7 @@ app.get('/tzedakin/api/productos_innerestados/', (req, res) => {
 });
 // -------------------------------------------  detalle_pedido -----------------------------
 app.get('/tzedakin/api/detalle_pedido/', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -2175,7 +2174,7 @@ app.get('/tzedakin/api/detalle_pedido/', (req, res) => {
     });
 });
 app.get('/tzedakin/api/detalle_pedido/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -2194,7 +2193,7 @@ app.get('/tzedakin/api/detalle_pedido/:id', (req, res) => {
     });
 });
 app.post('/tzedakin/api/detalle_pedido', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -2213,7 +2212,7 @@ app.post('/tzedakin/api/detalle_pedido', (req, res) => {
     });
 });
 app.put('/tzedakin/api/detalle_pedido/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
 
     con.connect((err) => {
         if (err) {
@@ -2234,7 +2233,7 @@ app.put('/tzedakin/api/detalle_pedido/:id', (req, res) => {
     });
 });
 app.delete('/tzedakin/api/detalle_pedido/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -2253,7 +2252,7 @@ app.delete('/tzedakin/api/detalle_pedido/:id', (req, res) => {
 });
 // --------------------------------- solicitudes subscripciones ------------------------------------------
 app.get('/tzedakin/api/solicitudes/', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -2271,7 +2270,7 @@ app.get('/tzedakin/api/solicitudes/', (req, res) => {
     });
 });
 app.get('/tzedakin/api/solicitudes_inner/', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -2289,7 +2288,7 @@ app.get('/tzedakin/api/solicitudes_inner/', (req, res) => {
     });
 });
 app.get('/tzedakin/api/solicitudes/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -2309,7 +2308,7 @@ app.get('/tzedakin/api/solicitudes/:id', (req, res) => {
     });
 });
 app.get('/tzedakin/api/solicitudes_cliente/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -2326,7 +2325,7 @@ app.get('/tzedakin/api/solicitudes_cliente/:id', (req, res) => {
     });
 });
 app.post('/tzedakin/api/solicitudes/', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -2356,7 +2355,7 @@ app.post('/tzedakin/api/solicitudes/', (req, res) => {
     });
 });
 app.put('/tzedakin/api/solicitudes/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
 
     con.connect((err) => {
         if (err) {
@@ -2377,7 +2376,7 @@ app.put('/tzedakin/api/solicitudes/:id', (req, res) => {
     });
 });
 app.delete('/tzedakin/api/solicitudes/:id', (req, res) => {
-    con = conectar();
+    const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
@@ -2395,5 +2394,8 @@ app.delete('/tzedakin/api/solicitudes/:id', (req, res) => {
     });
 });
 
+app.set('port',8545);
 
-app.listen();
+app.listen(app.get('port'),()=>{
+    console.log(`Server listening on port ${app.get('port')}`);
+});

@@ -90,7 +90,7 @@ namespace Tzedaka.ViewModels
                 cliente = new HttpClient();
                 cliente.Timeout = TimeSpan.FromSeconds(120);
 
-                var url = "https://berajotweb.com/tzedakin/api/cliente_email/" + Cliente.Correo.ToString();
+                var url = Settings.Url + "tzedakin/api/cliente_email/" + Cliente.Correo.ToString();
                 HttpResponseMessage respuesta = await cliente.GetAsync(url);
 
                 if (respuesta.IsSuccessStatusCode)
@@ -143,7 +143,7 @@ namespace Tzedaka.ViewModels
 
                         var json = JsonConvert.SerializeObject(actualizarCliente);
                         var contenido = new StringContent(json, Encoding.UTF8, "application/json");
-                        HttpResponseMessage respuesta = await cliente.PutAsync($"https://berajotweb.com/tzedakin/api/clientes_actualizacion_app/{Cliente.Id_Cliente}", contenido);
+                        HttpResponseMessage respuesta = await cliente.PutAsync(Settings.Url + $"tzedakin/api/clientes_actualizacion_app/{Cliente.Id_Cliente}", contenido);
 
                         if (respuesta.IsSuccessStatusCode)
                         {

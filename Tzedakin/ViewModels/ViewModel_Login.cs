@@ -82,7 +82,8 @@ namespace Tzedaka.ViewModels
                 cliente = new HttpClient();
                 cliente.Timeout = TimeSpan.FromSeconds(120);
 
-                var url = $"https://berajotweb.com/tzedakin/api/login_clientes/{Cliente.Correo}/{Cliente.Password}";
+                var url = Settings.Url + $"tzedakin/api/login_clientes/{Cliente.Correo}/{Cliente.Password}";
+
                 HttpResponseMessage respuesta = await cliente.GetAsync(url);
                 if (respuesta.IsSuccessStatusCode)
                 {
@@ -149,7 +150,7 @@ namespace Tzedaka.ViewModels
                 cliente = new HttpClient();
                 cliente.Timeout = TimeSpan.FromSeconds(60);
 
-                var url = "https://berajotweb.com/tzedakin/api/cliente_email/" + Cliente.Correo.ToString();
+                var url = Settings.Url + "tzedakin/api/cliente_email/" + Cliente.Correo.ToString();
                 HttpResponseMessage respuesta = await cliente.GetAsync(url);
 
                 if (respuesta.IsSuccessStatusCode)
@@ -177,7 +178,7 @@ namespace Tzedaka.ViewModels
             {
                 cliente = new HttpClient();
                 cliente.Timeout = TimeSpan.FromSeconds(60);
-                var URL = $"https://berajotweb.com/tzedakin/api/recuperar_password/{Cliente.Correo}";
+                var URL = Settings.Url + $"tzedakin/api/recuperar_password/{Cliente.Correo}";
                 string password = GenerateRandomPassword(8);
                 Clientes nuevoPass = new Clientes
                 {
@@ -209,7 +210,7 @@ namespace Tzedaka.ViewModels
             try
             {
                 cliente = new HttpClient();
-                var URL = "https://berajotweb.com/tzedakin/api/correo_rg_gmail";
+                var URL = Settings.Url + "tzedakin/api/correo_rg_gmail";
                 var Email_RG = new
                 {
                     from = "berajot@jorgehernandezr.dev",

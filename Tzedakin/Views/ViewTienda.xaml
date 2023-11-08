@@ -19,7 +19,7 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
-                    <Button Text="Mis Productos" BackgroundColor="Green" TextColor="White" Margin="2" CornerRadius="5" Grid.Row="0" Command="{Binding Btn_Ir_Mis_Producto}"/>
+                    <Button Text="Mi Tienda" BackgroundColor="Green" TextColor="White" Margin="2" CornerRadius="5" Grid.Row="0" Command="{Binding Btn_Ir_Mis_Producto}"/>
                     <Frame CornerRadius="5" Padding="0"  BackgroundColor="Transparent"   Grid.Row="0" Grid.Column="1" Margin="20, 5, 10, 0">
                         <ImageButton Source="recargar"  BackgroundColor="#2196F3" HeightRequest="25" WidthRequest="40"  Command="{Binding Btn_Cargar_Producs}"/>
                     </Frame>

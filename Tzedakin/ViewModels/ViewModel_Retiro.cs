@@ -85,7 +85,7 @@ namespace Tzedaka.ViewModels
             {
                 cliente = new HttpClient();
                 cliente.Timeout = TimeSpan.FromSeconds(60);
-                var Url = $"https://berajotweb.com/tzedakin/api/billetera_virtual/{Cliente.Id_Cliente}";
+                var Url = Settings.Url + $"tzedakin/api/billetera_virtual/{Cliente.Id_Cliente}";
 
                 HttpResponseMessage respuesta = await cliente.GetAsync(Url);
                 if (respuesta.IsSuccessStatusCode)
@@ -128,7 +128,7 @@ namespace Tzedaka.ViewModels
                 };
                 var json = JsonConvert.SerializeObject(nuevaCarga);
                 var contenido = new StringContent(json, Encoding.UTF8, "application/json");
-                HttpResponseMessage respuesta = await cliente.PostAsync($"https://berajotweb.com/tzedakin/api/reportes_billetera", contenido);
+                HttpResponseMessage respuesta = await cliente.PostAsync(Settings.Url + $"tzedakin/api/reportes_billetera", contenido);
 
                 if (respuesta.IsSuccessStatusCode)
                 {
@@ -152,7 +152,7 @@ namespace Tzedaka.ViewModels
             {
                 cliente = new HttpClient();
                 cliente.Timeout = TimeSpan.FromSeconds(60);
-                var url = "https://berajotweb.com/tzedakin/api/reportes_retiro/";
+                var url = Settings.Url + "tzedakin/api/reportes_retiro/";
 
                 IsLoading = true;
                 string Fecha_Retiro = DateTime.Now.ToString("yyyy-MM-dd");
@@ -199,7 +199,7 @@ namespace Tzedaka.ViewModels
                 };
                 var json = JsonConvert.SerializeObject(nuevaCarga);
                 var contenido = new StringContent(json, Encoding.UTF8, "application/json");
-                HttpResponseMessage respuesta = await cliente.PutAsync($"https://berajotweb.com/tzedakin/api/billetera_virtual/{Cliente.Id_Cliente}", contenido);
+                HttpResponseMessage respuesta = await cliente.PutAsync(Settings.Url + $"tzedakin/api/billetera_virtual/{Cliente.Id_Cliente}", contenido);
 
                 if (respuesta.IsSuccessStatusCode)
                 {

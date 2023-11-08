@@ -232,7 +232,7 @@ namespace Tzedaka.ViewModels
             {
                 cliente = new HttpClient();
                 cliente.Timeout = TimeSpan.FromSeconds(120);
-                var Url = $"https://berajotweb.com/tzedakin/api/solicitudes_cliente/{Cliente.Id_Cliente}";
+                var Url = Settings.Url + $"tzedakin/api/solicitudes_cliente/{Cliente.Id_Cliente}";
                 HttpResponseMessage respuesta = await cliente.GetAsync(Url);
                 if (respuesta.IsSuccessStatusCode == true)
                 {
@@ -272,7 +272,7 @@ namespace Tzedaka.ViewModels
                 cliente = new HttpClient();
                 cliente.Timeout = TimeSpan.FromSeconds(120);
 
-                var url = "https://berajotweb.com/tzedakin/api/subscripciones";
+                var url = Settings.Url + "tzedakin/api/subscripciones";
                 HttpResponseMessage respuesta = await cliente.GetAsync(url);
 
                 if (respuesta.IsSuccessStatusCode)
@@ -345,7 +345,7 @@ namespace Tzedaka.ViewModels
                 };
                 var json = JsonConvert.SerializeObject(NuevaSubscripcion);
                 var contenido = new StringContent(json, Encoding.UTF8, "application/json");
-                var url = "https://berajotweb.com/tzedakin/api/subscripciones";
+                var url = Settings.Url + "tzedakin/api/subscripciones";
                 HttpResponseMessage respuesta = await cliente.PostAsync(url, contenido);
                 if (respuesta.IsSuccessStatusCode == true)
                 {
@@ -376,7 +376,7 @@ namespace Tzedaka.ViewModels
              {
                  cliente = new HttpClient();
                  cliente.Timeout = TimeSpan.FromSeconds(60);
-                 var Url = $"https://berajotweb.com/tzedakin/api/solicitudes/{id}";
+                 var Url = Settings.Url + $"tzedakin/api/solicitudes/{id}";
 
                  HttpResponseMessage respuesta = await cliente.DeleteAsync(Url);
                  if (respuesta.IsSuccessStatusCode)
@@ -400,7 +400,7 @@ namespace Tzedaka.ViewModels
                 cliente = new HttpClient();
                 cliente.Timeout = TimeSpan.FromSeconds(120);
 
-                var url = "https://berajotweb.com/tzedakin/api/subscripciones";
+                var url = Settings.Url + "tzedakin/api/subscripciones";
                 HttpResponseMessage respuesta = await cliente.GetAsync(url);
 
                 if (respuesta.IsSuccessStatusCode)
@@ -469,7 +469,7 @@ namespace Tzedaka.ViewModels
                 var json = JsonConvert.SerializeObject(NuevaSubscripcion);
                 var contenido = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var url = "https://berajotweb.com/tzedakin/api/subscripciones";
+                var url = Settings.Url + "tzedakin/api/subscripciones";
                 HttpResponseMessage respuesta = await cliente.PostAsync(url, contenido);
 
                 if (respuesta.IsSuccessStatusCode)
@@ -496,7 +496,7 @@ namespace Tzedaka.ViewModels
             {
                 cliente = new HttpClient();
                 cliente.Timeout = TimeSpan.FromSeconds(60);
-                var Url = $"https://berajotweb.com/tzedakin/api/solicitudes/{id}";
+                var Url = Settings.Url + $"tzedakin/api/solicitudes/{id}";
 
                 HttpResponseMessage respuesta = await cliente.DeleteAsync(Url);
                 if (respuesta.IsSuccessStatusCode)
@@ -529,7 +529,7 @@ namespace Tzedaka.ViewModels
                 };
                 var json = JsonConvert.SerializeObject(nuevaCarga);
                 var contenido = new StringContent(json, Encoding.UTF8, "application/json");
-                HttpResponseMessage respuesta = await cliente.PutAsync($"https://berajotweb.com/tzedakin/api/billetera_virtual/{Cliente.Id_Cliente}", contenido);
+                HttpResponseMessage respuesta = await cliente.PutAsync(Settings.Url + $"tzedakin/api/billetera_virtual/{Cliente.Id_Cliente}", contenido);
 
                 if (respuesta.IsSuccessStatusCode)
                 {
@@ -571,7 +571,7 @@ namespace Tzedaka.ViewModels
                 };
                 var json = JsonConvert.SerializeObject(nuevaCarga);
                 var contenido = new StringContent(json, Encoding.UTF8, "application/json");
-                HttpResponseMessage respuesta = await cliente.PostAsync($"https://berajotweb.com/tzedakin/api/reportes_billetera", contenido);
+                HttpResponseMessage respuesta = await cliente.PostAsync(Settings.Url + $"tzedakin/api/reportes_billetera", contenido);
 
                 if (respuesta.IsSuccessStatusCode)
                 {
@@ -606,7 +606,7 @@ namespace Tzedaka.ViewModels
                 };
                 var json = JsonConvert.SerializeObject(nuevaCarga);
                 var contenido = new StringContent(json, Encoding.UTF8, "application/json");
-                HttpResponseMessage respuesta = await cliente.PutAsync($"https://berajotweb.com/tzedakin/api/billetera_virtual/{Cliente.Id_Cliente}", contenido);
+                HttpResponseMessage respuesta = await cliente.PutAsync(Settings.Url + $"tzedakin/api/billetera_virtual/{Cliente.Id_Cliente}", contenido);
 
                 if (respuesta.IsSuccessStatusCode)
                 {
@@ -648,7 +648,7 @@ namespace Tzedaka.ViewModels
                 };
                 var json = JsonConvert.SerializeObject(nuevaCarga);
                 var contenido = new StringContent(json, Encoding.UTF8, "application/json");
-                HttpResponseMessage respuesta = await cliente.PostAsync($"https://berajotweb.com/tzedakin/api/reportes_billetera", contenido);
+                HttpResponseMessage respuesta = await cliente.PostAsync(Settings.Url + $"tzedakin/api/reportes_billetera", contenido);
 
                 if (respuesta.IsSuccessStatusCode)
                 {
@@ -674,7 +674,7 @@ namespace Tzedaka.ViewModels
             {
                 cliente = new HttpClient();
                 cliente.Timeout = TimeSpan.FromSeconds(60);
-                var Url = "https://berajotweb.com/tzedakin/api/detalles_subscripcion/";
+                var Url = Settings.Url + "tzedakin/api/detalles_subscripcion/";
 
                 HttpResponseMessage respuesta = await cliente.GetAsync(Url);
                 if (respuesta.IsSuccessStatusCode)
@@ -704,7 +704,7 @@ namespace Tzedaka.ViewModels
             {
                 cliente = new HttpClient();
                 cliente.Timeout = TimeSpan.FromSeconds(60);
-                var Url = "https://berajotweb.com/tzedakin/api/solicitudes_inner/";
+                var Url = Settings.Url + "tzedakin/api/solicitudes_inner/";
 
                 HttpResponseMessage respuesta = await cliente.GetAsync(Url);
                 if (respuesta.IsSuccessStatusCode)
@@ -740,7 +740,7 @@ namespace Tzedaka.ViewModels
             {
                 cliente = new HttpClient();
                 cliente.Timeout = TimeSpan.FromSeconds(60);
-                var Url = $"https://berajotweb.com/tzedakin/api/subscripcion_cliente/{Cliente.Id_Cliente}";
+                var Url = Settings.Url + $"tzedakin/api/subscripcion_cliente/{Cliente.Id_Cliente}";
                 HttpResponseMessage respuesta = await cliente.GetAsync(Url);
                 if (respuesta.IsSuccessStatusCode)
                 {
@@ -769,7 +769,7 @@ namespace Tzedaka.ViewModels
             {
                 cliente = new HttpClient();
                 cliente.Timeout = TimeSpan.FromSeconds(60);
-                var Url = $"https://berajotweb.com/tzedakin/api/billetera_virtual/{Cliente.Id_Cliente}";
+                var Url = Settings.Url + $"tzedakin/api/billetera_virtual/{Cliente.Id_Cliente}";
 
                 HttpResponseMessage respuesta = await cliente.GetAsync(Url);
                 if (respuesta.IsSuccessStatusCode)
@@ -796,7 +796,7 @@ namespace Tzedaka.ViewModels
             {
                 cliente = new HttpClient();
                 cliente.Timeout = TimeSpan.FromSeconds(60);
-                var Url = $"https://berajotweb.com/tzedakin/api/reportes_billetera_inner/{Cliente.Id_Cliente}";
+                var Url = Settings.Url + $"tzedakin/api/reportes_billetera_inner/{Cliente.Id_Cliente}";
 
                 HttpResponseMessage respuesta = await cliente.GetAsync(Url);
                 if (respuesta.IsSuccessStatusCode)
@@ -826,7 +826,7 @@ namespace Tzedaka.ViewModels
             {
                 cliente = new HttpClient();
                 cliente.Timeout = TimeSpan.FromSeconds(60);
-                var url = "https://berajotweb.com/tzedakin/api/solicitudes";
+                var url = Settings.Url + "tzedakin/api/solicitudes";
 
                 IsLoading = true;
 
@@ -884,7 +884,7 @@ namespace Tzedaka.ViewModels
             {
                 cliente = new HttpClient();
                 cliente.Timeout = TimeSpan.FromSeconds(60);
-                var url = "https://berajotweb.com/tzedakin/api/primer_subscriptor";
+                var url = Settings.Url + "tzedakin/api/primer_subscriptor";
 
                 HttpResponseMessage respuesta = await cliente.GetAsync(url);
                 if (respuesta.IsSuccessStatusCode)

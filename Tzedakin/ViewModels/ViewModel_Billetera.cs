@@ -71,7 +71,7 @@ namespace Tzedaka.ViewModels
             {
                 cliente = new HttpClient();
                 cliente.Timeout = TimeSpan.FromSeconds(60);
-                var Url = $"https://berajotweb.com/tzedakin/api/billetera_virtual/{Cliente.Id_Cliente}";
+                var Url = Settings.Url + $"tzedakin/api/billetera_virtual/{Cliente.Id_Cliente}";
 
                 HttpResponseMessage respuesta = await cliente.GetAsync(Url);
                 if (respuesta.IsSuccessStatusCode)
@@ -97,7 +97,7 @@ namespace Tzedaka.ViewModels
             {
                 cliente = new HttpClient();
                 cliente.Timeout = TimeSpan.FromSeconds(60);
-                var Url = $"https://berajotweb.com/tzedakin/api/reportes_billetera_inner/{Cliente.Id_Cliente}";
+                var Url = Settings.Url + $"tzedakin/api/reportes_billetera_inner/{Cliente.Id_Cliente}";
 
                 HttpResponseMessage respuesta = await cliente.GetAsync(Url);
                 if (respuesta.IsSuccessStatusCode)

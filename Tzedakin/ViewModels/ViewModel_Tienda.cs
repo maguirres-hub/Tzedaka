@@ -223,7 +223,7 @@ namespace Tzedaka.ViewModels
             {
                 cliente = new HttpClient();
                 cliente.Timeout = TimeSpan.FromSeconds(120);
-                var url = "https://berajotweb.com/tzedakin/api/productos/";
+                var url = Settings.Url + "tzedakin/api/productos/";
 
                 IsLoadingRegistro = true;
                 if (!string.IsNullOrEmpty(Producto_.Nombre) || !string.IsNullOrEmpty(Producto_.Descripcion) || Producto_.Precio != 0 || Producto_.Img_Blob != null)
@@ -292,7 +292,7 @@ namespace Tzedaka.ViewModels
                 cliente = new HttpClient();
                 cliente.Timeout = TimeSpan.FromSeconds(120);
 
-                var url = "https://berajotweb.com/tzedakin/api/productos/";
+                var url = Settings.Url + "tzedakin/api/productos/";
                 HttpResponseMessage respuesta = await cliente.GetAsync(url);
 
 
@@ -355,7 +355,7 @@ namespace Tzedaka.ViewModels
                 cliente = new HttpClient();
                 cliente.Timeout = TimeSpan.FromSeconds(120);
 
-                var url = $"https://berajotweb.com/tzedakin/api/productos_inner/{Cliente.Id_Cliente}";
+                var url = Settings.Url + $"tzedakin/api/productos_inner/{Cliente.Id_Cliente}";
                 HttpResponseMessage respuesta = await cliente.GetAsync(url);
 
 
@@ -397,7 +397,7 @@ namespace Tzedaka.ViewModels
             {
                 cliente = new HttpClient();
                 cliente.Timeout = TimeSpan.FromSeconds(120);
-                var url = "https://berajotweb.com/tzedakin/api/categorias/";
+                var url = Settings.Url + "tzedakin/api/categorias/";
                 HttpResponseMessage respuesta = await cliente.GetAsync(url);
                 if (respuesta.IsSuccessStatusCode)
                 {
@@ -424,7 +424,7 @@ namespace Tzedaka.ViewModels
             {
                 cliente = new HttpClient();
                 cliente.Timeout = TimeSpan.FromSeconds(60);
-                var Url = $"https://berajotweb.com/tzedakin/api/billetera_virtual/{id_vendedor}";
+                var Url = Settings.Url + $"tzedakin/api/billetera_virtual/{id_vendedor}";
 
                 HttpResponseMessage respuesta = await cliente.GetAsync(Url);
                 if (respuesta.IsSuccessStatusCode)
@@ -450,7 +450,7 @@ namespace Tzedaka.ViewModels
             {
                 cliente = new HttpClient();
                 cliente.Timeout = TimeSpan.FromSeconds(120);
-                var Url = $"https://berajotweb.com/tzedakin/api/billetera_virtual/{Cliente.Id_Cliente}";
+                var Url = Settings.Url + $"tzedakin/api/billetera_virtual/{Cliente.Id_Cliente}";
 
                 HttpResponseMessage respuesta = await cliente.GetAsync(Url);
                 if (respuesta.IsSuccessStatusCode)
@@ -476,7 +476,7 @@ namespace Tzedaka.ViewModels
             {
                 cliente = new HttpClient();
                 cliente.Timeout = TimeSpan.FromSeconds(120);
-                var Url = $"https://berajotweb.com/tzedakin/api/reportes_billetera_inner/{Cliente.Id_Cliente}";
+                var Url = Settings.Url + $"tzedakin/api/reportes_billetera_inner/{Cliente.Id_Cliente}";
 
                 HttpResponseMessage respuesta = await cliente.GetAsync(Url);
                 if (respuesta.IsSuccessStatusCode)
@@ -517,7 +517,7 @@ namespace Tzedaka.ViewModels
                 };
                 var json = JsonConvert.SerializeObject(nuevaCarga);
                 var contenido = new StringContent(json, Encoding.UTF8, "application/json");
-                HttpResponseMessage respuesta = await cliente.PutAsync($"https://berajotweb.com/tzedakin/api/billetera_virtual/{Cliente.Id_Cliente}", contenido);
+                HttpResponseMessage respuesta = await cliente.PutAsync(Settings.Url + $"tzedakin/api/billetera_virtual/{Cliente.Id_Cliente}", contenido);
 
                 if (respuesta.IsSuccessStatusCode)
                 {
@@ -559,7 +559,7 @@ namespace Tzedaka.ViewModels
                 };
                 var json = JsonConvert.SerializeObject(nuevaCarga);
                 var contenido = new StringContent(json, Encoding.UTF8, "application/json");
-                HttpResponseMessage respuesta = await cliente.PostAsync($"https://berajotweb.com/tzedakin/api/reportes_billetera", contenido);
+                HttpResponseMessage respuesta = await cliente.PostAsync(Settings.Url + $"tzedakin/api/reportes_billetera", contenido);
 
                 if (respuesta.IsSuccessStatusCode)
                 {
@@ -597,7 +597,7 @@ namespace Tzedaka.ViewModels
                 };
                 var json = JsonConvert.SerializeObject(nuevaCarga);
                 var contenido = new StringContent(json, Encoding.UTF8, "application/json");
-                HttpResponseMessage respuesta = await cliente.PutAsync($"https://berajotweb.com/tzedakin/api/billetera_virtual/{id_Vendedor}", contenido);
+                HttpResponseMessage respuesta = await cliente.PutAsync(Settings.Url + $"tzedakin/api/billetera_virtual/{id_Vendedor}", contenido);
 
                 if (respuesta.IsSuccessStatusCode)
                 {
@@ -639,7 +639,7 @@ namespace Tzedaka.ViewModels
                 };
                 var json = JsonConvert.SerializeObject(nuevaCarga);
                 var contenido = new StringContent(json, Encoding.UTF8, "application/json");
-                HttpResponseMessage respuesta = await cliente.PostAsync($"https://berajotweb.com/tzedakin/api/reportes_billetera", contenido);
+                HttpResponseMessage respuesta = await cliente.PostAsync(Settings.Url + $"tzedakin/api/reportes_billetera", contenido);
 
                 if (respuesta.IsSuccessStatusCode)
                 {
@@ -666,7 +666,7 @@ namespace Tzedaka.ViewModels
                 cliente = new HttpClient();
                 cliente.Timeout = TimeSpan.FromSeconds(60);
 
-                var Url = $"https://berajotweb.com/tzedakin/api/productos/{id}";
+                var Url = Settings.Url + $"tzedakin/api/productos/{id}";
                 HttpResponseMessage respuesta = await cliente.DeleteAsync(Url);
 
                 if (respuesta.IsSuccessStatusCode)
