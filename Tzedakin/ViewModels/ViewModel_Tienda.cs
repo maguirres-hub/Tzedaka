@@ -21,6 +21,7 @@ namespace Tzedaka.ViewModels
         HttpClient cliente;
 
         private Clientes _Cliente = new Clientes();
+        private Clientes _Vendedor = new Clientes();
         private Producto _productos = new Producto();
         private PostProducto Post_Producto_ = new PostProducto();
         public Producto Producto_Seleccionado { get; set; }
@@ -48,6 +49,7 @@ namespace Tzedaka.ViewModels
         public Command Btn_Eliminar { get; set; }
         public Command Btn_Envio_Compra { get; set; }
         public Command Btn_Seleccion_Imagen { get; set; }
+        public Command Btn_Ir_Tienda_Cliente { get; set; }
 
         private bool _isLoading;
         private bool _isLoadingRegistro;
@@ -69,6 +71,7 @@ namespace Tzedaka.ViewModels
             Btn_Seleccion_Imagen = new Command(() => Cargar_Imagen());
             Btn_Cargar_Producs = new Command(() => Cargar_Productos_Tienda());
             Btn_Ir_Mis_Producto = new Command(() => Ir_MisProductos());
+            Btn_Ir_Tienda_Cliente = new Command<Producto>(Prod => Ir_TiendaCliente(Prod.Id_Cliente));
             Btn_Ir_Agregar_Producto = new Command(() => Agregar_Producto_Formulario());
             Btn_Cargar_Mis_Productos = new Command(() => Cargar_Productos_Cliente());
             Btn_Eliminar = new Command<Producto>(Prod => Eliminar_Producto(Prod.Id_Producto));
@@ -102,7 +105,7 @@ namespace Tzedaka.ViewModels
 
         private async void Cargar_Productos_Cliente()
         {
-            await GET_Productos_Cliente();
+            await GET_Productos_Cliente(Cliente.Id_Cliente);
         }
 
 
@@ -111,13 +114,24 @@ namespace Tzedaka.ViewModels
             await Ir_MisProductos_Pagina();
 
         }
+        private async void Ir_TiendaCliente(int id_vendedor)
+        {
+            await Ir_TiendaCliente_Pagina(id_vendedor);
+
+        }
         private async Task Ir_MisProductos_Pagina()
         {
 
             ViewModel_Tienda viewModel = new ViewModel_Tienda();
             viewModel.Cargar_Productos_Cliente();
             await Application.Current.MainPage.Navigation.PushAsync(new ViewCarrito() { BindingContext = viewModel });
-
+        }
+        private async Task Ir_TiendaCliente_Pagina(int id_vendedor)
+        {
+            ViewModel_Tienda viewModel = new ViewModel_Tienda();
+            await viewModel.GET_Productos_Cliente(id_vendedor);
+            await viewModel.GET_Vendedor(id_vendedor);
+            await Application.Current.MainPage.Navigation.PushAsync(new ViewTiendaCliente() { BindingContext = viewModel });
         }
 
         private async void Cargar_Imagen()
@@ -346,7 +360,7 @@ namespace Tzedaka.ViewModels
 
         }
 
-        public async Task GET_Productos_Cliente()
+        public async Task GET_Productos_Cliente(int idCliente)
         {
             IsLoading = true;
             try
@@ -355,7 +369,7 @@ namespace Tzedaka.ViewModels
                 cliente = new HttpClient();
                 cliente.Timeout = TimeSpan.FromSeconds(120);
 
-                var url = Settings.Url + $"tzedakin/api/productos_inner/{Cliente.Id_Cliente}";
+                var url = Settings.Url + $"tzedakin/api/productos_inner/{idCliente}";
                 HttpResponseMessage respuesta = await cliente.GetAsync(url);
 
 
@@ -390,7 +404,33 @@ namespace Tzedaka.ViewModels
             }
             IsLoading = false;
         }
+        public async Task GET_Vendedor(int idVendedor)
+        {
+            IsLoading = true;
+            try
+            {
 
+                cliente = new HttpClient();
+                cliente.Timeout = TimeSpan.FromSeconds(120);
+
+                var url = Settings.Url + $"tzedakin/api/clientes/{idVendedor}";
+                HttpResponseMessage respuesta = await cliente.GetAsync(url);
+
+
+                if (respuesta.IsSuccessStatusCode)
+                {
+
+                    var JsonVendedor = await respuesta.Content.ReadAsStringAsync();
+                    _Vendedor = JsonConvert.DeserializeObject<List<Clientes>>(JsonVendedor)[0];
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Debug.Write(ex.ToString());
+            }
+            IsLoading = false;
+        }
         public async Task GET_Categorias()
         {
             try
@@ -694,6 +734,18 @@ namespace Tzedaka.ViewModels
                 {
                     _Cliente = value;
                     OnPropertyChanged(nameof(Cliente));
+                }
+            }
+        }
+        public Clientes Vendedor
+        {
+            get { return _Vendedor; }
+            set
+            {
+                if (_Vendedor != value)
+                {
+                    _Vendedor = value;
+                    OnPropertyChanged(nameof(Vendedor));
                 }
             }
         }

@@ -7,81 +7,65 @@
         <local:ViewModel_Tienda></local:ViewModel_Tienda>
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <ScrollView>
-            <StackLayout>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="auto" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Button Text="Mi Tienda" BackgroundColor="Green" TextColor="White" Margin="2" CornerRadius="5" Grid.Row="0" Command="{Binding Btn_Ir_Mis_Producto}"/>
-                    <Frame CornerRadius="5" Padding="0"  BackgroundColor="Transparent"   Grid.Row="0" Grid.Column="1" Margin="20, 5, 10, 0">
-                        <ImageButton Source="recargar"  BackgroundColor="#2196F3" HeightRequest="25" WidthRequest="40"  Command="{Binding Btn_Cargar_Producs}"/>
-                    </Frame>
-          
-                    <BoxView CornerRadius="5" Margin="7, 7, 7, 1" Color="#2196F3"  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
-                    <Label Text="Saldo Actual:" FontSize="Body" TextColor="White" FontAttributes="Bold" HorizontalTextAlignment="Center" Grid.Row="1" Grid.Column="0" Margin="10,15"/>
-                    <Label Text="{Binding Cliente_Billetera.Total}" FontSize="Body" TextColor="RosyBrown" FontAttributes="Bold" HorizontalTextAlignment="Center" Margin="160,15,0,0" Grid.Row="1" Grid.Column="0"/>
-                    <StackLayout  Grid.Row="2" Grid.ColumnSpan="2">
-                        <Frame Grid.Row="1" Grid.ColumnSpan="2" Padding="0">
-                            <Label Text="Tienda" FontSize="Large" TextColor="#2196F3" FontAttributes="Bold" HorizontalTextAlignment="Center" Grid.Row="1" Grid.ColumnSpan="2" />
-                        </Frame>
-                        <ActivityIndicator  IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" />
-                        <ListView ItemsSource="{Binding Productos_}"
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Button Text="Mi Tienda" BackgroundColor="Green" TextColor="White" Margin="7,7" CornerRadius="5" Grid.Row="0" Command="{Binding Btn_Ir_Mis_Producto}"/>
+            <Frame CornerRadius="5" Padding="0"  BackgroundColor="Transparent"   Grid.Row="0" Grid.Column="1" Margin="7, 7, 7, 1">
+                <ImageButton Source="recargar"  BackgroundColor="#2196F3" HeightRequest="25" WidthRequest="40"  Command="{Binding Btn_Cargar_Producs}"/>
+            </Frame>
+            <BoxView CornerRadius="5" Margin="7, 7, 7, 1" Color="#2196F3"  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
+            <Label Text="Saldo Actual:" FontSize="Body" TextColor="White" FontAttributes="Bold" HorizontalTextAlignment="Center" Grid.Row="1" Grid.Column="0" Margin="10,15"/>
+            <Label Text="{Binding Cliente_Billetera.Total}" FontSize="Body" TextColor="RosyBrown" FontAttributes="Bold" HorizontalTextAlignment="Center" Margin="160,15,0,0" Grid.Row="1" Grid.Column="0"/>
+            <StackLayout  Grid.Row="2" Grid.ColumnSpan="2">
+                <Frame Grid.Row="2" Grid.ColumnSpan="2" Padding="0">
+                    <Label Text="Tienda" FontSize="Large" TextColor="#2196F3" FontAttributes="Bold" HorizontalTextAlignment="Center" Grid.Row="1" Grid.ColumnSpan="2" />
+                </Frame>
+                <ActivityIndicator  IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" />
+                <ScrollView>
+                    <ListView ItemsSource="{Binding Productos_}"
                       SeparatorColor="Black"
                       HasUnevenRows="True"
-                      Margin="5"
-                      
+                      Margin="5"                    
                       SelectedItem="{Binding SelectItem}">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <ViewCell>
-                                        <StackLayout Padding="10">
-                                            
-                                            <Frame CornerRadius="5" BorderColor="black">
-                                                <Image Source="{Binding Imagen_Ubicacion}" WidthRequest="300" HeightRequest="250"/>
-                                            </Frame>
-                                            <Label Text="{Binding Nombre}" FontAttributes="Bold" HorizontalTextAlignment="Center" FontSize="Subtitle" TextColor="Black"/>
-                                            <Label Text="Codigo:" TextColor="#2196F3" FontAttributes="Bold"/>
-                                            <Label Text="{Binding Id_Producto}" TextColor="Black"/>
-                                            <Label Text="Descripcion:" TextColor="#2196F3" FontAttributes="Bold" />
-                                            <Label Text="{Binding Descripcion}"  TextColor="Black"/>
-                                            <Label FontAttributes="Bold"
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout Padding="10">
+                                        <Frame CornerRadius="5" BorderColor="black">
+                                            <Image Source="{Binding Imagen_Ubicacion}" WidthRequest="300" HeightRequest="250"/>
+                                        </Frame>
+                                        <Label Text="{Binding Nombre}" FontAttributes="Bold" HorizontalTextAlignment="Center" FontSize="Subtitle" TextColor="Black"/>
+                                        <Label Text="Codigo:" TextColor="#2196F3" FontAttributes="Bold"/>
+                                        <Label Text="{Binding Id_Producto}" TextColor="Black"/>
+                                        <Label Text="Descripcion:" TextColor="#2196F3" FontAttributes="Bold" />
+                                        <Label Text="{Binding Descripcion}"  TextColor="Black"/>
+                                        <Label FontAttributes="Bold"
                                        HorizontalOptions="EndAndExpand" >
-                                                <Label.FormattedText>
-                                                    <FormattedString>
-                                                        <Span TextColor="Green" FontAttributes="Bold" Text="Precio: "/>
-                                                        <Span TextColor="Green" Text="{Binding Precio, StringFormat='{0:C}'}"/>
-                                                    </FormattedString>
-                                                </Label.FormattedText>
-                                            </Label>
-                                            <Grid>
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="auto"/>
-                                                </Grid.RowDefinitions>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="auto"/>
-                                                </Grid.ColumnDefinitions>
-                                                <Frame Grid.Row="0" Grid.ColumnSpan="2" BackgroundColor="Green" CornerRadius="25" Padding="0" IsVisible="{Binding IsVisible} ">
-                                                    <ImageButton Source="comprar"  BackgroundColor="Transparent" IsVisible="{Binding IsVisible} " HeightRequest="50" WidthRequest="100" Command="{Binding BindingContext.Seleccion_Comando, Source={x:Reference MyPage}}" CommandParameter="{Binding .}" />
-                                                </Frame>
-
-                                            </Grid>
-                                            
-                                        </StackLayout>
-
-                                    </ViewCell>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                    </StackLayout>
-                </Grid>
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span TextColor="Green" FontAttributes="Bold" Text="Precio: "/>
+                                                    <Span TextColor="Green" Text="{Binding Precio, StringFormat='{0:C}'}"/>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Frame BackgroundColor="Green" CornerRadius="25" Padding="0" IsVisible="{Binding IsVisible} ">
+                                            <ImageButton Source="comprar"  BackgroundColor="Transparent" IsVisible="{Binding IsVisible} " HeightRequest="50" WidthRequest="100" Command="{Binding BindingContext.Btn_Ir_Tienda_Cliente, Source={x:Reference MyPage}}" CommandParameter="{Binding .}" />
+                                        </Frame>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </ScrollView>
             </StackLayout>
-        </ScrollView>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

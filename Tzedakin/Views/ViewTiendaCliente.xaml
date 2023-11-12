@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Tzedaka.Views.ViewCarrito" 
+             x:Class="Tzedaka.Views.ViewTiendaCliente" 
              xmlns:local="clr-namespace:Tzedaka.ViewModels"
              x:Name="MyPage" BackgroundColor="White">
     <ContentPage.BindingContext>
@@ -17,13 +17,16 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <Button Text="Agregar Producto" Command="{Binding Btn_Ir_Agregar_Producto}" BackgroundColor="Green" TextColor="White"   Margin="10, 1, 4, 0" CornerRadius="5" Grid.Row="0" Grid.Column="0"/>
-            <Frame CornerRadius="5" Padding="0"  BackgroundColor="Transparent"   Grid.Row="0" Grid.Column="1"  Margin="20, 5, 10, 0" >
-                <ImageButton Source="recargar"  BackgroundColor="#2196F3" HeightRequest="10" WidthRequest="40"  Command="{Binding  Btn_Cargar_Mis_Productos}"/>
-            </Frame>
             <StackLayout  Grid.Row="2" Grid.ColumnSpan="2">
                 <Frame Grid.ColumnSpan="2" Padding="0"  HasShadow="True" >
-                    <Label Text="Mis Productos" FontSize="Large" TextColor="#2196F3" FontAttributes="Bold" Margin="10" HorizontalTextAlignment="Center" Grid.Row="1" Grid.ColumnSpan="2"/>
+                    <Label  FontSize="Large" TextColor="#2196F3" FontAttributes="Bold" Margin="10" HorizontalTextAlignment="Center" Grid.Row="1" Grid.ColumnSpan="2">
+                      <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Tienda de " />
+                            <Span Text="{Binding Vendedor.Nombres}"/>
+                        </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
                 </Frame>
                 <ActivityIndicator  IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" />
                 <ScrollView>
@@ -57,8 +60,9 @@
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>
-                                        <Button Text="Eliminar" Grid.Row="7" BackgroundColor="Red" HeightRequest="50" TextColor="White" Command="{Binding BindingContext.Btn_Eliminar, Source={x:Reference MyPage}}" CommandParameter="{Binding .}"/>
-
+                                        <Frame BackgroundColor="Green" CornerRadius="25" Padding="0">
+                                            <ImageButton Source="comprar"  BackgroundColor="Transparent"  HeightRequest="50" WidthRequest="100" Command="{Binding BindingContext.Seleccion_Comando, Source={x:Reference MyPage}}" CommandParameter="{Binding .}" />
+                                        </Frame>
                                     </StackLayout>
 
                                 </ViewCell>
