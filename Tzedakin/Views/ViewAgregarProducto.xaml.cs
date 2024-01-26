@@ -10,7 +10,6 @@ namespace Tzedaka.Views
         public ViewAgregarProducto()
         {
             InitializeComponent();
-            BindingContext = new ViewModel_Tienda();
         }
     }
 }

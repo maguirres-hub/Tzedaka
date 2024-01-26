@@ -6,9 +6,11 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Tzedaka.Model;
 using Tzedaka.Views;
 using Xamarin.Essentials;
@@ -23,6 +25,7 @@ namespace Tzedaka.ViewModels
         private Clientes _Cliente = new Clientes();
         private Clientes _Vendedor = new Clientes();
         private Producto _productos = new Producto();
+        private Tienda _tienda;
         private PostProducto Post_Producto_ = new PostProducto();
         public Producto Producto_Seleccionado { get; set; }
         public Categorias Seleccion_Categoria { get; set; }
@@ -32,9 +35,30 @@ namespace Tzedaka.ViewModels
         private Billetera_Virtual Cliente_Billetera_ = new Billetera_Virtual();
         private Billetera_Virtual Cliente_Billetera_Vendedor_ = new Billetera_Virtual();
 
+        private List<Producto> productosTemp;
         private ObservableCollection<Producto> productos_ = new ObservableCollection<Producto>();
         private ObservableCollection<Producto> MISProductos_ = new ObservableCollection<Producto>();
         private ObservableCollection<Producto> Items_ = new ObservableCollection<Producto>();
+        private Ciudades CiudadSeleccionada_ = new Ciudades();
+        private Pais PaisSeleccionado_ = new Pais();
+
+        private ObservableCollection<Ciudades> Ciudades_ = new ObservableCollection<Ciudades>();
+        private ObservableCollection<Pais> Pais_ = new ObservableCollection<Pais>();
+        private ObservableCollection<ComentarioCompra> _comentarios = new ObservableCollection<ComentarioCompra>();
+        public List<string> colores { get; set; }
+
+        private string _colorFondo { get; set; }
+
+        private string _colorLetraFondo { get; set; }
+
+        private string _colorProducto { get; set; }
+
+        private string _colorLetraProducto { get; set; }
+
+        private string _colorComentario { get; set; }
+
+        private string _colorLetraComentario { get; set; }
+
 
         private Producto SelectItem_;
 
@@ -42,14 +66,23 @@ namespace Tzedaka.ViewModels
         private ImageSource Ubicacion_Imagen_;
         public Command Btn_Cargar_Producs { get; set; }
         public Command Btn_Agregar_Producto { get; set; }
+        public Command Btn_Agregar_Tienda { get; set; }
         public Command Btn_Cargar_Mis_Productos { get; set; }
         public Command Btn_Ir_Agregar_Producto { get; set; }
+        public Command Btn_Ir_Agregar_Tienda { get; set; }
         public Command Btn_Ir_Mis_Producto { get; set; }
-        public Command Seleccion_Comando { get; set; }
+        public Command Btn_Ir_Producto_Compra { get; set; }
+        public Command Btn_ComprarProducto { get; set; }
+        public Command Btn_ComprarSubscripcion { get; set; }
         public Command Btn_Eliminar { get; set; }
         public Command Btn_Envio_Compra { get; set; }
         public Command Btn_Seleccion_Imagen { get; set; }
         public Command Btn_Ir_Tienda_Cliente { get; set; }
+        public Command Btn_Ir_Mis_Compras { get; set; }
+        public Command Btn_Ir_Mis_Ventas { get; set; }
+        public Command Btn_ir_modificarDiseñoTienda { get; set; }
+        public Command GuardarDiseñoTiendaCommand { get; set; }
+
 
         private bool _isLoading;
         private bool _isLoadingRegistro;
@@ -68,16 +101,166 @@ namespace Tzedaka.ViewModels
             }
 
             Btn_Agregar_Producto = new Command(() => Agregar_Producto());
+            Btn_Agregar_Tienda = new Command(async () => await Post_Tienda());
             Btn_Seleccion_Imagen = new Command(() => Cargar_Imagen());
             Btn_Cargar_Producs = new Command(() => Cargar_Productos_Tienda());
             Btn_Ir_Mis_Producto = new Command(() => Ir_MisProductos());
+            Btn_Ir_Producto_Compra = new Command<Producto>(p => Ir_ProductoCompra(p));
             Btn_Ir_Tienda_Cliente = new Command<Producto>(Prod => Ir_TiendaCliente(Prod.Id_Cliente));
+            Btn_Ir_Mis_Compras = new Command(() => Ir_MisCompras());
+            Btn_Ir_Mis_Ventas = new Command(async () => await Ir_MisVentas_Pagina());
             Btn_Ir_Agregar_Producto = new Command(() => Agregar_Producto_Formulario());
+            Btn_Ir_Agregar_Tienda = new Command(() => Agregar_Tienda_Formulario());
             Btn_Cargar_Mis_Productos = new Command(() => Cargar_Productos_Cliente());
             Btn_Eliminar = new Command<Producto>(Prod => Eliminar_Producto(Prod.Id_Producto));
             Btn_Envio_Compra = new Command(() => Envio_Compra());
-            Seleccion_Comando = new Command<Producto>(Prod => Comprar_Producto(Prod.Id_Cliente, Prod.Id_Producto, Prod.Precio));
+            Btn_ComprarProducto = new Command<Producto>(Prod => Comprar_Producto(Prod.Id_Cliente, Prod.Id_Producto, Prod.Precio));
+            Btn_ComprarSubscripcion = new Command(Prod => Comprar_Subscripcion());
+            Btn_ir_modificarDiseñoTienda = new Command(async Prod => await IrModificacionDiseñoTienda());
+            GuardarDiseñoTiendaCommand = new Command(async Prod => await ModificarDiseñoTienda());
             Cargar_Todo();
+            colores = new List<string>()
+         {"AliceBlue",
+                                                "AntiqueWhite",
+                                                "Aqua",
+                                                "Aquamarine",
+                                                "Azure",
+                                                "Beige",
+                                                "Bisque",
+                                                "Black",
+                                                "BlanchedAlmond",
+                                                "Blue",
+                                                "BlueViolet",
+                                                "Brown",
+                                                "BurlyWood",
+                                                "CadetBlue",
+                                                "Chartreuse",
+                                                "Chocolate",
+                                                "Coral",
+                                                "CornflowerBlue",
+                                                "Cornsilk",
+                                                "Crimson",
+                                                "Cyan",
+                                                "DarkBlue",
+                                                "DarkCyan",
+                                                "DarkGoldenrod",
+                                                "DarkGray",
+                                                "DarkGreen",
+                                                "DarkKhaki",
+                                                "DarkMagenta",
+                                                "DarkOliveGreen",
+                                                "DarkOrange",
+                                                "DarkOrchid",
+                                                "DarkRed",
+                                                "DarkSalmon",
+                                                "DarkSeaGreen",
+                                                "DarkSlateBlue",
+                                                "DarkSlateGray",
+                                                "DarkTurquoise",
+                                                "DarkViolet",
+                                                "DeepPink",
+                                                "DeepSkyBlue",
+                                                "DimGray",
+                                                "DodgerBlue",
+                                                "Firebrick",
+                                                "FloralWhite",
+                                                "ForestGreen",
+                                                "Fuschia",
+                                                "Gainsboro",
+                                                "GhostWhite",
+                                                "Gold",
+                                                "Goldenrod",
+                                                "Gray",
+                                                "Green",
+                                                "GreenYellow",
+                                                "Honeydew",
+                                                "HotPink",
+                                                "IndianRed",
+                                                "Indigo",
+                                                "Ivory",
+                                                "Khaki",
+                                                "Lavender",
+                                                "LavenderBlush",
+                                                "LawnGreen",
+                                                "LemonChiffon",
+                                                "LightBlue",
+                                                "LightCoral",
+                                                "LightCyan",
+                                                "LightGoldenrodYellow",
+                                                "LightGray",
+                                                "LightGreen",
+                                                "LightPink",
+                                                "LightSalmon",
+                                                "LightSeaGreen",
+                                                "LightSkyBlue",
+                                                "LightSlateGray",
+                                                "LightSteelBlue",
+                                                "LightYellow",
+                                                "Lime",
+                                                "LimeGreen",
+                                                "Linen",
+                                                "Magenta",
+                                                "Maroon",
+                                                "MediumAquamarine",
+                                                "MediumBlue",
+                                                "MediumOrchid",
+                                                "MediumPurple",
+                                                "MediumSeaGreen",
+                                                "MediumSlateBlue",
+                                                "MediumSpringGreen",
+                                                "MediumTurquoise",
+                                                "MediumVioletRed",
+                                                "MidnightBlue",
+                                                "MintCream",
+                                                "MistyRose",
+                                                "Moccasin",
+                                                "NavajoWhite",
+                                                "Navy",
+                                                "OldLace",
+                                                "Olive",
+                                                "OliveDrab",
+                                                "Orange",
+                                                "OrangeRed",
+                                                "Orchid",
+                                                "PaleGoldenrod",
+                                                "PaleGreen",
+                                                "PaleTurquoise",
+                                                "PaleVioletRed",
+                                                "PapayaWhip",
+                                                "PeachPuff",
+                                                "Peru",
+                                                "Pink",
+                                                "Plum",
+                                                "PowderBlue",
+                                                "Purple",
+                                                "Red",
+                                                "RosyBrown",
+                                                "RoyalBlue",
+                                                "SaddleBrown",
+                                                "Salmon",
+                                                "SandyBrown",
+                                                "SeaGreen",
+                                                "SeaShell",
+                                                "Sienna",
+                                                "Silver",
+                                                "SkyBlue",
+                                                "SlateBlue",
+                                                "SlateGray",
+                                                "Snow",
+                                                "SpringGreen",
+                                                "SteelBlue",
+                                                "Tan",
+                                                "Teal",
+                                                "Thistle",
+                                                "Tomato",
+                                                "Transparent",
+                                                "Turquoise",
+                                                "Violet",
+                                                "Wheat",
+                                                "White",
+                                                "WhiteSmoke",
+                                                "Yellow",
+                                                "YellowGreen", };
         }
 
         private async void Cargar_Todo()
@@ -92,7 +275,6 @@ namespace Tzedaka.ViewModels
         {
             await Application.Current.MainPage.Navigation.PushAsync(new ViewDireccionCompra());
         }
-
         private async void Cargar_Categorias()
         {
             await GET_Categorias();
@@ -107,11 +289,95 @@ namespace Tzedaka.ViewModels
         {
             await GET_Productos_Cliente(Cliente.Id_Cliente);
         }
+        private async void Cargar_Paises()
+        {
+            await Get_Paises();
+        }
+        private async Task Get_Ciudades()
+        {
+            IsLoading = true;
+            try
+            {
 
+                HttpClient HttpCliente_ = new HttpClient();
+                HttpCliente_.Timeout = TimeSpan.FromSeconds(120);
+                var Url = Settings.Url + $"tzedakin/api/ciudades_inner_pais/{PaisSeleccionado.Id_Pais}";
+
+                HttpResponseMessage respuesta = await HttpCliente_.GetAsync(Url);
+                Debug.WriteLine(Url);
+                if (respuesta.IsSuccessStatusCode)
+                {
+                    var ciudadesJson = await respuesta.Content.ReadAsStringAsync();
+                    var ciudades = JsonConvert.DeserializeObject<ObservableCollection<Ciudades>>(ciudadesJson);
+                    Debug.WriteLine(ciudadesJson.ToString());
+                    Ciudad.Clear();
+                    foreach (var ciudade in ciudades)
+                    {
+                        Ciudades ListaCiudad = new Ciudades
+                        {
+                            Id_Ciudad = ciudade.Id_Ciudad,
+                            Ciudad = ciudade.Ciudad
+                        };
+                        Ciudad.Add(ListaCiudad);
+                    }
+                }
+
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "No se pudo cargar la lista de ciudades.!", "Ok");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+            IsLoading = false;
+        }
+        private async Task Get_Paises()
+        {
+            IsLoading = true;
+            try
+            {
+                HttpClient HttpCliente_ = new HttpClient();
+                HttpResponseMessage respuesta = await HttpCliente_.GetAsync(Settings.Url + "tzedakin/api/paises");
+                if (respuesta.IsSuccessStatusCode)
+                {
+                    var paisesJson = await respuesta.Content.ReadAsStringAsync();
+                    var paises = JsonConvert.DeserializeObject<ObservableCollection<Pais>>(paisesJson);
+                    if (paises != null || paises.Count > 0)
+                    {
+                        Pais.Clear();
+                        foreach (var item in paises)
+                        {
+                            Pais listaPais = new Pais
+                            {
+                                Id_Pais = item.Id_Pais,
+                                Nombre_Pais = item.Nombre_Pais,
+                            };
+                            Pais.Add(listaPais);
+                        }
+                    }
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "No se pudo cargar la lista de ciudades.!", "Ok");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+            IsLoading = false;
+        }
 
         private async void Ir_MisProductos()
         {
             await Ir_MisProductos_Pagina();
+
+        }
+        private async void Ir_ProductoCompra(Producto p)
+        {
+            await Ir_ProductoCompra_Pagina(p);
 
         }
         private async void Ir_TiendaCliente(int id_vendedor)
@@ -119,19 +385,42 @@ namespace Tzedaka.ViewModels
             await Ir_TiendaCliente_Pagina(id_vendedor);
 
         }
+        private async void Ir_MisCompras()
+        {
+            await Ir_MisCompras_Pagina();
+
+        }
         private async Task Ir_MisProductos_Pagina()
         {
 
             ViewModel_Tienda viewModel = new ViewModel_Tienda();
+            await viewModel.GET_Tienda(Cliente.Id_Cliente);
             viewModel.Cargar_Productos_Cliente();
             await Application.Current.MainPage.Navigation.PushAsync(new ViewCarrito() { BindingContext = viewModel });
+        }
+        private async Task Ir_ProductoCompra_Pagina(Producto p)
+        {
+
+            await Application.Current.MainPage.Navigation.PushAsync(new ViewProductoCompra(p));
         }
         private async Task Ir_TiendaCliente_Pagina(int id_vendedor)
         {
             ViewModel_Tienda viewModel = new ViewModel_Tienda();
             await viewModel.GET_Productos_Cliente(id_vendedor);
             await viewModel.GET_Vendedor(id_vendedor);
+            await viewModel.getComentarios(id_vendedor);
+            await viewModel.GET_Tienda(id_vendedor);
             await Application.Current.MainPage.Navigation.PushAsync(new ViewTiendaCliente() { BindingContext = viewModel });
+        }
+        private async Task Ir_MisCompras_Pagina()
+        {
+            VMMisCompras viewModel = new VMMisCompras();
+            await Application.Current.MainPage.Navigation.PushAsync(new ViewMisCompras() { BindingContext = viewModel });
+        }
+        private async Task Ir_MisVentas_Pagina()
+        {
+            VMMisVentas viewModel = new VMMisVentas();
+            await Application.Current.MainPage.Navigation.PushAsync(new ViewMisVentas() { BindingContext = viewModel });
         }
 
         private async void Cargar_Imagen()
@@ -141,10 +430,28 @@ namespace Tzedaka.ViewModels
 
         private async void Agregar_Producto_Formulario()
         {
-            await Application.Current.MainPage.Navigation.PushAsync(new ViewAgregarProducto());
+            if (MISProductos.Count() < 3 || miTienda.estaSubscrito)
+                await Application.Current.MainPage.Navigation.PushAsync(new ViewAgregarProducto() { BindingContext = this });
+            else await Application.Current.MainPage.DisplayAlert("Aviso", "No puede agregar mas productos sin estar suscrito", "Ok");
             // await Post_Producto();
         }
+        private async void Agregar_Tienda_Formulario()
+        {
+            await Get_Paises();
+            if (miTienda.tieneTienda)
+            {
+                await Get_Ciudades(); CiudadSeleccionada = new Ciudades();
+                PaisSeleccionado = new Pais();
+                PaisSeleccionado.Id_Pais = miTienda.idPais;
+                PaisSeleccionado.Nombre_Pais = miTienda.Pais;
+                CiudadSeleccionada.Id_Ciudad = miTienda.idCiudad;
+                CiudadSeleccionada.Ciudad = miTienda.Ciudad;
 
+            }
+
+            await Application.Current.MainPage.Navigation.PushAsync(new ViewAgregarTienda() { BindingContext = this });
+            // await Post_Producto();
+        }
         private async void Agregar_Producto()
         {
             await Post_Producto();
@@ -159,8 +466,55 @@ namespace Tzedaka.ViewModels
         {
             await Get_Reportes_Billetera();
         }
+        private async Task IrModificacionDiseñoTienda()
+        {
+            await GET_Productos_Cliente(Cliente.Id_Cliente);
+            await GET_Vendedor(Cliente.Id_Cliente);
+            await getComentarios(Cliente.Id_Cliente);
+            await GET_Tienda(Cliente.Id_Cliente);
+            await Application.Current.MainPage.Navigation.PushAsync(new ViewModificarDiseñoTienda() { BindingContext = this });
+        }
+        private async Task ModificarDiseñoTienda()
+        {
+            try
+            {
+                cliente = new HttpClient();
+                cliente.Timeout = TimeSpan.FromSeconds(120);
+                var url = Settings.Url + "tzedakin/api/tienda_diseno/";
 
+                if (ColorFondo != null)
+                {
+                    Tienda producto = new Tienda
+                    {
+                        id = miTienda.id,
+                        colorFondo = ColorFondo,
+                        colorLetraFondo = ColorLetraFondo,
+                        colorProducto = ColorProducto,
+                        colorLetraProducto = ColorLetraProducto,
+                        colorComentario = ColorComentario,
+                        colorLetraComentario = ColorLetraComentario
+                    };
 
+                    var Json = JsonConvert.SerializeObject(producto);
+                    var Contenido = new StringContent(Json, Encoding.UTF8, "application/json");
+                    HttpResponseMessage respuesta = await cliente.PutAsync(url, Contenido);
+
+                    if (respuesta.IsSuccessStatusCode)
+                    {
+                        await Application.Current.MainPage.Navigation.PopAsync();
+                        await Application.Current.MainPage.DisplayAlert("Registro Exitoso.!", "Datos modificados con exito", "ok");
+                    }
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Registro fallido", "Debe llenar todos los campos", "ok");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message.ToString());
+            }
+        }
         private async void Comprar_Producto(int id_vendedor, int id_producto, float precio)
         {
             Cargar_Billetera();
@@ -170,7 +524,7 @@ namespace Tzedaka.ViewModels
                 bool aceptar_compra = await Application.Current.MainPage.DisplayAlert("Compra", "¿Desea realizar la compra?", "Comprar", "Cancelar");
                 if (aceptar_compra == true)
                 {
-                    await Actualizar_Billetera_Comprador(id_producto, precio);
+                    await Actualizar_Billetera_Comprador(id_producto, precio, "Compra producto");
                     await Actualizar_Billetera_Vendedor(id_vendedor, id_producto, precio);
                 }
             }
@@ -179,7 +533,53 @@ namespace Tzedaka.ViewModels
                 await Application.Current.MainPage.DisplayAlert("Aviso", "No posees fondos para comprar este producto. Recarga tu billetera", "Ok");
             }
         }
+        private async void Comprar_Subscripcion()
+        {
+            try
+            {
 
+                cliente = new HttpClient();
+                cliente.Timeout = TimeSpan.FromSeconds(120);
+
+                var url = Settings.Url + $"tzedakin/api/detalles_subscripcion/2";
+                HttpResponseMessage respuesta = await cliente.GetAsync(url);
+                if (respuesta.IsSuccessStatusCode)
+                {
+                    var JsonProductos = await respuesta.Content.ReadAsStringAsync();
+                    var Produc = JsonConvert.DeserializeObject<List<Detalles_Subscripcion>>(JsonProductos);
+                    if (Produc.Count > 0)
+                    {
+                        float precioSubscripcion = Produc[0].precio;
+                        if (Cliente_Billetera.Total < precioSubscripcion)
+                            await Application.Current.MainPage.DisplayAlert("Aviso", "No posees fondos para comprar este producto. Recarga tu billetera", "Ok");
+                        else
+                        {
+                            bool bandera = await Application.Current.MainPage.DisplayAlert("Aviso", "¿Seguro de comprar la subscripción?", "Si", "Cancelar");
+                            if (bandera == true)
+                            {
+                                var contenido = new StringContent("{" + '"' + "id" + '"' + ":" + miTienda.id + "}", Encoding.UTF8, "application/json");
+                                url = Settings.Url + "tzedakin/api/tienda_subscripcion";
+                                respuesta = await cliente.PutAsync(url, contenido);
+                                if (respuesta.IsSuccessStatusCode == true)
+                                {
+                                    HttpResponseMessage response = await Actualizar_Reporte_Billetera_Comprador_funcion(Cliente.Id_Cliente, precioSubscripcion, "Compra de segunda subscripción");
+                                    if (response.IsSuccessStatusCode == true)
+                                    {
+                                        await GET_Tienda(Cliente.Id_Cliente);
+                                        await Application.Current.MainPage.DisplayAlert("Compra Exitosa", "Su subscripcion se ha realizado con exito", "Ok");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Debug.Write(ex.ToString());
+            }
+        }
         private async void Eliminar_Producto(int id)
         {
             bool respuesta = await Application.Current.MainPage.DisplayAlert("Aviso", "¿Seguro que desea eliminar este producto?", "Si", "Cancelar");
@@ -188,10 +588,6 @@ namespace Tzedaka.ViewModels
                 await Delete_Producto(id);
             }
         }
-
-
-
-
         private async Task SeleccionarImagenCelular()
         {
 
@@ -240,7 +636,7 @@ namespace Tzedaka.ViewModels
                 var url = Settings.Url + "tzedakin/api/productos/";
 
                 IsLoadingRegistro = true;
-                if (!string.IsNullOrEmpty(Producto_.Nombre) || !string.IsNullOrEmpty(Producto_.Descripcion) || Producto_.Precio != 0 || Producto_.Img_Blob != null)
+                if (!string.IsNullOrEmpty(Producto_.Nombre) && !string.IsNullOrEmpty(Producto_.Descripcion) && Producto_.Precio != 0 && Post_Producto_Byte.Img_Blob != null && Producto_.Stock != 0 && Producto_.Peso != 0)
                 {
                     PostProducto producto = new PostProducto
                     {
@@ -248,14 +644,16 @@ namespace Tzedaka.ViewModels
                         Descripcion = Producto_.Descripcion,
                         Precio = Producto_.Precio,
                         Id_Categoria = Seleccion_Categoria.Id_Categoria,
-                        Id_Estado = 1,
+                        Id_Estado = 2,
                         Img_Blob = Post_Producto_Byte.Img_Blob,
-                        Id_Cliente = Cliente.Id_Cliente
-
+                        Id_Cliente = Cliente.Id_Cliente,
+                        Peso = Producto_.Peso,
+                        Stock = Producto_.Stock,
+                        Puntuacion = 0,
+                        alto = Producto_.alto,
+                        ancho = Producto_.ancho,
+                        profundo = Producto_.profundo
                     };
-
-                    Application.Current.Properties.Remove("Cliente");
-                    await Application.Current.SavePropertiesAsync();
 
                     var Json = JsonConvert.SerializeObject(producto);
                     var Contenido = new StringContent(Json, Encoding.UTF8, "application/json");
@@ -263,27 +661,14 @@ namespace Tzedaka.ViewModels
 
                     if (respuesta.IsSuccessStatusCode)
                     {
-                        Application.Current.Properties["Cliente"] = Cliente;
-                        await Application.Current.SavePropertiesAsync();
-                        Productos_.Clear();
-                        Producto Borrar = new Producto
-                        {
-                            Nombre = "",
-                            Descripcion = "",
-                            Precio = 0,
-                            Id_Categoria = 0,
-                            Id_Estado = 0,
-                            Img_Blob = null,
-                            Id_Cliente = 0
-                        };
-                        Productos_.Add(Borrar);
-                        await Application.Current.MainPage.DisplayAlert("Registro Exitoso.!", "Su producto fue creado, espere la autorizacion de un administrador para mostrarlo en la tienda.!", "ok");
+                        Producto_ = new Producto();
+                        Cargar_Productos_Cliente();
+                        await Application.Current.MainPage.Navigation.PopAsync();
+                        await Application.Current.MainPage.DisplayAlert("Registro Exitoso.!", "Su producto fue creado con exito!", "ok");
                     }
                 }
                 else
                 {
-                    Application.Current.Properties["Cliente"] = Cliente;
-                    await Application.Current.SavePropertiesAsync();
                     await Application.Current.MainPage.DisplayAlert("Registro fallido", "Debe llenar todos los campos", "ok");
                 }
             }
@@ -295,7 +680,48 @@ namespace Tzedaka.ViewModels
             IsLoadingRegistro = false;
         }
 
+        public async Task Post_Tienda()
+        {
+            try
+            {
+                cliente = new HttpClient();
+                cliente.Timeout = TimeSpan.FromSeconds(120);
+                var url = Settings.Url + "tzedakin/api/tienda/";
 
+                IsLoadingRegistro = true;
+                if (miTienda.CamposLLenos() && CiudadSeleccionada != null && PaisSeleccionado != null)
+                {
+                    miTienda.idCiudad = CiudadSeleccionada.Id_Ciudad;
+                    miTienda.idPais = PaisSeleccionado.Id_Pais;
+                    miTienda.idCliente = Cliente.Id_Cliente;
+                    var Json = JsonConvert.SerializeObject(miTienda);
+                    var Contenido = new StringContent(Json, Encoding.UTF8, "application/json");
+                    HttpResponseMessage respuesta;
+                    if (miTienda.id == 0)
+                        respuesta = await cliente.PostAsync(url, Contenido);
+                    else
+                        respuesta = await cliente.PutAsync(url, Contenido);
+                    if (respuesta.IsSuccessStatusCode)
+                    {
+
+                        await Application.Current.MainPage.Navigation.PopAsync();
+                        await Application.Current.MainPage.DisplayAlert("Registro Exitoso.!", "Registro modificado con exito", "ok");
+                        Cargar_Productos_Cliente();
+                        await GET_Tienda(Cliente.Id_Cliente);
+                    }
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Registro fallido", "Debe llenar todos los campos", "ok");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message.ToString());
+            }
+
+            IsLoadingRegistro = false;
+        }
         public async Task GET_Productos_Tienda()
         {
 
@@ -319,31 +745,22 @@ namespace Tzedaka.ViewModels
                     {
                         foreach (var prod in Produc)
                         {
-                            if (prod.Id_Estado == 2)
+                            Productos_ = new ObservableCollection<Producto>(Produc);
+                            foreach (var prods in Productos_)
                             {
-                                Productos_ = new ObservableCollection<Producto>(Produc);
-                                foreach (var prods in Productos_)
+                                if (prods.Id_Cliente == Cliente.Id_Cliente || (prods.tipo_envio != "Internacional" && prods.idPais != Cliente.Id_Pais))
                                 {
-                                    if (prods.Id_Cliente == Cliente.Id_Cliente)
+                                    prods.IsVisible = false;
+                                }
+                                else
+                                {
+                                    if (prods.Img_Blob != null && prods.Img_Blob.Type == "Buffer")
                                     {
-                                        if (prods.Img_Blob != null && prods.Img_Blob.Type == "Buffer")
-                                        {
-                                            prods.Img_Blob.DatosImagen = Convert.FromBase64String(Encoding.UTF8.GetString(prods.Img_Blob.DatosImagen));
-                                            prods.Img_Blob.Type = "image/jpeg"; // Or "image/jpeg" if applicable
-                                            prods.Imagen_Ubicacion = ImageSource.FromStream(() => new MemoryStream(prods.Img_Blob.DatosImagen));
-                                        }
-                                        prods.IsVisible = false;
+                                        prods.Img_Blob.DatosImagen = Convert.FromBase64String(Encoding.UTF8.GetString(prods.Img_Blob.DatosImagen));
+                                        prods.Img_Blob.Type = "image/jpeg"; // Or "image/jpeg" if applicable
+                                        prods.Imagen_Ubicacion = ImageSource.FromStream(() => new MemoryStream(prods.Img_Blob.DatosImagen));
                                     }
-                                    else
-                                    {
-                                        if (prods.Img_Blob != null && prods.Img_Blob.Type == "Buffer")
-                                        {
-                                            prods.Img_Blob.DatosImagen = Convert.FromBase64String(Encoding.UTF8.GetString(prods.Img_Blob.DatosImagen));
-                                            prods.Img_Blob.Type = "image/jpeg"; // Or "image/jpeg" if applicable
-                                            prods.Imagen_Ubicacion = ImageSource.FromStream(() => new MemoryStream(prods.Img_Blob.DatosImagen));
-                                        }
-                                        prods.IsVisible = true;
-                                    }
+                                    prods.IsVisible = true;
                                 }
                             }
                         }
@@ -394,6 +811,59 @@ namespace Tzedaka.ViewModels
                     else
                     {
                         await Application.Current.MainPage.DisplayAlert("Notificacion", "No tienes productos publicados", "Ok");
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Debug.Write(ex.ToString());
+            }
+            IsLoading = false;
+        }
+        public async Task GET_Tienda(int idCliente)
+        {
+            IsLoading = true;
+            try
+            {
+
+                cliente = new HttpClient();
+                cliente.Timeout = TimeSpan.FromSeconds(120);
+
+                var url = Settings.Url + $"tzedakin/api/tienda/{idCliente}";
+                HttpResponseMessage respuesta = await cliente.GetAsync(url);
+
+
+                if (respuesta.IsSuccessStatusCode)
+                {
+
+                    var JsonProductos = await respuesta.Content.ReadAsStringAsync();
+                    var Produc = JsonConvert.DeserializeObject<ObservableCollection<Tienda>>(JsonProductos);
+                    if (Produc.Count > 0)
+                    {
+                        miTienda = Produc[0];
+                        miTienda.tieneTienda = true;
+                        CiudadSeleccionada = new Ciudades();
+                        PaisSeleccionado = new Pais();
+                        CiudadSeleccionada.Id_Ciudad = miTienda.idCiudad;
+                        CiudadSeleccionada.Ciudad = miTienda.Ciudad;
+                        PaisSeleccionado.Id_Pais = miTienda.idPais;
+                        PaisSeleccionado.Nombre_Pais = miTienda.Pais;
+                        
+                        ColorLetraFondo = miTienda.colorLetraFondo;
+                        ColorFondo = miTienda.colorFondo;
+                        ColorProducto = miTienda.colorProducto;
+                        ColorLetraProducto = miTienda.colorLetraProducto;
+                        ColorComentario = miTienda.colorComentario;
+                        ColorLetraComentario = miTienda.colorLetraComentario;
+
+                        OnPropertyChanged(nameof(miTienda));
+
+                    }
+                    else
+                    {
+                        miTienda = new Tienda();
+                        miTienda.tieneTienda = false;
                     }
                 }
 
@@ -456,7 +926,30 @@ namespace Tzedaka.ViewModels
             }
         }
 
+        public async Task getComentarios(int idCliente)
+        {
+            try
+            {
+                var client = new HttpClient();
+                client.Timeout = TimeSpan.FromSeconds(120);
+                var url = Settings.Url + $"tzedakin/api/comentarios_tienda/{idCliente}";
+                HttpResponseMessage respuesta = await client.GetAsync(url);
+                if (respuesta.IsSuccessStatusCode)
+                {
+                    var JsonCategoria = await respuesta.Content.ReadAsStringAsync();
+                    var Cat = JsonConvert.DeserializeObject<ObservableCollection<ComentarioCompra>>(JsonCategoria);
+                    if (Cat.Count > 0)
+                    {
+                        Comentarios = Cat;
+                    }
 
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message.ToString());
+            }
+        }
 
         private async Task Get_Billetera_Vendedor(int id_vendedor)
         {
@@ -491,7 +984,6 @@ namespace Tzedaka.ViewModels
                 cliente = new HttpClient();
                 cliente.Timeout = TimeSpan.FromSeconds(120);
                 var Url = Settings.Url + $"tzedakin/api/billetera_virtual/{Cliente.Id_Cliente}";
-
                 HttpResponseMessage respuesta = await cliente.GetAsync(Url);
                 if (respuesta.IsSuccessStatusCode)
                 {
@@ -501,14 +993,12 @@ namespace Tzedaka.ViewModels
                     {
                         Cliente_Billetera = BilleteraConvert[0];
                     }
-
                 }
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message.ToString());
             }
-
         }
         private async Task Get_Reportes_Billetera()
         {
@@ -541,7 +1031,7 @@ namespace Tzedaka.ViewModels
 
 
 
-        public async Task Actualizar_Billetera_Comprador(int id, float precio)
+        public async Task Actualizar_Billetera_Comprador(int id, float precio, string motivo)
         {
             IsLoading = true;
             try
@@ -561,7 +1051,7 @@ namespace Tzedaka.ViewModels
 
                 if (respuesta.IsSuccessStatusCode)
                 {
-                    await Actualizar_Reporte_Billetera_Comprador(id, precio);
+                    await Actualizar_Reporte_Billetera_Comprador(id, precio, motivo);
                 }
                 else
                 {
@@ -576,31 +1066,34 @@ namespace Tzedaka.ViewModels
 
             IsLoading = false;
         }
+        public async Task<HttpResponseMessage> Actualizar_Reporte_Billetera_Comprador_funcion(int id, float precio, string motivo)
+        {
+            cliente = new HttpClient();
+            cliente.Timeout = TimeSpan.FromSeconds(120);
 
-        public async Task Actualizar_Reporte_Billetera_Comprador(int id, float precio)
+            float NuevoTotal = Billetera_Reporte.total - precio;
+            string Fecha_Compra = DateTime.Now.ToString("yyyy-MM-dd");
+            Reporte_Billetera nuevaCarga = new Reporte_Billetera
+            {
+                fecha = Fecha_Compra,
+                cantidad = precio,
+                total = NuevoTotal,
+                id_cliente = Cliente.Id_Cliente,
+                motivo = "Compra Producto",
+                codigo_producto = id,
+
+            };
+            var json = JsonConvert.SerializeObject(nuevaCarga);
+            var contenido = new StringContent(json, Encoding.UTF8, "application/json");
+            return await cliente.PostAsync(Settings.Url + $"tzedakin/api/reportes_billetera", contenido);
+        }
+        public async Task Actualizar_Reporte_Billetera_Comprador(int id, float precio, string motivo)
         {
             IsLoading = true;
             try
             {
-                cliente = new HttpClient();
-                cliente.Timeout = TimeSpan.FromSeconds(120);
 
-                float NuevoTotal = Billetera_Reporte.total - precio;
-                string Fecha_Compra = DateTime.Now.ToString("yyyy-MM-dd");
-                Reporte_Billetera nuevaCarga = new Reporte_Billetera
-                {
-                    fecha = Fecha_Compra,
-                    cantidad = precio,
-                    total = NuevoTotal,
-                    id_cliente = Cliente.Id_Cliente,
-                    motivo = "Compra Producto",
-                    codigo_producto = id,
-
-                };
-                var json = JsonConvert.SerializeObject(nuevaCarga);
-                var contenido = new StringContent(json, Encoding.UTF8, "application/json");
-                HttpResponseMessage respuesta = await cliente.PostAsync(Settings.Url + $"tzedakin/api/reportes_billetera", contenido);
-
+                HttpResponseMessage respuesta = await Actualizar_Reporte_Billetera_Comprador_funcion(id, precio, motivo);
                 if (respuesta.IsSuccessStatusCode)
                 {
                     Cargar_Billetera();
@@ -758,7 +1251,67 @@ namespace Tzedaka.ViewModels
                 OnPropertyChanged(nameof(IsLoading));
             }
         }
+        public ObservableCollection<Ciudades> Ciudad
+        {
+            get { return Ciudades_; }
+            set
+            {
+                if (Ciudades_ != value)
+                {
+                    Ciudades_ = value;
+                    OnPropertyChanged(nameof(Ciudad));
+                }
+            }
+        }
 
+        public ObservableCollection<Pais> Pais
+        {
+            get { return Pais_; }
+            set
+            {
+                if (Pais_ != value)
+                {
+                    Pais_ = value;
+                    Mostrar_Ciudades();
+                    OnPropertyChanged(nameof(Pais));
+                }
+            }
+        }
+
+        public Pais PaisSeleccionado
+        {
+            get { return PaisSeleccionado_; }
+            set
+            {
+                if (PaisSeleccionado_ != value)
+                {
+                    PaisSeleccionado_ = value;
+                    Mostrar_Ciudades();
+                    OnPropertyChanged(nameof(PaisSeleccionado));
+                }
+            }
+        }
+        public Ciudades CiudadSeleccionada
+        {
+            get { return CiudadSeleccionada_; }
+            set
+            {
+                if (CiudadSeleccionada_ != value)
+                {
+                    CiudadSeleccionada_ = value;
+                    OnPropertyChanged(nameof(CiudadSeleccionada));
+                }
+            }
+        }
+
+        private async void Mostrar_Ciudades()
+        {
+            if (PaisSeleccionado != null)
+            {
+                await Get_Ciudades();
+            }
+
+        }
         public bool IsLoadingRegistro
         {
             get => _isLoadingRegistro;
@@ -768,6 +1321,18 @@ namespace Tzedaka.ViewModels
                 OnPropertyChanged(nameof(IsLoadingRegistro));
             }
 
+        }
+        public ObservableCollection<ComentarioCompra> Comentarios
+        {
+            get { return _comentarios; }
+            set
+            {
+                if (_comentarios != value)
+                {
+                    _comentarios = value;
+                    OnPropertyChanged(nameof(Comentarios));
+                }
+            }
         }
         public bool IsVisible
         {
@@ -794,7 +1359,18 @@ namespace Tzedaka.ViewModels
                 }
             }
         }
-
+        public Tienda miTienda
+        {
+            get { return _tienda; }
+            set
+            {
+                if (_tienda != value)
+                {
+                    _tienda = value;
+                    OnPropertyChanged(nameof(miTienda));
+                }
+            }
+        }
         public Producto SelectItem
         {
             get { return SelectItem_; }
@@ -805,6 +1381,83 @@ namespace Tzedaka.ViewModels
                     SelectItem_ = value;
                     OnPropertyChanged(nameof(SelectItem_));
                 }
+            }
+        }
+        public string ColorProducto
+        {
+            get { return _colorProducto; }
+            set
+            {
+                if (_colorProducto != value)
+                {
+                    _colorProducto = value;
+                    
+                }
+                OnPropertyChanged(nameof(ColorProducto));
+            }
+        }
+        public string ColorLetraProducto
+        {
+            get { return _colorLetraProducto; }
+            set
+            {
+                if (_colorLetraProducto != value)
+                {
+                    _colorLetraProducto = value;
+                    
+                }OnPropertyChanged(nameof(ColorLetraProducto));
+            }
+        }
+        public string ColorFondo
+        {
+            get { return _colorFondo; }
+            set
+            {
+                if (_colorFondo != value)
+                {
+                    _colorFondo = value;
+
+                }
+                OnPropertyChanged(nameof(ColorFondo));
+            }
+        }
+        public string ColorLetraFondo
+        {
+            get { return _colorLetraFondo; }
+            set
+            {
+                if (_colorLetraFondo != value)
+                {
+                    _colorLetraFondo = value;
+                    
+                }
+                OnPropertyChanged(nameof(ColorLetraFondo));
+            }
+        }
+        public string ColorComentario
+        {
+            get { return _colorComentario; }
+            set
+            {
+                if (_colorComentario != value)
+                {
+                    _colorComentario = value;
+
+                }
+                OnPropertyChanged(nameof(ColorComentario));
+            }
+        }
+        public string ColorLetraComentario
+        {
+            get { return _colorLetraComentario; }
+            set
+            {
+                if (_colorLetraComentario != value)
+                {
+                    _colorLetraComentario = value;
+
+                }
+                OnPropertyChanged(nameof(ColorLetraComentario));
             }
         }
 
@@ -875,7 +1528,6 @@ namespace Tzedaka.ViewModels
                 }
             }
         }
-
         public Billetera_Virtual Cliente_Billetera_Vendedor
         {
             get

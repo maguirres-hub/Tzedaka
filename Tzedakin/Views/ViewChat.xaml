@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Tzedaka.ViewModels"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:Class="Tzedaka.Views.ViewChat">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout Margin="10">
+            <CollectionView 
+                      ItemsSource="{Binding Mensajes}"
+                ItemsUpdatingScrollMode="KeepLastItemInView">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid RowDefinitions="auto, auto">
+                            <Grid ColumnDefinitions="40, *">
+                                <Frame CornerRadius="30"
+                                       Grid.Column="1"
+                                       HorizontalOptions="End"
+                                       HasShadow="True"
+                                       Margin="0"
+                                       BackgroundColor="CornflowerBlue"
+                                       Padding="10"
+                                       IsVisible="{Binding propio}"
+                                       >
+                                    <Label Text="{Binding mensaje}"
+                                           Margin="10"
+                                           TextColor="White"
+                                           LineBreakMode="WordWrap" />
+                                </Frame>
+                            </Grid>
+                            <Grid ColumnDefinitions="*, 40"
+                                  Grid.Row="1"
+                                  IsVisible="true">
+                                <!--<Label Text="{Binding UserName}"/>-->
+                                <Frame CornerRadius="30"
+                                       HasShadow="True"
+                                       HorizontalOptions="Start"
+                                       Margin="0"
+                                       BackgroundColor="DarkBlue"
+                                       Padding="10"
+                                       IsVisible="{Binding propio, Converter={StaticResource InvertedBoolConverter}}">
+                                    <Label Text="{Binding mensaje}"
+                                           Margin="10"
+                                           TextColor="White"
+                                           LineBreakMode="WordWrap" />
+                                </Frame>
+                            </Grid>
+                            <!--<Grid RowDefinitions="auto, auto"  >
+                              <Label Text="{Binding UserName}"/>
+                              <Label Text="{Binding Message}"/>
+                          </Grid>-->
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <StackLayout Grid.Row="1"
+                         Orientation="Horizontal">
+                <Entry Text="{Binding textoMensaje}"
+                       HorizontalOptions="FillAndExpand"></Entry>
+                <Button Text="Send"
+                        Command="{Binding AgregarMensajeCommand}" />
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

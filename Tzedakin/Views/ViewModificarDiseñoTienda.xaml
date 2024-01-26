@@ -1,10 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Tzedaka.Views.ViewTiendaCliente"
              xmlns:local="clr-namespace:Tzedaka.ViewModels"
-             x:Name="MyPage"
-             BackgroundColor="White">
+             x:Class="Tzedaka.Views.ViewModificarDiseñoTienda">
     <ContentPage.BindingContext>
         <local:ViewModel_Tienda></local:ViewModel_Tienda>
     </ContentPage.BindingContext>
@@ -12,11 +10,27 @@
         <StackLayout BackgroundColor="{Binding ColorFondo}">
             <ActivityIndicator  IsRunning="{Binding IsLoading}"
                                 IsVisible="{Binding IsLoading}" />
-            <CollectionView ItemsSource="{Binding MISProductos}"
-                            x:Name="listaProductos">
+            <CollectionView x:Name="listaProductos"
+                            ItemsSource="{Binding MISProductos}">
                 <CollectionView.Header>
                     <Grid>
                         <StackLayout>
+                            <StackLayout Orientation="Horizontal"
+                                         Margin="20,5"
+                                         HorizontalOptions="Center">
+                                <StackLayout  Margin="20,0">
+                                    <Label Text="Color de fondo" />
+                                    <Picker SelectedItem="{Binding ColorFondo}"
+                                            ItemsSource="{Binding colores}">
+                                    </Picker>
+                                </StackLayout>
+                                <StackLayout Margin="20,0">
+                                    <Label Text="Color de letra fondo" />
+                                    <Picker SelectedItem="{Binding ColorLetraFondo}"
+                                            ItemsSource="{Binding colores}">
+                                    </Picker>
+                                </StackLayout>
+                            </StackLayout>
                             <StackLayout Orientation="Horizontal"
                                          Margin="0,5">
                                 <Label Text="miTienda"
@@ -47,10 +61,11 @@
                                        Text="{Binding miTienda.telefono}"
                                        Margin="5,0"
                                        FontSize="Subtitle" />
-                                <Label  TextColor="{Binding ColorLetraFondo}"
-                                        HorizontalOptions="EndAndExpand"
-                                        FontSize="Subtitle"
-                                        Margin="5,0">
+                                <Label TextColor="{Binding ColorLetraFondo}"
+                                       HorizontalOptions="EndAndExpand"
+                                       Text="Envios Nacionales"
+                                       FontSize="Subtitle"
+                                       Margin="5,0">
                                     <Label.FormattedText>
                                         <FormattedString>
                                             <Span Text="Envio " />
@@ -65,27 +80,23 @@
                                        Margin="5,0"
                                        FontSize="Subtitle" />
                             </StackLayout>
-                            <StackLayout Orientation="Horizontal">
-                                <Label TextColor="{Binding ColorLetraFondo}"
-                                       Text="{Binding miTienda.Direccion}"
-                                       Margin="5,0"
-                                       FontSize="Subtitle" />
-                                <Label TextColor="{Binding ColorLetraFondo}"
-                                       Margin="5,0"
-                                       FontSize="Subtitle">
-                                    <Label.FormattedText>
-                                        <FormattedString>
-                                            <Span Text="{Binding miTienda.Ciudad}" />
-                                            <Span Text=", " />
-                                            <Span Text="{Binding miTienda.Pais}" />
-                                        </FormattedString>
-                                    </Label.FormattedText>
-                                </Label>
+
+                            <StackLayout Orientation="Horizontal"
+                                         Margin="20,5"
+                                         HorizontalOptions="Center">
+                                <StackLayout Margin="20,0">
+                                    <Label Text="Color de producto" />
+                                    <Picker SelectedItem="{Binding ColorProducto}"
+                                            ItemsSource="{Binding colores}">
+                                    </Picker>
+                                </StackLayout >
+                                <StackLayout Margin="20,0">
+                                    <Label Text="Color de letra producto" />
+                                    <Picker SelectedItem="{Binding ColorLetraProducto}"
+                                            ItemsSource="{Binding colores}">
+                                    </Picker>
+                                </StackLayout>
                             </StackLayout>
-                            <SearchBar Placeholder="Buscar ..."
-                                       x:Name="searchBar"
-                                       TextChanged="searchBar_TextChanged">
-                            </SearchBar>
                         </StackLayout>
                     </Grid>
                 </CollectionView.Header>
@@ -96,20 +107,20 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Grid>
-                            <Frame CornerRadius="12"
-                                   Margin="10"
-                                   BackgroundColor="{Binding Path=BindingContext.ColorProducto,Source={x:Reference listaProductos}}"
-                                   BorderColor="#DCDCE1">
+                            <Frame  CornerRadius="12"
+                                    Margin="10"
+                                    BackgroundColor="{Binding Path=BindingContext.ColorProducto,Source={x:Reference listaProductos}}"
+                                    BorderColor="#DCDCE1">
                                 <StackLayout>
                                     <Image Source="{Binding Imagen_Ubicacion}"
                                            Grid.Row="1">
                                     </Image>
 
                                     <StackLayout  Padding="10">
-                                        <Label FontAttributes="Bold"
-                                               TextColor="{Binding Path=BindingContext.ColorLetraProducto,Source={x:Reference listaProductos}}"
+                                        <Label TextColor="{Binding Path=BindingContext.ColorLetraProducto,Source={x:Reference listaProductos}}"
+                                               FontAttributes="Bold"
                                                Text="{Binding Precio,
-                             StringFormat='{0:c0}'}"
+                     StringFormat='{0:c0}'}"
                                                FontSize="22"
                                                HorizontalOptions="EndAndExpand">
                                         </Label>
@@ -123,22 +134,32 @@
                                                    Text="{Binding Puntuacion, StringFormat='{0:n1}'}" />
                                         </StackLayout>
                                         <StackLayout Orientation="Horizontal">
-                                            <Label TextColor="{Binding Path=BindingContext.ColorLetraProducto,Source={x:Reference listaProductos}}"
-                                                   Text="stock" />
-                                            <Label TextColor="{Binding Path=BindingContext.ColorLetraProducto,Source={x:Reference listaProductos}}"
-                                                   Text="{Binding Stock}" />
+                                            <Label Text="stock" />
+                                            <Label Text="{Binding Stock}" />
                                         </StackLayout>
                                     </StackLayout>
-                                    <StackLayout.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding Path=BindingContext.Btn_Ir_Producto_Compra,Source={x:Reference listaProductos}}"
-                                                              CommandParameter="{Binding .}" />
-                                    </StackLayout.GestureRecognizers>
                                 </StackLayout>
                             </Frame>
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
+            <StackLayout Orientation="Horizontal"
+                         Margin="20,5"
+                         HorizontalOptions="Center">
+                <StackLayout Margin="20,0">
+                    <Label Text="Color de comentario" />
+                    <Picker SelectedItem="{Binding ColorComentario}"
+                            ItemsSource="{Binding colores}">
+                    </Picker>
+                </StackLayout>
+                <StackLayout Margin="20,0">
+                    <Label Text="Color de letra comentario" />
+                    <Picker SelectedItem="{Binding ColorLetraComentario}"
+                            ItemsSource="{Binding colores}">
+                    </Picker>
+                </StackLayout>
+            </StackLayout>
             <StackLayout>
                 <Label Text="Comentarios"
                        FontAttributes="Bold"
@@ -157,20 +178,21 @@
                                        BorderColor="#DCDCE1">
                                     <StackLayout>
                                         <StackLayout Orientation="Horizontal">
-                                            <Label TextColor="{Binding Path=BindingContext.ColorLetraComentario,Source={x:Reference listaComentarios}}"
-                                                   Text="{Binding nombreCliente}" />
-                                            <Label TextColor="{Binding Path=BindingContext.ColorLetraComentario,Source={x:Reference listaComentarios}}"
-                                                   HorizontalOptions="EndAndExpand"
-                                                   Text="{Binding fecha,StringFormat='{0:dd/MM/yyyy}'}" />
+                                            <Label  TextColor="{Binding Path=BindingContext.ColorLetraComentario,Source={x:Reference listaComentarios}}"
+                                                    Text="{Binding nombreCliente}" />
+                                            <Label  TextColor="{Binding Path=BindingContext.ColorLetraComentario,Source={x:Reference listaComentarios}}"
+                                                    HorizontalOptions="EndAndExpand"
+                                                    Text="{Binding fecha,StringFormat='{0:dd/MM/yyyy}'}" />
                                         </StackLayout>
                                         <StackLayout Orientation="Horizontal"
                                                      HorizontalOptions="EndAndExpand">
                                             <Image Source="estrella"
                                                    HeightRequest="15" />
-                                            <Label TextColor="{Binding Path=BindingContext.ColorLetraComentario,Source={x:Reference listaComentarios}}"
-                                                   Text="{Binding puntuacion, StringFormat='{0:n1}'}" />
+                                            <Label  TextColor="{Binding Path=BindingContext.ColorLetraComentario,Source={x:Reference listaComentarios}}"
+                                                    Text="{Binding puntuacion, StringFormat='{0:n1}'}" />
                                         </StackLayout>
-                                        <Label Text="{Binding texto}" />
+                                        <Label  TextColor="{Binding Path=BindingContext.ColorLetraComentario,Source={x:Reference listaComentarios}}"
+                                                Text="{Binding texto}" />
                                     </StackLayout>
                                 </Frame>
                             </StackLayout>
@@ -178,6 +200,9 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </StackLayout>
+            <Button Text="Guardar Cambios"
+                    BackgroundColor="#B8D0E2"
+                    Command="{Binding GuardarDiseñoTiendaCommand}" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

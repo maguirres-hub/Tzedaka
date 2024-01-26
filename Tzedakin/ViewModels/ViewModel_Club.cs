@@ -306,6 +306,7 @@ namespace Tzedaka.ViewModels
             }
             catch (Exception ex)
             {
+                await Application.Current.MainPage.DisplayAlert("Error", "Ocurrio un error procesando la solicitud", "Ok");
                 Debug.WriteLine(ex.Message.ToString());
             }
 

@@ -8,10 +8,10 @@ app = express();
 app.use(express.json());
 function conectar() {
     const con = mysql.createConnection({
-        host: "localhost",
-        user: "root",
-        password: "password",
-        database: "tzedakin"
+        host: "127.0.0.1",
+        user: "tzedgvuf_root",
+        password: "Contraseña1",
+        database: "tzedgvuf_tzedakin"
     });
     return con;
 }
@@ -885,8 +885,8 @@ app.put('/tzedakin/api/billetera_virtual/:id', (req, res) => {
         if (err) {
             res.send(err);
         } else {
-            let param = [req.body.total, req.params.id];
-            con.query("update billetera_virtual set total = ? where id_cliente = ?", param, function (err, result) {
+            let param = [req.body.total,req.body.creditos,req.params.id];
+            con.query("update billetera_virtual set total = ? , creditos = ? where id_cliente = ?", param, function (err, result) {
                 if (err) {
                     res.send(err);
                 } else {
@@ -1904,7 +1904,10 @@ app.get('/tzedakin/api/productos/', (req, res) => {
         if (err) {
             res.send(err);
         } else {
-            con.query("select * from productos", function (err, result) {
+            con.query("select p.*,t.tipo_envio,ci.id_pais from productos p"
+            +" inner join tienda t on  p.id_cliente=t.id_cliente"
+            +" inner join ciudades ci on ci.id_ciudad = t.id_ciudad "
+            , function (err, result) {
                 if (err) {
                     res.send(err);
                 } else {
@@ -1980,8 +1983,8 @@ app.post('/tzedakin/api/productos/', (req, res) => {
         if (err) {
             res.send(err);
         } else {
-            let param = [req.body.nombre, req.body.descripcion, req.body.precio, req.body.id_categoria, req.body.id_estado, req.body.img_blob, req.body.id_cliente];
-            con.query("insert into productos (nombre, descripcion,  precio, id_categoria, id_estado, img_blob, id_cliente) values (?)", [param], function (err, result) {
+            let param = [req.body.nombre, req.body.descripcion, req.body.precio, req.body.id_categoria, req.body.id_estado, req.body.img_blob, req.body.id_cliente,req.body.peso,req.body.stock,req.body.alto,req.body.ancho,req.body.profundo];
+            con.query("insert into productos (nombre, descripcion,  precio, id_categoria, id_estado, img_blob, id_cliente,peso,stock,alto,ancho,profundo) values (?)", [param], function (err, result) {
                 if (err) {
                     res.send(err);
                 } else {
@@ -2012,7 +2015,25 @@ app.put('/tzedakin/api/productos/:id', (req, res) => {
         }
     });
 });
+app.put('/tzedakin/api/productos_stock/', (req, res) => {
+    const con = conectar();
+    con.connect((err) => {
+        if (err) {
+            res.send(err);
+        } else {
+            let param = [req.body.stock,req.body.id_producto];
+            con.query("update productos set stock = ? where id_producto = ?", param, function (err, result) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    res.send(result);
+                }
+                con.end();
+            });
 
+        }
+    });
+});
 app.put('/tzedakin/api/producto_autorizacion/:id', (req, res) => {
     const con = conectar();
     con.connect((err) => {
@@ -2393,7 +2414,287 @@ app.delete('/tzedakin/api/solicitudes/:id', (req, res) => {
         }
     });
 });
+// --------------------------------- compras transacciones ------------------------------------------
+app.post('/tzedakin/api/compras_transacciones/', (req, res) => {
+    const con = conectar();
+    con.connect((err) => {
+        if (err) {
+            res.send(err);
+        } else {
+            let param = [req.body.idComprador, req.body.idVendedor, req.body.cantidad, req.body.precio, req.body.fecha, req.body.idProducto,1];
+            con.query("INSERT INTO compras_transacciones(id_comprador,id_vendedor,cantidad, precio,fecha,id_producto,id_estado)values (?)", [param], function (err, result) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    res.send(result);
+                }
+                con.end();
+            });
 
+        }
+    });
+});
+app.get('/tzedakin/api/productos_comprados/:id', (req, res) => {
+    const con = conectar();
+    con.connect((err) => {
+        if (err) {
+            res.send(err);
+        } else {
+            con.query("select pr.id_producto,pr.nombre as 'nombre_producto',ec.id as 'id_estado',ec.descripcion as 'estado',t.nombre as 'nombre_tienda'"
+          +" ,t.direccion,c.ciudad,p.pais,pr.precio,pr.img_blob,cl.id_cliente,t.id as 'id_tienda',ct.fecha,ct.id as 'id_compra'"
+          +" from compras_transacciones ct"
+          +" inner join productos pr on ct.id_producto = pr.id_producto"
+          +" inner join clientes cl on cl.id_cliente = ct.id_vendedor"
+          +" inner join ciudades c on c.id_ciudad = cl.id_ciudad"
+          +" inner join paises p on p.id_pais = c.id_pais"
+          +" inner join estado_compra ec on ct.id_estado = ec.id"
+          +" inner join tienda t on t.id_cliente = cl.id_cliente"
+            +" where ct.id_comprador = ?", req.params.id, function (err, result) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    res.send(result);
+                }
+                con.end();
+            });
+
+        }
+    });
+});
+app.get('/tzedakin/api/productos_vendidos/:id', (req, res) => {
+    const con = conectar();
+    con.connect((err) => {
+        if (err) {
+            res.send(err);
+        } else {
+            con.query("select pr.id_producto,pr.nombre as 'nombre_producto',ec.id as 'id_estado',ec.descripcion as 'estado',cl.nombres as 'nombre_tienda'"
+          +" ,cl.direccion,c.ciudad,p.pais,pr.precio,pr.img_blob,cl.id_cliente,ct.fecha, ct.id as 'id_compra'"
+          +" from compras_transacciones ct"
+          +" inner join productos pr on ct.id_producto = pr.id_producto"
+          +" inner join clientes cl on cl.id_cliente = ct.id_comprador "
+          +" inner join ciudades c on c.id_ciudad = cl.id_ciudad"
+          +" inner join paises p on p.id_pais = c.id_pais"
+          +" inner join estado_compra ec on ct.id_estado = ec.id"
+            +" where ct.id_vendedor = ?", req.params.id, function (err, result) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    res.send(result);
+                }
+                con.end();
+            });
+
+        }
+    });
+});
+// --------------------------------- comentarios ------------------------------------------
+app.post('/tzedakin/api/comentarios_compra/', (req, res) => {
+    const con = conectar();
+    con.connect((err) => {
+        if (err) {
+            res.send(err);
+        } else {
+            let param = [req.body.idCliente, req.body.idProducto, req.body.idTienda, req.body.fecha, req.body.puntuacion, req.body.texto];
+            con.query("INSERT INTO comentarios_compra(id_cliente,id_producto,id_tienda,fecha,puntuacion,texto)values (?)", [param], function (err, result) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    res.send(result);
+                }
+                con.end();
+            });
+
+        }
+    });
+});
+app.get('/tzedakin/api/comentarios_producto/:id', (req, res) => {
+    const con = conectar();
+    con.connect((err) => {
+        if (err) {
+            res.send(err);
+        } else {
+            con.query("select fecha,puntuacion,nombres as 'nombreCliente',texto"
+          +" from comentarios_compra cc"
+          +" inner join clientes cl on cl.id_cliente = cc.id_cliente"
+            +" where cc.id_producto= ? order by fecha desc", req.params.id, function (err, result) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    res.send(result);
+                }
+                con.end();
+            });
+
+        }
+    });
+});app.get('/tzedakin/api/comentarios_tienda/:id', (req, res) => {
+    const con = conectar();
+    con.connect((err) => {
+        if (err) {
+            res.send(err);
+        } else {
+            con.query("select fecha,cc.puntuacion,nombres as 'nombreCliente',texto"
+          +" from comentarios_compra cc"
+          +" inner join clientes cl on cl.id_cliente = cc.id_cliente"
+          +" inner join tienda t on t.id = cc.id_tienda"
+            +" where t.id_cliente= ? order by fecha desc", req.params.id, function (err, result) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    res.send(result);
+                }
+                con.end();
+            });
+
+        }
+    });
+});
+
+//--------------------------chat----------------------
+app.get('/tzedakin/api/mensajes/:id', (req, res) => {
+    const con = conectar();
+    con.connect((err) => {
+        if (err) {
+            res.send(err);
+        } else {
+            con.query("select mc.* from mensaje_chat mc"
+            +" inner join compras_transacciones ct on mc.id_compra = ct.id"
+            +" where ct.id = ? order by fecha", req.params.id, function (err, result) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    res.send(result);
+                }
+                con.end();
+            });
+
+        }
+    });
+});
+app.post('/tzedakin/api/mensajes/', (req, res) => {
+    const con = conectar();
+    con.connect((err) => {
+        if (err) {
+            res.send(err);
+        } else {
+            let param = [req.body.id_compra, req.body.fecha, req.body.mensaje, req.body.id_usuario];
+            con.query("INSERT INTO mensaje_chat(id_compra,fecha,mensaje,id_usuario)values (?)", [param], function (err, result) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    res.send(result);
+                }
+                con.end();
+            });
+
+        }
+    });
+});
+//----------------------------------------------Tienda------------------------------------
+app.get('/tzedakin/api/tienda/:id', (req, res) => {
+    const con = conectar();
+    con.connect((err) => {
+        if (err) {
+            res.send(err);
+        } else {
+            con.query("select t.id,t.nombre,t.direccion,ci.ciudad,pa.pais,t.tipo_envio, t.id_cliente,t.puntuacion, t.correo, t.telefono,pa.id_pais,t.id_ciudad,t.subscrito, "
+            +"t.color_fondo, t.color_letra_fondo, t.color_producto, t.color_letra_producto, t.color_comentario,t.color_letra_comentario from tienda t "
+            +"inner join ciudades ci on t.id_ciudad = ci.id_ciudad "
+            +"inner join paises pa on pa.id_pais = ci.id_pais "
+            +"where t.id_cliente = ?", req.params.id, function (err, result) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    res.send(result);
+                }
+                con.end();
+            });
+
+        }
+    });
+});
+app.post('/tzedakin/api/tienda/', (req, res) => {
+    const con = conectar();
+    con.connect((err) => {
+        if (err) {
+            res.send(err);
+        } else {
+            let param = [req.body.nombre, req.body.direccion, req.body.id_ciudad, req.body.tipo_envio, req.body.id_cliente, req.body.puntuacion, req.body.correo, req.body.telefono];
+            con.query("INSERT INTO tienda(nombre,direccion,id_ciudad,tipo_envio,id_cliente,puntuacion,correo,telefono)values (?)", [param], function (err, result) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    res.send(result);
+                }
+                con.end();
+            });
+
+        }
+    });
+});
+app.put('/tzedakin/api/tienda/', (req, res) => {
+    const con = conectar();
+
+    con.connect((err) => {
+        if (err) {
+            res.send(err);
+        } else {
+            let param = [req.body.nombre, req.body.direccion, req.body.id_ciudad, req.body.tipo_envio, req.body.id_cliente, req.body.puntuacion, req.body.correo, req.body.telefono,req.body.id];
+            con.query("update tienda set nombre = ?, direccion = ?, id_ciudad = ?, tipo_envio = ?, id_cliente = ?, puntuacion = ?, correo = ?, telefono = ? where id = ?", param, function (err, result) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    res.send(result);
+
+                }
+                con.end();
+            });
+
+        }
+    });
+});
+app.put('/tzedakin/api/tienda_diseno/', (req, res) => {
+    const con = conectar();
+
+    con.connect((err) => {
+        if (err) {
+            res.send(err);
+        } else {
+            let param = [req.body.color_fondo, req.body.color_letra_fondo, req.body.color_producto, req.body.color_letra_producto, req.body.color_comentario, req.body.color_letra_comentario,req.body.id];
+            con.query("update tienda set color_fondo = ?,color_letra_fondo = ?,color_producto = ?,color_letra_producto = ?,color_comentario = ?,color_letra_comentario = ? where id = ?", param, function (err, result) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    res.send(result);
+
+                }
+                con.end();
+            });
+
+        }
+    });
+});
+app.put('/tzedakin/api/tienda_subscripcion/', (req, res) => {
+    const con = conectar();
+
+    con.connect((err) => {
+        if (err) {
+            res.send(err);
+        } else {
+            let param = [req.body.id];
+            con.query("update tienda set subscrito = 1 where id = ?", param, function (err, result) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    res.send(result);
+
+                }
+                con.end();
+            });
+
+        }
+    });
+});
 app.set('port',8545);
 
 app.listen(app.get('port'),()=>{

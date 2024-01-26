@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Tzedaka.ViewModels"
+             x:Class="Tzedaka.Views.ViewMisVentas">
+    <ContentPage.BindingContext>
+        <local:VMMisVentas></local:VMMisVentas>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <StackLayout BackgroundColor="#EFEFEC">
+            <Label Text="Mis Ventas"
+                   HorizontalOptions="CenterAndExpand"
+                   FontAttributes="Bold"
+                   VerticalOptions="Center"
+                   FontSize="20"
+                   Margin="10" />
+            <CollectionView ItemsSource="{Binding Compras_}"
+                            x:Name="listaProductos">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout>
+                            <Frame CornerRadius="12"
+                                   HasShadow="false"
+                                   Margin="10">
+                                <StackLayout Orientation="Horizontal">
+                                    <Frame Padding="5"
+                                           HeightRequest="100"
+                                           WidthRequest="80"
+                                           VerticalOptions="Center">
+                                        <Image Source="{Binding Imagen_Ubicacion}"
+                                               VerticalOptions="Fill">
+                                        </Image>
+                                    </Frame>
+                                    <StackLayout  Padding="10">
+                                        <Label FontAttributes="Bold"
+                                               TextColor="{Binding colorTextoEstado}"
+                                               Text="{Binding Estado}"
+                                               FontSize="22"
+                                               HorizontalOptions="Center">
+                                        </Label>
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="Cliente"
+                                                   FontAttributes="Bold" />
+                                            <Label Text="{Binding NombreTienda}"
+                                                   FontAttributes="Bold" />
+                                        </StackLayout>
+
+                                        <Label Text="{Binding Direccion}" />
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="{Binding Ciudad}"
+                                                   FontAttributes="Bold" />
+                                            <Label Text="{Binding Pais}"
+                                                   FontAttributes="Bold" />
+                                        </StackLayout>
+                                        <StackLayout Orientation="Horizontal">
+                                            <Frame Padding="5"
+                                                   WidthRequest="40"
+                                                   VerticalOptions="Center"
+                                                   HasShadow="false">
+                                                <Image Source="chat">
+                                                </Image>
+                                                <Frame.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.IrChatCommand,Source={x:Reference listaProductos}}"
+                                                                          CommandParameter="{Binding .}" />
+                                                </Frame.GestureRecognizers>
+                                            </Frame>
+                                        </StackLayout>
+                                    </StackLayout>
+                                </StackLayout>
+                            </Frame>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

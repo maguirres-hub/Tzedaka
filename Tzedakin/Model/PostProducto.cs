@@ -22,5 +22,18 @@ namespace Tzedaka.Model
 
         [JsonProperty("id_cliente")]
         public int Id_Cliente { get; set; }
+        [JsonProperty("stock")]
+        public int Stock { get; set; }
+        [JsonProperty("peso")]
+        public float Peso { get; set; }
+        [JsonProperty("puntuacion")]
+        public float Puntuacion { get; set; }
+        [JsonProperty("alto")]
+        public float alto { get; set; }
+        [JsonProperty("ancho")]
+        public float ancho { get; set; }
+        [JsonProperty("profundo")]
+        public float profundo { get; set; }
+
     }
 }

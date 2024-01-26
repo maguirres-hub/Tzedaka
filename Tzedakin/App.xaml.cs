@@ -1,4 +1,5 @@
 ﻿using Tzedaka.Views;
+using Tzedaka.Views;
 using Xamarin.Forms;
 
 namespace Tzedaka

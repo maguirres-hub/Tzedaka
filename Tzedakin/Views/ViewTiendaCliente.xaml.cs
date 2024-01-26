@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
-
+using Tzedaka.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -18,16 +18,17 @@ namespace Tzedaka.Views
         {
             InitializeComponent();
         }
-
-        async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
+        private void searchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (e.Item == null)
-                return;
-
-            await DisplayAlert("Item Tapped", "An item was tapped.", "OK");
-
-            //Deselect Item
-            ((ListView)sender).SelectedItem = null;
+            var _container = BindingContext as ViewModel_Tienda;
+            if (string.IsNullOrEmpty(e.NewTextValue))
+            {
+                listaProductos.ItemsSource = _container.MISProductos;
+            }
+            else
+            {
+                listaProductos.ItemsSource = _container.MISProductos.Where(p => p.Nombre.Contains(e.NewTextValue)).ToList();
+            }
         }
     }
 }

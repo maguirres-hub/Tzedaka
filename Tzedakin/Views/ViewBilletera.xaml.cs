@@ -1,4 +1,5 @@
 ﻿using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 using Xamarin.Forms.Xaml;
 
 namespace Tzedaka.Views
@@ -10,7 +11,6 @@ namespace Tzedaka.Views
         {
             InitializeComponent();
             //BindingContext = new ViewModel_Billetera();
-
         }
     }
 }

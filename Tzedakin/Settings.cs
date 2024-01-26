@@ -7,7 +7,7 @@ namespace Tzedaka
 
     public static class Settings
     {
-        private const string _url = "http://192.168.0.104:8545/";
+        private const string _url = "https://tzedakamobile.pw/";
         public static string Url
         {
             get

@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Tzedaka.ViewModels"
+             x:Class="Tzedaka.Views.ViewAgregarTienda">
+    <ContentPage.BindingContext>
+        <local:ViewModel_Tienda></local:ViewModel_Tienda>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout>
+                <Label VerticalTextAlignment="Center"
+                       HorizontalTextAlignment="Center"
+                       TextColor="Black"
+                       FontAttributes="Bold"
+                       FontSize="Title"
+                       Text="Registro Tienda"
+                       Margin="0, 0, 0, 35" />
+                <Frame CornerRadius="15"
+                       Margin="50, 5, 50, 5"
+                       HasShadow="True"
+                       BorderColor="#2196F3"
+                       Padding="10">
+                    <Entry Placeholder="Escriba el nombre de la tienda"
+                           PlaceholderColor="Black"
+                           FontFamily="loravariablefontwght"
+                           Text="{Binding miTienda.nombre}"
+                           TextColor="Black" />
+                </Frame>
+                <Frame CornerRadius="15"
+                       Margin="50, 5, 50, 5"
+                       HasShadow="True"
+                       BorderColor="#2196F3"
+                       Padding="10">
+                    <Entry Placeholder="Escriba la dirección de la tienda"
+                           PlaceholderColor="Black"
+                           FontFamily="loravariablefontwght"
+                           Text="{Binding miTienda.Direccion}"
+                           TextColor="Black" />
+                </Frame>
+                <Frame CornerRadius="15"
+                       Margin="50, 5, 50, 5"
+                       BorderColor="#2196F3"
+                       Padding="10">
+                    <Picker  VerticalTextAlignment="Start"
+                             HorizontalTextAlignment="Start"
+                             Title="Seleccione el pais"
+                             TitleColor="Black"
+                             ItemsSource="{Binding Pais}"
+                             ItemDisplayBinding="{Binding Nombre_Pais}"
+                             SelectedItem="{Binding PaisSeleccionado}"
+                             TextColor="black"
+                             IsVisible="true" />
+                </Frame>
+                <Frame CornerRadius="15"
+                       Margin="50, 5, 50, 5"
+                       BorderColor="#2196F3"
+                       Padding="10">
+                    <Picker  VerticalTextAlignment="Start"
+                             HorizontalTextAlignment="Start"
+                             Title="Seleccione la ciudad"
+                             TitleColor="Black"
+                             ItemsSource="{Binding Ciudad}"
+                             ItemDisplayBinding="{Binding Ciudad}"
+                             SelectedItem="{Binding CiudadSeleccionada}"
+                             TextColor="Black"
+                             IsVisible="true" />
+                </Frame>
+                <Frame CornerRadius="15"
+                       Margin="50, 5, 50, 5"
+                       BorderColor="#2196F3"
+                       Padding="10">
+                    <Picker x:Name="picker"
+                            Title="Seleccione el tipo de envio"
+                            TitleColor="Black"
+                            TextColor="Black"
+                            SelectedItem="{Binding miTienda.tipoEnvio}">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>Internacional</x:String>
+                                <x:String>Nacional</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+                </Frame>
+                <Frame CornerRadius="15"
+                       Margin="50, 5, 50, 5"
+                       HasShadow="True"
+                       BorderColor="#2196F3"
+                       Padding="10">
+                    <Entry Placeholder="Escriba el correo de la tienda"
+                           PlaceholderColor="Black"
+                           FontFamily="loravariablefontwght"
+                           Text="{Binding miTienda.correo}"
+                           TextColor="Black" />
+                </Frame>
+                <Frame CornerRadius="15"
+                       Margin="50, 5, 50, 5"
+                       HasShadow="True"
+                       BorderColor="#2196F3"
+                       Padding="10">
+                    <Entry Placeholder="Escriba el telefono de la tienda"
+                           PlaceholderColor="Black"
+                           FontFamily="loravariablefontwght"
+                           Text="{Binding miTienda.telefono}"
+                           TextColor="Black" />
+                </Frame>
+
+                <Frame Margin="45,5,45,5"
+                       Padding="0"
+                       CornerRadius="10"
+                       BorderColor="#2296F3">
+                    <Button Text="Registrar"
+                            BackgroundColor="Red"
+                            TextColor="White"
+                            Command="{Binding Btn_Agregar_Tienda}" />
+                </Frame>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

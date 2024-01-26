@@ -3,70 +3,205 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Tzedaka.Views.ViewCarrito" 
              xmlns:local="clr-namespace:Tzedaka.ViewModels"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              x:Name="MyPage" BackgroundColor="White">
     <ContentPage.BindingContext>
         <local:ViewModel_Tienda></local:ViewModel_Tienda>
     </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <xct:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
-            <Button Text="Agregar Producto" Command="{Binding Btn_Ir_Agregar_Producto}" BackgroundColor="Green" TextColor="White"   Margin="10, 1, 4, 0" CornerRadius="5" Grid.Row="0" Grid.Column="0"/>
-            <Frame CornerRadius="5" Padding="0"  BackgroundColor="Transparent"   Grid.Row="0" Grid.Column="1"  Margin="20, 5, 10, 0" >
-                <ImageButton Source="recargar"  BackgroundColor="#2196F3" HeightRequest="10" WidthRequest="40"  Command="{Binding  Btn_Cargar_Mis_Productos}"/>
-            </Frame>
-            <StackLayout  Grid.Row="2" Grid.ColumnSpan="2">
-                <Frame Grid.ColumnSpan="2" Padding="0"  HasShadow="True" >
-                    <Label Text="Mis Productos" FontSize="Large" TextColor="#2196F3" FontAttributes="Bold" Margin="10" HorizontalTextAlignment="Center" Grid.Row="1" Grid.ColumnSpan="2"/>
-                </Frame>
-                <ActivityIndicator  IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" />
-                <ScrollView>
-                    <ListView ItemsSource="{Binding MISProductos}"
-                             SelectedItem="{Binding SelectItem}"
-                      Grid.Row="2"
-                      Grid.ColumnSpan="2"
-                      SeparatorColor="Black"
-                      HasUnevenRows="True"
-                      Margin="0"
-                      >
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <ViewCell>
-                                    <StackLayout Padding="10">
-
-                                        <Frame CornerRadius="5" BorderColor="black" Margin="15, 15, 0, 0" >
-                                            <Image Source="{Binding Imagen_Ubicacion}" WidthRequest="300" HeightRequest="250"/>
-                                        </Frame>
-                                        <Label Text="{Binding Nombre}"  Grid.Row="1"  FontAttributes="Bold" HorizontalTextAlignment="Center" FontSize="Subtitle" TextColor="Black"/>
-                                        <Label Text="Descripcion:" Grid.Row="2" TextColor="Black" FontSize="Subtitle" FontAttributes="Bold"/>
-                                        <Label Text="{Binding Descripcion}"  Grid.Row="3" TextColor="#2196F3"/>
-                                        <Label Text="Estado Actual:"  Grid.Row="4" TextColor="Black" FontSize="Subtitle" FontAttributes="Bold"/>
-                                        <Label Text="{Binding Estado}"   Grid.Row="5" TextColor="#2196F3"/>
-                                        <Label FontAttributes="Bold"
-                                       HorizontalOptions="EndAndExpand" Grid.Row="6" >
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <Span TextColor="Green" FontAttributes="Bold" Text="Precio: "/>
-                                                    <Span TextColor="Green" Text="{Binding Precio, StringFormat='{0:C}'}"/>
-                                                </FormattedString>
-                                            </Label.FormattedText>
-                                        </Label>
-                                        <Button Text="Eliminar" Grid.Row="7" BackgroundColor="Red" HeightRequest="50" TextColor="White" Command="{Binding BindingContext.Btn_Eliminar, Source={x:Reference MyPage}}" CommandParameter="{Binding .}"/>
-
+            <ActivityIndicator  IsRunning="{Binding IsLoading}"
+                                IsVisible="{Binding IsLoading}" />
+            <CollectionView ItemsSource="{Binding MISProductos}"
+                            x:Name="listaProductos">
+                <CollectionView.Header>
+                    <StackLayout>
+                        <StackLayout IsVisible="{Binding miTienda.tieneTienda}">
+                            <StackLayout Orientation="Horizontal"
+                                         Margin="0,5">
+                                <Label Text="Tienda"
+                                       HorizontalOptions="CenterAndExpand"
+                                       FontAttributes="Bold"
+                                       VerticalOptions="Center"
+                                       FontSize="Title" />
+                                <Frame CornerRadius="5"
+                                       Padding="0"
+                                       BackgroundColor="Transparent">
+                                    <ImageButton Source="recargar"
+                                                 BackgroundColor="Transparent"
+                                                 HeightRequest="22"
+                                                 WidthRequest="22"
+                                                 Command="{Binding Btn_Cargar_Mis_Productos}" />
+                                </Frame>
+                            </StackLayout>
+                            <StackLayout Orientation="Horizontal">
+                                <Frame CornerRadius="5"
+                                       HasShadow="False"
+                                       BackgroundColor="#B8D0E2"
+                                       Padding="14"
+                                       HorizontalOptions="Center"
+                                       Margin="5,0,0,0">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="Agregar Producto"
+                                               FontAttributes="Bold"
+                                               HorizontalOptions="Center" />
+                                        <StackLayout.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Btn_Ir_Agregar_Producto}" />
+                                        </StackLayout.GestureRecognizers>
                                     </StackLayout>
+                                </Frame>
+                                <Frame CornerRadius="5"
+                                       HasShadow="False"
+                                       BackgroundColor="#B8D0E2"
+                                       Padding="14">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="Mis ventas"
+                                               FontAttributes="Bold" />
+                                        <StackLayout.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Btn_Ir_Mis_Ventas}" />
+                                        </StackLayout.GestureRecognizers>
+                                    </StackLayout>
+                                </Frame>
+                                <Frame CornerRadius="5"
+                                       HasShadow="False"
+                                       BackgroundColor="#B8D0E2"
+                                       Padding="14">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="Modificar tienda"
+                                               FontAttributes="Bold" />
+                                        <StackLayout.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Btn_Ir_Agregar_Tienda}" />
+                                        </StackLayout.GestureRecognizers>
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+                            <StackLayout Orientation="Horizontal">
+                                <Frame CornerRadius="5"
+                                       HasShadow="False"
+                                       BackgroundColor="#B8D0E2"
+                                       Padding="14"
+                                       HorizontalOptions="Center"
+                                       Margin="5,0,0,0"
+                                       IsVisible="{Binding miTienda.estaSubscrito,Converter={StaticResource InvertedBoolConverter}}">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="Ampliar subscripcion"
+                                               FontAttributes="Bold"
+                                               HorizontalOptions="Center" />
+                                        <StackLayout.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Btn_ComprarSubscripcion}" />
+                                        </StackLayout.GestureRecognizers>
+                                    </StackLayout>
+                                </Frame>
+                                <Frame CornerRadius="5"
+                                       HasShadow="False"
+                                       BackgroundColor="#B8D0E2"
+                                       Padding="14"
+                                       HorizontalOptions="Center"
+                                       Margin="5,0,0,0"
+                                       IsVisible="{Binding miTienda.estaSubscrito}">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="Modificar Diseño"
+                                               FontAttributes="Bold"
+                                               HorizontalOptions="Center" />
+                                        <StackLayout.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Btn_ir_modificarDiseñoTienda}" />
+                                        </StackLayout.GestureRecognizers>
+                                    </StackLayout>
+                                </Frame>
+                                <StackLayout  Orientation="Horizontal"
+                                              VerticalOptions="Center"
+                                              HorizontalOptions="EndAndExpand"
+                                              Margin="5,0">
+                                    <Image Source="estrella"
+                                           HeightRequest="15" />
+                                    <Label Text="{Binding miTienda.puntuacion}" />
+                                </StackLayout>
+                            </StackLayout>
+                        </StackLayout>
+                        <StackLayout>
+                            <StackLayout Orientation="Horizontal"
+                                         HorizontalOptions="CenterAndExpand"
+                                         IsVisible="{Binding miTienda.tieneTienda,Converter={StaticResource InvertedBoolConverter}}">
+                                <Frame CornerRadius="5"
+                                       HasShadow="False"
+                                       BackgroundColor="#B8D0E2"
+                                       Padding="14"
+                                       HorizontalOptions="Center"
+                                       Margin="10">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="Abrir Tienda"
+                                               FontAttributes="Bold"
+                                               HorizontalOptions="Center" />
+                                        <StackLayout.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Btn_Ir_Agregar_Tienda}" />
+                                        </StackLayout.GestureRecognizers>
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+                        </StackLayout>
+                    </StackLayout>
+                </CollectionView.Header>
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Span="2"
+                                     Orientation="Vertical" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Frame CornerRadius="12"
+                                   Margin="10"
+                                   BackgroundColor="#F5F5FA"
+                                   BorderColor="#DCDCE1">
+                                <StackLayout>
+                                    <Button Text="Eliminar"
+                                            Grid.Row="7"
+                                            BackgroundColor="Red"
+                                            HeightRequest="50"
+                                            TextColor="White"
+                                            Command="{Binding BindingContext.Btn_Eliminar, Source={x:Reference MyPage}}"
+                                            CommandParameter="{Binding .}" />
 
-                                </ViewCell>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </ScrollView>
-            </StackLayout>
+                                    <Image Source="{Binding Imagen_Ubicacion}"
+                                           Grid.Row="1">
+                                    </Image>
+
+                                    <StackLayout  Padding="10">
+                                        <Label FontAttributes="Bold"
+                                               TextColor="Black"
+                                               Text="{Binding Precio,
+                                    StringFormat='{0:c0}'}"
+                                               FontSize="22"
+                                               HorizontalOptions="EndAndExpand">
+                                        </Label>
+                                        <Label Text="{Binding Nombre}"
+                                               FontSize="18"
+                                               TextColor="Black" />
+                                        <StackLayout Orientation="Horizontal">
+                                            <Image Source="estrella"
+                                                   HeightRequest="15" />
+                                            <Label Text="{Binding Puntuacion}" />
+                                        </StackLayout>
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="stock" />
+                                            <Label Text="{Binding Stock}" />
+                                        </StackLayout>
+                                    </StackLayout>
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Path=BindingContext.Btn_Ir_Producto_Compra,Source={x:Reference listaProductos}}"
+                                                              CommandParameter="{Binding .}" />
+                                    </StackLayout.GestureRecognizers>
+                                </StackLayout>
+
+                            </Frame>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Tzedaka.ViewModels"
+             x:Class="Tzedaka.Views.ViewReseñaCompra">
+    <ContentPage.BindingContext>
+        <local:VMMisCompras></local:VMMisCompras>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout Padding="10"
+                         HorizontalOptions="Center"
+                         VerticalOptions="CenterAndExpand">
+                <Label Text="¿Como calificas la atencion de la tienda?" />
+                <StackLayout Orientation="Horizontal">
+                    <StackLayout>
+                        <RadioButton Content=""
+                                     Value="1"
+                                     GroupName="CalificacionTienda"
+                                     CheckedChanged="CambiarPuntuacionTienda"
+                                     />
+                        <Label Text="Malo" />
+                    </StackLayout>
+                    <StackLayout>
+                        <RadioButton Content=""
+                                     Value="2"
+                                     GroupName="CalificacionTienda"
+                                     CheckedChanged="CambiarPuntuacionTienda" />
+                    </StackLayout>
+                    <StackLayout>
+                        <RadioButton Content=""
+                                     Value="3"
+                                     GroupName="CalificacionTienda"
+                                     CheckedChanged="CambiarPuntuacionTienda"/>
+                    </StackLayout>
+                    <StackLayout>
+                        <RadioButton Content=""
+                                     Value="4"
+                                     GroupName="CalificacionTienda"
+                                     CheckedChanged="CambiarPuntuacionTienda" />
+                    </StackLayout>
+                    <StackLayout>
+                        <RadioButton Content=""
+                                     Value="5"
+                                     GroupName="CalificacionTienda"
+                                     CheckedChanged="CambiarPuntuacionTienda"/>
+                        <Label Text="Excelente" />
+                    </StackLayout>
+                </StackLayout>
+                <Label Text="Escribe tu opinion de la tienda"
+                       Margin="0,20,0,0" />
+                <Editor Placeholder="¿Que te agradó o no te agradó?"
+                        Text="{Binding ComentarioTienda.texto}"
+                        HeightRequest="150"
+                        MaxLength="255" />
+            </StackLayout>
+            <StackLayout Padding="10"
+                         HorizontalOptions="Center"
+                         VerticalOptions="CenterAndExpand" >
+                <Label Text="¿Como calificas el producto?" />
+                <StackLayout Orientation="Horizontal">
+                    <StackLayout>
+                        <RadioButton Content=""
+                                     Value="1"
+                                     GroupName="CalificacionProducto"
+                                     CheckedChanged="CambiarPuntuacionProducto" />
+                        <Label Text="Malo" />
+                    </StackLayout>
+                    <StackLayout>
+                        <RadioButton Content=""
+                                     Value="2"
+                                     GroupName="CalificacionProducto"
+                                     CheckedChanged="CambiarPuntuacionProducto" />
+                    </StackLayout>
+                    <StackLayout>
+                        <RadioButton Content=""
+                                     Value="3"
+                                     GroupName="CalificacionProducto"
+                                     CheckedChanged="CambiarPuntuacionProducto" />
+                    </StackLayout>
+                    <StackLayout>
+                        <RadioButton Content=""
+                                     Value="4"
+                                     GroupName="CalificacionProducto"
+                                     CheckedChanged="CambiarPuntuacionProducto" />
+                    </StackLayout>
+                    <StackLayout>
+                        <RadioButton Content="" Value="5"
+                                     GroupName="CalificacionProducto"
+                                     CheckedChanged="CambiarPuntuacionProducto" />
+                        <Label Text="Excelente" />
+                    </StackLayout>
+                </StackLayout>
+                <Label Text="Escribe tu opinion sobre el producto"
+                       Margin="0,20,0,0" />
+                <Editor Placeholder="¿Que te agradó o no te agradó?"
+                        Text="{Binding ComentarioProducto.texto}"
+                        HeightRequest="150"
+                        MaxLength="255" />
+            </StackLayout>
+            <Button Text="Enviar Comentario"
+                    BackgroundColor="#B8D0E2"
+                    Command="{Binding AgregarComentarioCommand}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

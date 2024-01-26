@@ -62,7 +62,7 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Label Text="Fecha" TextColor="white" FontSize="Header" FontAttributes="Bold" Grid.Row="0" Grid.Column="1"/>
-                        <Label Text="Cantidad" TextColor="white" FontSize="Header" FontAttributes="Bold" Grid.Row="0" Grid.Column="2"/>
+                        <Label  Text="Cantidad" TextColor="white" FontSize="Header" FontAttributes="Bold" Grid.Row="0" Grid.Column="2"/>
                         <Label Text="Motivo" TextColor="white" FontSize="Header" FontAttributes="Bold" Grid.Row="0" Grid.Column="3" />
                         <Label Text="Codigo Producto" TextColor="white" FontSize="Header" FontAttributes="Bold" Grid.Row="0" Grid.Column="4"/>
                     </Grid>
@@ -70,7 +70,7 @@
                       SeparatorColor="Black"
                       HasUnevenRows="True"
                               Margin="7"
-                            Grid.Row="4" ItemsSource="{Binding Billetera_Reportes}" Grid.ColumnSpan="2">
+                            Grid.Row="4" ItemsSource="{Binding Billetera_Reportes}" Grid.ColumnSpan="2" x:Name="listaTransacciones">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
@@ -86,7 +86,14 @@
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
                                         <Label Text="{Binding fecha}" TextColor="DarkBlue" FontSize="Header" FontAttributes="Bold" Grid.Row="0" Grid.Column="1"/>
-                                        <Label Text="{Binding cantidad}" TextColor="Green" FontSize="Header" FontAttributes="Bold" Grid.Row="0" Grid.Column="2"  HorizontalTextAlignment="Center"/>
+                                        <Label Text="{Binding total}"
+                                               x:Name="labelCantidad"
+                                               TextColor="{Binding totalColor}"
+                                               FontSize="Header"
+                                               FontAttributes="Bold"
+                                               Grid.Row="0"
+                                               Grid.Column="2"
+                                               HorizontalTextAlignment="Center" />
                                         <Label Text="{Binding motivo}" TextColor="DarkBlue" FontSize="Header" FontAttributes="Bold" Grid.Row="0" Grid.Column="3"/>
                                         <Label Text="{Binding codigo_producto}" TextColor="Blue" FontSize="Header" FontAttributes="Bold" Grid.Row="0" Grid.Column="4" HorizontalTextAlignment="Center"/>
                                     </Grid>

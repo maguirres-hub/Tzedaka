@@ -10,5 +10,7 @@ namespace Tzedaka.Model
         public int Id_cliente { get; set; }
         [JsonProperty("total")]
         public float Total { get; set; }
+        [JsonProperty("creditos")]
+        public float creditos { get; set; }
     }
 }
