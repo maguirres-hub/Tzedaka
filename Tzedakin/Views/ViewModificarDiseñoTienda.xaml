@@ -7,202 +7,231 @@
         <local:ViewModel_Tienda></local:ViewModel_Tienda>
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <StackLayout BackgroundColor="{Binding ColorFondo}">
-            <ActivityIndicator  IsRunning="{Binding IsLoading}"
-                                IsVisible="{Binding IsLoading}" />
-            <CollectionView x:Name="listaProductos"
-                            ItemsSource="{Binding MISProductos}">
-                <CollectionView.Header>
-                    <Grid>
-                        <StackLayout>
-                            <StackLayout Orientation="Horizontal"
-                                         Margin="20,5"
-                                         HorizontalOptions="Center">
-                                <StackLayout  Margin="20,0">
-                                    <Label Text="Color de fondo" />
-                                    <Picker SelectedItem="{Binding ColorFondo}"
-                                            ItemsSource="{Binding colores}">
-                                    </Picker>
-                                </StackLayout>
-                                <StackLayout Margin="20,0">
-                                    <Label Text="Color de letra fondo" />
-                                    <Picker SelectedItem="{Binding ColorLetraFondo}"
-                                            ItemsSource="{Binding colores}">
-                                    </Picker>
-                                </StackLayout>
-                            </StackLayout>
-                            <StackLayout Orientation="Horizontal"
-                                         Margin="0,5">
-                                <Label Text="miTienda"
-                                       FontAttributes="Bold"
-                                       VerticalOptions="Center"
-                                       FontSize="Title"
-                                       Margin="5,0"
-                                       TextColor="{Binding ColorLetraFondo}">
-                                    <Label.FormattedText>
-                                        <FormattedString>
-                                            <Span Text="Tienda " />
-                                            <Span Text="{Binding miTienda.nombre}" />
-                                        </FormattedString>
-                                    </Label.FormattedText>
-                                </Label>
-                                <StackLayout  Orientation="Horizontal"
-                                              VerticalOptions="Center"
-                                              HorizontalOptions="EndAndExpand"
-                                              Margin="5,0">
-                                    <Image Source="estrella"
-                                           HeightRequest="15" />
-                                    <Label TextColor="{Binding ColorLetraFondo}"
-                                           Text="{Binding miTienda.puntuacion, StringFormat='{0:n1}'}" />
-                                </StackLayout>
-                            </StackLayout>
-                            <StackLayout Orientation="Horizontal">
-                                <Label TextColor="{Binding ColorLetraFondo}"
-                                       Text="{Binding miTienda.telefono}"
-                                       Margin="5,0"
-                                       FontSize="Subtitle" />
-                                <Label TextColor="{Binding ColorLetraFondo}"
-                                       HorizontalOptions="EndAndExpand"
-                                       Text="Envios Nacionales"
-                                       FontSize="Subtitle"
-                                       Margin="5,0">
-                                    <Label.FormattedText>
-                                        <FormattedString>
-                                            <Span Text="Envio " />
-                                            <Span Text="{Binding miTienda.tipoEnvio}" />
-                                        </FormattedString>
-                                    </Label.FormattedText>
-                                </Label>
-                            </StackLayout>
-                            <StackLayout Orientation="Horizontal">
-                                <Label TextColor="{Binding ColorLetraFondo}"
-                                       Text="{Binding miTienda.correo}"
-                                       Margin="5,0"
-                                       FontSize="Subtitle" />
-                            </StackLayout>
+        <StackLayout>
+            <Grid x:Name="opciones"
+                  IsVisible="false"
+                  HorizontalOptions="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="20" />
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="20" />
+                    <RowDefinition Height="40" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label Text="Color de fondo" Grid.Column="0" Grid.Row="0"/>
+                        <Picker SelectedItem="{Binding ColorFondo}"
+                        ItemsSource="{Binding colores}"
+                        Grid.Column="0"
+                        Grid.Row="1">
+                        </Picker>
 
-                            <StackLayout Orientation="Horizontal"
-                                         Margin="20,5"
-                                         HorizontalOptions="Center">
-                                <StackLayout Margin="20,0">
-                                    <Label Text="Color de producto" />
-                                    <Picker SelectedItem="{Binding ColorProducto}"
-                                            ItemsSource="{Binding colores}">
-                                    </Picker>
-                                </StackLayout >
-                                <StackLayout Margin="20,0">
-                                    <Label Text="Color de letra producto" />
-                                    <Picker SelectedItem="{Binding ColorLetraProducto}"
-                                            ItemsSource="{Binding colores}">
-                                    </Picker>
-                                </StackLayout>
-                            </StackLayout>
-                        </StackLayout>
-                    </Grid>
-                </CollectionView.Header>
-                <CollectionView.ItemsLayout>
-                    <GridItemsLayout Span="2"
-                                     Orientation="Vertical" />
-                </CollectionView.ItemsLayout>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
+                <Label Text="Color de letra fondo"
+                       Grid.Column="1"
+                       Grid.Row="0" />
+                <Picker SelectedItem="{Binding ColorLetraFondo}"
+                        ItemsSource="{Binding colores}"
+                        Grid.Column="1"
+                        Grid.Row="1">
+                </Picker>
+                <Label Text="Color de producto"
+                       Grid.Column="0"
+                       Grid.Row="2" />
+                <Picker SelectedItem="{Binding ColorProducto}"
+                        ItemsSource="{Binding colores}"
+                        Grid.Column="0"
+                        Grid.Row="3">
+                </Picker>
+                <Label Text="Color de letra producto"
+                       Grid.Column="1"
+                       Grid.Row="2" />
+                <Picker SelectedItem="{Binding ColorLetraProducto}"
+                        ItemsSource="{Binding colores}"
+                        Grid.Column="1"
+                        Grid.Row="3">
+                </Picker>
+                <Label Text="Color de comentario"
+                       Grid.Column="0"
+                       Grid.Row="4" />
+                <Picker SelectedItem="{Binding ColorComentario}"
+                        ItemsSource="{Binding colores}"
+                        Grid.Column="0"
+                        Grid.Row="5">
+                </Picker>
+                <Label Text="Color de letra comentario"
+                       Grid.Column="1"
+                       Grid.Row="4" />
+                <Picker SelectedItem="{Binding ColorLetraComentario}"
+                        ItemsSource="{Binding colores}"
+                        Grid.Column="1"
+                        Grid.Row="5">
+                </Picker>
+            </Grid>
+            <StackLayout x:Name="menuOpciones">
+                <Label Text="OPCIONES"
+                       HorizontalTextAlignment="Center"
+                       BackgroundColor="#B8D0E2"/>
+                <StackLayout.GestureRecognizers>
+                    <SwipeGestureRecognizer Direction="Down" Swiped="SwipeGestureRecognizer_Swiped"/>
+                    <SwipeGestureRecognizer Direction="Up"
+                                            Swiped="SwipeGestureRecognizer_Swiped_1" />
+                </StackLayout.GestureRecognizers>
+            </StackLayout>
+            <StackLayout BackgroundColor="{Binding ColorFondo}" x:Name="tienda">
+                <ActivityIndicator  IsRunning="{Binding IsLoading}"
+                                    IsVisible="{Binding IsLoading}" />
+                <CollectionView x:Name="listaProductos"
+                                ItemsSource="{Binding MISProductos}">
+                    <CollectionView.Header>
                         <Grid>
-                            <Frame  CornerRadius="12"
-                                    Margin="10"
-                                    BackgroundColor="{Binding Path=BindingContext.ColorProducto,Source={x:Reference listaProductos}}"
-                                    BorderColor="#DCDCE1">
-                                <StackLayout>
-                                    <Image Source="{Binding Imagen_Ubicacion}"
-                                           Grid.Row="1">
-                                    </Image>
-
-                                    <StackLayout  Padding="10">
-                                        <Label TextColor="{Binding Path=BindingContext.ColorLetraProducto,Source={x:Reference listaProductos}}"
-                                               FontAttributes="Bold"
-                                               Text="{Binding Precio,
-                     StringFormat='{0:c0}'}"
-                                               FontSize="22"
-                                               HorizontalOptions="EndAndExpand">
-                                        </Label>
-                                        <Label Text="{Binding Nombre}"
-                                               FontSize="18"
-                                               TextColor="{Binding Path=BindingContext.ColorLetraProducto,Source={x:Reference listaProductos}}" />
-                                        <StackLayout Orientation="Horizontal">
-                                            <Image Source="estrella"
-                                                   HeightRequest="15" />
-                                            <Label TextColor="{Binding Path=BindingContext.ColorLetraProducto,Source={x:Reference listaProductos}}"
-                                                   Text="{Binding Puntuacion, StringFormat='{0:n1}'}" />
-                                        </StackLayout>
-                                        <StackLayout Orientation="Horizontal">
-                                            <Label Text="stock" />
-                                            <Label Text="{Binding Stock}" />
-                                        </StackLayout>
+                            <StackLayout>
+                                <StackLayout Orientation="Horizontal"
+                                             Margin="0,5">
+                                    <Label Text="miTienda"
+                                           FontAttributes="Bold"
+                                           VerticalOptions="Center"
+                                           FontSize="Title"
+                                           Margin="5,0"
+                                           TextColor="{Binding ColorLetraFondo}">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Tienda " />
+                                                <Span Text="{Binding miTienda.nombre}" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <StackLayout  Orientation="Horizontal"
+                                                  VerticalOptions="Center"
+                                                  HorizontalOptions="EndAndExpand"
+                                                  Margin="5,0">
+                                        <Image Source="estrella"
+                                               HeightRequest="15" />
+                                        <Label TextColor="{Binding ColorLetraFondo}"
+                                               Text="{Binding miTienda.puntuacion, StringFormat='{0:n1}'}" />
                                     </StackLayout>
                                 </StackLayout>
-                            </Frame>
+                                <StackLayout Orientation="Horizontal">
+                                    <Label TextColor="{Binding ColorLetraFondo}"
+                                           Text="{Binding miTienda.telefono}"
+                                           Margin="5,0"
+                                           FontSize="Subtitle" />
+                                    <Label TextColor="{Binding ColorLetraFondo}"
+                                           HorizontalOptions="EndAndExpand"
+                                           Text="Envios Nacionales"
+                                           FontSize="Subtitle"
+                                           Margin="5,0">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Envio " />
+                                                <Span Text="{Binding miTienda.tipoEnvio}" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </StackLayout>
+                                <StackLayout Orientation="Horizontal">
+                                    <Label TextColor="{Binding ColorLetraFondo}"
+                                           Text="{Binding miTienda.correo}"
+                                           Margin="5,0"
+                                           FontSize="Subtitle" />
+                                </StackLayout>
+
+
+                            </StackLayout>
                         </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-            <StackLayout Orientation="Horizontal"
-                         Margin="20,5"
-                         HorizontalOptions="Center">
-                <StackLayout Margin="20,0">
-                    <Label Text="Color de comentario" />
-                    <Picker SelectedItem="{Binding ColorComentario}"
-                            ItemsSource="{Binding colores}">
-                    </Picker>
-                </StackLayout>
-                <StackLayout Margin="20,0">
-                    <Label Text="Color de letra comentario" />
-                    <Picker SelectedItem="{Binding ColorLetraComentario}"
-                            ItemsSource="{Binding colores}">
-                    </Picker>
-                </StackLayout>
-            </StackLayout>
-            <StackLayout>
-                <Label Text="Comentarios"
-                       FontAttributes="Bold"
-                       FontSize="18"
-                       TextColor="Black"
-                       Margin="5,14,0,0" />
-                <CollectionView   x:Name="listaComentarios"
-                                  HeightRequest="180"
-                                  ItemsSource="{Binding Comentarios}">
+                    </CollectionView.Header>
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Span="2"
+                                         Orientation="Vertical" />
+                    </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <StackLayout>
-                                <Frame CornerRadius="12"
-                                       Margin="5"
-                                       BackgroundColor="{Binding Path=BindingContext.ColorComentario,Source={x:Reference listaComentarios}}"
-                                       BorderColor="#DCDCE1">
+                            <Grid>
+                                <Frame  CornerRadius="12"
+                                        Margin="10"
+                                        BackgroundColor="{Binding Path=BindingContext.ColorProducto,Source={x:Reference listaProductos}}"
+                                        BorderColor="#DCDCE1">
                                     <StackLayout>
-                                        <StackLayout Orientation="Horizontal">
-                                            <Label  TextColor="{Binding Path=BindingContext.ColorLetraComentario,Source={x:Reference listaComentarios}}"
-                                                    Text="{Binding nombreCliente}" />
-                                            <Label  TextColor="{Binding Path=BindingContext.ColorLetraComentario,Source={x:Reference listaComentarios}}"
-                                                    HorizontalOptions="EndAndExpand"
-                                                    Text="{Binding fecha,StringFormat='{0:dd/MM/yyyy}'}" />
+                                        <Image Source="{Binding Imagen_Ubicacion}"
+                                               Grid.Row="1">
+                                        </Image>
+
+                                        <StackLayout  Padding="10">
+                                            <Label TextColor="{Binding Path=BindingContext.ColorLetraProducto,Source={x:Reference listaProductos}}"
+                                                   FontAttributes="Bold"
+                                                   Text="{Binding Precio,
+                     StringFormat='{0:c0}'}"
+                                                   FontSize="22"
+                                                   HorizontalOptions="EndAndExpand">
+                                            </Label>
+                                            <Label Text="{Binding Nombre}"
+                                                   FontSize="18"
+                                                   TextColor="{Binding Path=BindingContext.ColorLetraProducto,Source={x:Reference listaProductos}}" />
+                                            <StackLayout Orientation="Horizontal">
+                                                <Image Source="estrella"
+                                                       HeightRequest="15" />
+                                                <Label TextColor="{Binding Path=BindingContext.ColorLetraProducto,Source={x:Reference listaProductos}}"
+                                                       Text="{Binding Puntuacion, StringFormat='{0:n1}'}" />
+                                            </StackLayout>
+                                            <StackLayout Orientation="Horizontal">
+                                                <Label Text="stock" />
+                                                <Label Text="{Binding Stock}" />
+                                            </StackLayout>
                                         </StackLayout>
-                                        <StackLayout Orientation="Horizontal"
-                                                     HorizontalOptions="EndAndExpand">
-                                            <Image Source="estrella"
-                                                   HeightRequest="15" />
-                                            <Label  TextColor="{Binding Path=BindingContext.ColorLetraComentario,Source={x:Reference listaComentarios}}"
-                                                    Text="{Binding puntuacion, StringFormat='{0:n1}'}" />
-                                        </StackLayout>
-                                        <Label  TextColor="{Binding Path=BindingContext.ColorLetraComentario,Source={x:Reference listaComentarios}}"
-                                                Text="{Binding texto}" />
                                     </StackLayout>
                                 </Frame>
-                            </StackLayout>
+                            </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
+                <StackLayout>
+                    <Label Text="Comentarios"
+                           FontAttributes="Bold"
+                           FontSize="18"
+                           TextColor="Black"
+                           Margin="5,14,0,0" />
+                    <CollectionView   x:Name="listaComentarios"
+                                      HeightRequest="180"
+                                      ItemsSource="{Binding Comentarios}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout>
+                                    <Frame CornerRadius="12"
+                                           Margin="5"
+                                           BackgroundColor="{Binding Path=BindingContext.ColorComentario,Source={x:Reference listaComentarios}}"
+                                           BorderColor="#DCDCE1">
+                                        <StackLayout>
+                                            <StackLayout Orientation="Horizontal">
+                                                <Label  TextColor="{Binding Path=BindingContext.ColorLetraComentario,Source={x:Reference listaComentarios}}"
+                                                        Text="{Binding nombreCliente}" />
+                                                <Label  TextColor="{Binding Path=BindingContext.ColorLetraComentario,Source={x:Reference listaComentarios}}"
+                                                        HorizontalOptions="EndAndExpand"
+                                                        Text="{Binding fecha,StringFormat='{0:dd/MM/yyyy}'}" />
+                                            </StackLayout>
+                                            <StackLayout Orientation="Horizontal"
+                                                         HorizontalOptions="EndAndExpand">
+                                                <Image Source="estrella"
+                                                       HeightRequest="15" />
+                                                <Label  TextColor="{Binding Path=BindingContext.ColorLetraComentario,Source={x:Reference listaComentarios}}"
+                                                        Text="{Binding puntuacion, StringFormat='{0:n1}'}" />
+                                            </StackLayout>
+                                            <Label  TextColor="{Binding Path=BindingContext.ColorLetraComentario,Source={x:Reference listaComentarios}}"
+                                                    Text="{Binding texto}" />
+                                        </StackLayout>
+                                    </Frame>
+                                </StackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+                <Button Text="Guardar Cambios"
+                        BackgroundColor="#B8D0E2"
+                        Command="{Binding GuardarDiseñoTiendaCommand}" />
             </StackLayout>
-            <Button Text="Guardar Cambios"
-                    BackgroundColor="#B8D0E2"
-                    Command="{Binding GuardarDiseñoTiendaCommand}" />
+          
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

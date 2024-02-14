@@ -8,10 +8,17 @@ app = express();
 app.use(express.json());
 function conectar() {
     const con = mysql.createConnection({
+        //servidor namecheap
+        // host: "127.0.0.1",
+        // user: "tzedgvuf_root",
+        // password: "Contraseña1",
+        // database: "tzedgvuf_tzedakin"
+
+        //local
         host: "127.0.0.1",
-        user: "tzedgvuf_root",
-        password: "Contraseña1",
-        database: "tzedgvuf_tzedakin"
+        user: "root",
+        password: "password",
+        database: "tzedakin"
     });
     return con;
 }
