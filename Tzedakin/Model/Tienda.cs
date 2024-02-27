@@ -60,7 +60,7 @@ namespace Tzedaka.Model
         {
             foreach (var item in typeof(Tienda).GetProperties())
             {
-                if (item.Name != "Ciudad" && item.Name != "Pais")
+                if (item.Name == "nombre" || item.Name == "Direccion" || item.Name == "tipoEnvio" || item.Name == "correo" || item.Name == "telefono")
                     if (item.GetValue(this) == null || string.IsNullOrEmpty(item.GetValue(this).ToString()))
                     {
                         return false;

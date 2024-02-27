@@ -2,26 +2,66 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Tzedaka.ViewModels"
-             x:Class="Tzedaka.Views.ViewAgregarProducto" BackgroundColor="White">
+             x:Class="Tzedaka.Views.ViewAgregarProducto"
+             BackgroundColor="White">
     <ContentPage.BindingContext>
         <local:ViewModel_Tienda></local:ViewModel_Tienda>
     </ContentPage.BindingContext>
     <ContentPage.Content>
         <ScrollView>
             <StackLayout>
-                <Label VerticalTextAlignment="Center" HorizontalTextAlignment="Center" TextColor="Black" FontAttributes="Bold" FontSize="Title" Text="Registro Producto" Margin="0, 0, 0, 35"/>
-                <Label Text="Nombre" HorizontalTextAlignment="Center"  FontSize="Subtitle" TextColor="Black"/>
-                <Frame Margin="45,5,45,5" Padding="0" CornerRadius="10" BorderColor="#2296F3">
-                    <Entry Text="{Binding Producto_.Nombre}" TextColor="Black" HorizontalTextAlignment="Center"/>
+                <Label VerticalTextAlignment="Center"
+                       HorizontalTextAlignment="Center"
+                       TextColor="Black"
+                       FontAttributes="Bold"
+                       FontSize="Title"
+                       Text="Registro Producto"
+                       Margin="0, 0, 0, 35" />
+                <Label Text="Nombre"
+                       HorizontalTextAlignment="Center"
+                       FontSize="Subtitle"
+                       TextColor="Black" />
+                <Frame Margin="45,5,45,5"
+                       Padding="0"
+                       CornerRadius="10"
+                       BorderColor="#2296F3">
+                    <Entry Text="{Binding Producto_.Nombre}"
+                           TextColor="Black"
+                           HorizontalTextAlignment="Center" />
                 </Frame>
-                <Label Text="Descripción" HorizontalTextAlignment="Center"  FontSize="Subtitle" TextColor="Black"/>
-                <Frame Margin="45,5,45,5" Padding="0" CornerRadius="10" BorderColor="#2296F3">
-                    <Entry Text="{Binding Producto_.Descripcion}" TextColor="Black" HorizontalTextAlignment="Center" />
+                <Label Text="Descripción"
+                       HorizontalTextAlignment="Center"
+                       FontSize="Subtitle"
+                       TextColor="Black" />
+                <Frame Margin="45,5,45,5"
+                       Padding="0"
+                       CornerRadius="10"
+                       BorderColor="#2296F3">
+                    <Entry Text="{Binding Producto_.Descripcion}"
+                           TextColor="Black"
+                           HorizontalTextAlignment="Center" />
                 </Frame>
-                <Label Text="Precio" HorizontalTextAlignment="Center"  FontSize="Subtitle" TextColor="Black"/>
-                <Frame Margin="45,5,45,25" Padding="0" CornerRadius="10" BorderColor="#2296F3">
-                    <Entry Text="{Binding Producto_.Precio}" TextColor="Black" Keyboard="Numeric" HorizontalTextAlignment="Center"/>
-                </Frame>
+                <Label Text="Precio"
+                       HorizontalTextAlignment="Center"
+                       FontSize="Subtitle"
+                       TextColor="Black" />
+                <StackLayout  Orientation="Horizontal">
+                    <Frame Margin="45,5,0,25"
+                           Padding="0"
+                           CornerRadius="10"
+                           BorderColor="#2296F3"
+                           HorizontalOptions="FillAndExpand">
+                        <Entry Text="{Binding Producto_.Precio}"
+                               TextColor="Black"
+                               Keyboard="Numeric"
+                               HorizontalTextAlignment="Center" />
+                    </Frame>
+                    <Label Text="(USD)"
+                           FontSize="Subtitle"
+                           TextColor="Black"
+                           VerticalOptions="Center"
+                           Padding="0,0,10,25" />
+                </StackLayout>
                 <Label Text="Stock"
                        HorizontalTextAlignment="Center"
                        FontSize="Subtitle"
@@ -39,25 +79,36 @@
                        HorizontalTextAlignment="Center"
                        FontSize="Subtitle"
                        TextColor="Black" />
-                <Frame Margin="45,5,45,25"
-                       Padding="0"
-                       CornerRadius="10"
-                       BorderColor="#2296F3">
-                    <Entry Text="{Binding Producto_.Peso}"
+                <StackLayout  Orientation="Horizontal">
+                    
+                    <Frame Margin="45,5,0,25"
+                           Padding="0"
+                           CornerRadius="10"
+                           BorderColor="#2296F3"
+                           HorizontalOptions="FillAndExpand">
+                        <Entry Text="{Binding Producto_.Peso}"
+                               TextColor="Black"
+                               Keyboard="Numeric"
+                               HorizontalTextAlignment="Center" />
+
+                    </Frame>
+                    <Label Text="(g)"
+                           FontSize="Subtitle"
                            TextColor="Black"
-                           Keyboard="Numeric"
-                           HorizontalTextAlignment="Center" />
-                </Frame>
+                           VerticalOptions="Center"
+                           Padding="0,0,10,25" />
+                </StackLayout>
                 <StackLayout Orientation="Horizontal"
                              HorizontalOptions="FillAndExpand"
                              Margin="45,5,45,25">
-                    <StackLayout HorizontalOptions="FillAndExpand" Margin="10,0" WidthRequest="40">
+                    <StackLayout HorizontalOptions="FillAndExpand"
+                                 Margin="0,0,10,0"
+                                 WidthRequest="40">
                         <Label Text="Alto"
                                HorizontalTextAlignment="Center"
                                FontSize="Subtitle"
                                TextColor="Black" />
-                        <Frame 
-                               Padding="0"
+                        <Frame Padding="0"
                                CornerRadius="10"
                                BorderColor="#2296F3">
                             <Entry Text="{Binding Producto_.alto}"
@@ -73,8 +124,7 @@
                                HorizontalTextAlignment="Center"
                                FontSize="Subtitle"
                                TextColor="Black" />
-                        <Frame 
-                               Padding="0"
+                        <Frame Padding="0"
                                CornerRadius="10"
                                BorderColor="#2296F3">
                             <Entry Text="{Binding Producto_.ancho}"
@@ -85,7 +135,7 @@
                     </StackLayout>
                     <StackLayout  HorizontalOptions="FillAndExpand"
                                   WidthRequest="40"
-                                  Margin="10,0">
+                                  Margin="10,0,0,0">
                         <Label Text="Profundo"
                                HorizontalTextAlignment="Center"
                                FontSize="Subtitle"
@@ -99,23 +149,61 @@
                                    HorizontalTextAlignment="Center" />
                         </Frame>
                     </StackLayout>
+                    <Label Text="(cm)"
+                           FontSize="Subtitle"
+                           TextColor="Black"
+                           VerticalOptions="Center"
+                           HorizontalOptions="End" />
                 </StackLayout>
-                <Label Text="Categoría" HorizontalTextAlignment="Center"  FontSize="Subtitle" TextColor="Black"/>
-                
-                <Frame Margin="45,5,45,5" Padding="0" CornerRadius="10" BorderColor="#2296F3">
-                    <Picker Title="Seleccione categoria" TitleColor="Red" ItemsSource="{Binding Categoria}"  ItemDisplayBinding="{Binding Categoria_Nombre}" SelectedItem="{Binding Seleccion_Categoria}" TextColor="black" HorizontalTextAlignment="Center" />
+                <Label Text="Categoría"
+                       HorizontalTextAlignment="Center"
+                       FontSize="Subtitle"
+                       TextColor="Black" />
+
+                <Frame Margin="45,5,45,5"
+                       Padding="0"
+                       CornerRadius="10"
+                       BorderColor="#2296F3">
+                    <Picker Title="Seleccione categoria"
+                            TitleColor="Red"
+                            ItemsSource="{Binding Categoria}"
+                            ItemDisplayBinding="{Binding Categoria_Nombre}"
+                            SelectedItem="{Binding Seleccion_Categoria}"
+                            TextColor="black"
+                            HorizontalTextAlignment="Center" />
                 </Frame>
-                <Label Text="Imagen" HorizontalTextAlignment="Center"  FontSize="Subtitle" TextColor="Black"/>
-                <ActivityIndicator  IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}"/>
-                <Frame Margin="45,5,45,5" Padding="5" CornerRadius="10" BorderColor="#2296F3">
-                    <Image Source="{Binding Ubicacion_Imagen}" HeightRequest="150"/>
+                <Label Text="Imagen"
+                       HorizontalTextAlignment="Center"
+                       FontSize="Subtitle"
+                       TextColor="Black" />
+                <ActivityIndicator  IsRunning="{Binding IsLoading}"
+                                    IsVisible="{Binding IsLoading}" />
+                <Frame Margin="45,5,45,5"
+                       Padding="5"
+                       CornerRadius="10"
+                       BorderColor="#2296F3">
+                    <Image Source="{Binding Ubicacion_Imagen}"
+                           HeightRequest="150" />
                 </Frame>
-                <Frame Margin="45,5,45,5" Padding="0" CornerRadius="10" BorderColor="#2296F3">
-                    <Button Text="Seleccionar imagen" BackgroundColor="Green" TextColor="White" Command="{Binding Btn_Seleccion_Imagen}"/>
+                <Frame Margin="45,5,45,5"
+                       Padding="0"
+                       CornerRadius="10"
+                       BorderColor="#2296F3">
+                    <Button Text="Seleccionar imagen"
+                            BackgroundColor="Green"
+                            TextColor="White"
+                            Command="{Binding Btn_Seleccion_Imagen}" />
                 </Frame>
-                <ActivityIndicator  IsRunning="{Binding IsLoadingRegistro}" IsVisible="{Binding IsLoadingRegistro}"/>
-                <Frame Margin="45,5,45,5" Padding="0" CornerRadius="10" BorderColor="#2296F3">
-                    <Button Text="Registrar" BackgroundColor="Red" TextColor="White" Command="{Binding Btn_Agregar_Producto}"/>
+                <ActivityIndicator  IsRunning="{Binding IsLoadingRegistro}"
+                                    IsVisible="{Binding IsLoadingRegistro}" />
+                <Frame Margin="45,5,45,5"
+                       Padding="0"
+                       CornerRadius="10"
+                       BorderColor="#2296F3">
+                    <Button Text="Registrar"
+                            BackgroundColor="Red"
+                            TextColor="White"
+                            Command="{Binding Btn_Agregar_Producto}" />
                 </Frame>
             </StackLayout>
         </ScrollView>

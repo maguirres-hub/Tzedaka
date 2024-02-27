@@ -644,9 +644,9 @@ namespace Tzedaka.ViewModels
                         Descripcion = Producto_.Descripcion,
                         Precio = Producto_.Precio,
                         Id_Categoria = Seleccion_Categoria.Id_Categoria,
-                        Id_Estado = 2,
+                        Id_Estado = 1,
                         Img_Blob = Post_Producto_Byte.Img_Blob,
-                        Id_Cliente = Cliente.Id_Cliente,
+                        Id_Cliente = miTienda.idCliente,
                         Peso = Producto_.Peso,
                         Stock = Producto_.Stock,
                         Puntuacion = 0,
@@ -702,12 +702,12 @@ namespace Tzedaka.ViewModels
                     else
                         respuesta = await cliente.PutAsync(url, Contenido);
                     if (respuesta.IsSuccessStatusCode)
-                    {
-
-                        await Application.Current.MainPage.Navigation.PopAsync();
-                        await Application.Current.MainPage.DisplayAlert("Registro Exitoso.!", "Registro modificado con exito", "ok");
+                    {                       
                         Cargar_Productos_Cliente();
                         await GET_Tienda(Cliente.Id_Cliente);
+                        await Application.Current.MainPage.Navigation.PopAsync();
+                        await Application.Current.MainPage.Navigation.PopAsync();
+                        await Application.Current.MainPage.DisplayAlert("Registro Exitoso.!", "Registro modificado con exito", "ok");
                     }
                 }
                 else
@@ -748,7 +748,7 @@ namespace Tzedaka.ViewModels
                             Productos_ = new ObservableCollection<Producto>(Produc);
                             foreach (var prods in Productos_)
                             {
-                                if (prods.Id_Cliente == Cliente.Id_Cliente || (prods.tipo_envio != "Internacional" && prods.idPais != Cliente.Id_Pais))
+                                if (prods.Id_Cliente == Cliente.Id_Cliente || (prods.tipo_envio != "Internacional" && prods.idPais != Cliente.Id_Pais) || prods.Id_Estado ==1)
                                 {
                                     prods.IsVisible = false;
                                 }
@@ -807,10 +807,6 @@ namespace Tzedaka.ViewModels
                                 prod.Imagen_Ubicacion = ImageSource.FromStream(() => new MemoryStream(prod.Img_Blob.DatosImagen));
                             }
                         }
-                    }
-                    else
-                    {
-                        await Application.Current.MainPage.DisplayAlert("Notificacion", "No tienes productos publicados", "Ok");
                     }
                 }
 
@@ -1207,6 +1203,7 @@ namespace Tzedaka.ViewModels
                     await Application.Current.MainPage.DisplayAlert("Aviso", "Producto Eliminado Correctamente", "Salir");
                     MISProductos_.Remove(SelectItem);
                     MISProductos_.Clear();
+                    Cargar_Productos_Cliente();
                 }
 
             }

@@ -157,6 +157,8 @@ namespace Tzedaka.ViewModels
                             await ActualizaHistorialSaldoCliente(fechaCompra, cant, (float)(producto.Precio * 0.1), Comprador.Id_Cliente, "Creditos por compra articulo", producto.Id_Producto);
                             await productoDisminuirStock(producto.Stock - 1, producto.Id_Producto);
                             await Application.Current.MainPage.DisplayAlert("Compra Exitosa", "Se ha realizado la compra exitosamente, Consulte el menu de mis compras para validar con el vendedor", "ok");
+
+                            
                         }
                         else
                         {
@@ -173,6 +175,7 @@ namespace Tzedaka.ViewModels
                             await ActualizaSaldoCliente(producto.Id_Cliente, saldoVendedor.Total + producto.Precio, fechaCompra, cant, producto.Precio, "Venta de articulo", producto.Id_Producto, saldoCliente.creditos);
                             await AgregaCompraTransaccion(Comprador.Id_Cliente, producto.Id_Cliente, cant, producto.Precio, fechaCompra, producto.Id_Producto);
                             await productoDisminuirStock(producto.Stock - 1, producto.Id_Producto);
+                            await Application.Current.MainPage.Navigation.PopAsync();
                             await Application.Current.MainPage.DisplayAlert("Compra Exitosa", "Se ha realizado la compra exitosamente, Consulte el menu de mis compras para validar con el vendedor", "ok");
                         }
                         else
