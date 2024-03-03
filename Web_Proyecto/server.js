@@ -8,17 +8,10 @@ app = express();
 app.use(express.json());
 function conectar() {
     const con = mysql.createConnection({
-        //servidor namecheap
-        // host: "127.0.0.1",
-        // user: "tzedgvuf_root",
-        // password: "Contraseña1",
-        // database: "tzedgvuf_tzedakin"
-
-        //local
         host: "127.0.0.1",
-        user: "root",
-        password: "password",
-        database: "tzedakin"
+        user: "tzedgvuf_root",
+        password: "Contraseña1",
+        database: "tzedgvuf_tzedakin"
     });
     return con;
 }
@@ -564,7 +557,7 @@ app.get('/tzedakin/api/cliente_email/:email', (req, res) => {
         if (err) {
             res.send(err);
         } else {
-            con.query("SELECT cl.*, c.ciudad, p.pais, subs.bloque, CASE WHEN subs.id_subscripcion IS NULL THEN 0 ELSE subs.id_subscripcion END as id_subscripcion, CASE WHEN subs.bloque is null then 0 else subs.bloque end as bloque FROM clientes cl LEFT JOIN ciudades c ON cl.id_ciudad = c.id_ciudad LEFT JOIN paises p ON p.id_pais = c.id_pais LEFT JOIN billetera_virtual wallet ON cl.id_cliente = wallet.id_cliente LEFT JOIN subscripciones subs ON cl.id_cliente = subs.id_cliente WHERE cl.correo = ?", req.params.email, function (err, result) {
+            con.query("SELECT cl.*, c.ciudad,p.id_pais, p.pais, subs.bloque, CASE WHEN subs.id_subscripcion IS NULL THEN 0 ELSE subs.id_subscripcion END as id_subscripcion, CASE WHEN subs.bloque is null then 0 else subs.bloque end as bloque FROM clientes cl LEFT JOIN ciudades c ON cl.id_ciudad = c.id_ciudad LEFT JOIN paises p ON p.id_pais = c.id_pais LEFT JOIN billetera_virtual wallet ON cl.id_cliente = wallet.id_cliente LEFT JOIN subscripciones subs ON cl.id_cliente = subs.id_cliente WHERE cl.correo = ?", req.params.email, function (err, result) {
                 if (err) {
                     res.send(err);
                 } else {
@@ -1984,7 +1977,7 @@ app.get('/tzedakin/api/productos/:id', (req, res) => {
         }
     });
 });
-app.post('/tzedakin/api/productos/', (req, res) => {
+app.post('/tzedakin/api/productos/', (req, res) => { 
     const con = conectar();
     con.connect((err) => {
         if (err) {
@@ -2003,14 +1996,14 @@ app.post('/tzedakin/api/productos/', (req, res) => {
         }
     });
 });
-app.put('/tzedakin/api/productos/:id', (req, res) => {
+app.put('/tzedakin/api/productos/', (req, res) => {
     const con = conectar();
     con.connect((err) => {
         if (err) {
             res.send(err);
         } else {
-            let param = [req.body.nombre, req.body.descripcion, req.body.precio, req.body.id_estado, req.body.img_blob, req.body.id_cliente, req.params.id];
-            con.query("update productos set nombre = ?, descripcion = ?, precio = ?,  id_estado = ?, img_blob = ?, id_cliente= ? where id_producto = ?", param, function (err, result) {
+            let param = [req.body.nombre, req.body.descripcion, req.body.precio, req.body.id_estado, req.body.img_blob, req.body.id_cliente,req.body.peso,req.body.stock,req.body.alto,req.body.ancho,req.body.profundo,req.body.id_producto];
+            con.query("update productos set nombre = ?, descripcion = ?, precio = ?,  id_estado = ?, img_blob = ?, id_cliente= ?,peso = ?,stock = ?,alto = ?,ancho = ?,profundo = ? where id_producto = ?", param, function (err, result) {
                 if (err) {
                     res.send(err);
                 } else {
@@ -2062,34 +2055,7 @@ app.put('/tzedakin/api/producto_autorizacion/:id', (req, res) => {
 });
 // ruta envio email de aceptacion
 app.post('/tzedakin/api/correo_aceptar_producto', (req, res) => {
-    const { from, to, subject, text } = req.body;
-    const envio = nodemailer.createTransport({
-        host: "smtp.dondominio.com",
-        port: 587,
-        secure: false,
-
-        auth: {
-
-            user: "berajot@jorgehernandezr.dev",
-            pass: "V6lrMvXdZJ[Z"
-        }
-    });
-
-    const mailOpciones = {
-        from: from,
-        to: to,
-        subject: subject,
-        text: text
-    };
-    envio.sendMail(mailOpciones, function (error, info) {
-        if (error) {
-            console.log(error);
-            res.status(500).send('Error al enviar el correo electrónico: ' + error);
-        } else {
-            console.log('Correo electrónico enviado: ' + info.response);
             res.status(200).send('Correo electrónico enviado correctamente');
-        }
-    });
 });
 
 app.delete('/tzedakin/api/productos/:id', (req, res) => {
