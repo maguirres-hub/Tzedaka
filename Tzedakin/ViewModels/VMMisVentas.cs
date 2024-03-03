@@ -124,7 +124,7 @@ namespace Tzedaka.ViewModels
                     }
                     else
                     {
-                        await Application.Current.MainPage.DisplayAlert("Notificacion", "No tienes compras publicados", "Ok");
+                        await Application.Current.MainPage.DisplayAlert("Notificacion", "No tienes ventas publicadas", "Ok");
                     }
                 }
 

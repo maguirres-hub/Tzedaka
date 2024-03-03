@@ -72,9 +72,10 @@
                 </Picker>
             </Grid>
             <StackLayout x:Name="menuOpciones">
-                <Label Text="OPCIONES"
-                       HorizontalTextAlignment="Center"
-                       BackgroundColor="#B8D0E2"/>
+                <StackLayout BackgroundColor="#B8D0E2">
+                    <Label Text="▼ OPCIONES ▼"
+                           HorizontalTextAlignment="Center" />
+                </StackLayout>
                 <StackLayout.GestureRecognizers>
                     <SwipeGestureRecognizer Direction="Down" Swiped="SwipeGestureRecognizer_Swiped"/>
                     <SwipeGestureRecognizer Direction="Up"

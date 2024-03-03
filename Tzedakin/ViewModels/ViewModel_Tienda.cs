@@ -28,7 +28,7 @@ namespace Tzedaka.ViewModels
         private Tienda _tienda;
         private PostProducto Post_Producto_ = new PostProducto();
         public Producto Producto_Seleccionado { get; set; }
-        public Categorias Seleccion_Categoria { get; set; }
+        private Categorias _Seleccion_Categoria = new Categorias();
         private List<Categorias> Categoria_ = new List<Categorias>();
 
         private Reporte_Billetera Reporte_Billetera_ = new Reporte_Billetera();
@@ -69,6 +69,7 @@ namespace Tzedaka.ViewModels
         public Command Btn_Agregar_Tienda { get; set; }
         public Command Btn_Cargar_Mis_Productos { get; set; }
         public Command Btn_Ir_Agregar_Producto { get; set; }
+        public Command Btn_Ir_Editar_Producto { get; set; }
         public Command Btn_Ir_Agregar_Tienda { get; set; }
         public Command Btn_Ir_Mis_Producto { get; set; }
         public Command Btn_Ir_Producto_Compra { get; set; }
@@ -110,6 +111,7 @@ namespace Tzedaka.ViewModels
             Btn_Ir_Mis_Compras = new Command(() => Ir_MisCompras());
             Btn_Ir_Mis_Ventas = new Command(async () => await Ir_MisVentas_Pagina());
             Btn_Ir_Agregar_Producto = new Command(() => Agregar_Producto_Formulario());
+            Btn_Ir_Editar_Producto = new Command<Producto>(p => Editar_Producto_Formulario(p));
             Btn_Ir_Agregar_Tienda = new Command(() => Agregar_Tienda_Formulario());
             Btn_Cargar_Mis_Productos = new Command(() => Cargar_Productos_Cliente());
             Btn_Eliminar = new Command<Producto>(Prod => Eliminar_Producto(Prod.Id_Producto));
@@ -263,7 +265,7 @@ namespace Tzedaka.ViewModels
                                                 "YellowGreen", };
         }
 
-        private async void Cargar_Todo()
+        public async void Cargar_Todo()
         {
             await GET_Categorias();
             await GET_Productos_Tienda();
@@ -405,12 +407,14 @@ namespace Tzedaka.ViewModels
         }
         private async Task Ir_TiendaCliente_Pagina(int id_vendedor)
         {
+            IsLoading = true;
             ViewModel_Tienda viewModel = new ViewModel_Tienda();
             await viewModel.GET_Productos_Cliente(id_vendedor);
             await viewModel.GET_Vendedor(id_vendedor);
             await viewModel.getComentarios(id_vendedor);
             await viewModel.GET_Tienda(id_vendedor);
             await Application.Current.MainPage.Navigation.PushAsync(new ViewTiendaCliente() { BindingContext = viewModel });
+            IsLoading = false;
         }
         private async Task Ir_MisCompras_Pagina()
         {
@@ -431,8 +435,21 @@ namespace Tzedaka.ViewModels
         private async void Agregar_Producto_Formulario()
         {
             if (MISProductos.Count() < 3 || miTienda.estaSubscrito)
+            {
+                Ubicacion_Imagen = "";
                 await Application.Current.MainPage.Navigation.PushAsync(new ViewAgregarProducto() { BindingContext = this });
+            }
             else await Application.Current.MainPage.DisplayAlert("Aviso", "No puede agregar mas productos sin estar suscrito", "Ok");
+            // await Post_Producto();
+        }
+        private async void Editar_Producto_Formulario(Producto productoEditar)
+        {
+            Producto_ = productoEditar;
+            Post_Producto_Byte.Img_Blob = productoEditar.Img_Blob.DatosImagen;
+            Ubicacion_Imagen = productoEditar.Imagen_Ubicacion;
+            Seleccion_Categoria = new Categorias();
+            Seleccion_Categoria.Id_Categoria = productoEditar.Id_Categoria;
+            await Application.Current.MainPage.Navigation.PushAsync(new ViewAgregarProducto() { BindingContext = this });
             // await Post_Producto();
         }
         private async void Agregar_Tienda_Formulario()
@@ -551,10 +568,10 @@ namespace Tzedaka.ViewModels
                     {
                         float precioSubscripcion = Produc[0].precio;
                         if (Cliente_Billetera.Total < precioSubscripcion)
-                            await Application.Current.MainPage.DisplayAlert("Aviso", "No posees fondos para comprar este producto. Recarga tu billetera", "Ok");
+                            await Application.Current.MainPage.DisplayAlert("Aviso", "No tiene saldo suficiente el precio de la subscripcion es de USD." + precioSubscripcion + ", puede recargar ingresando a su Wallet", "Ok");
                         else
                         {
-                            bool bandera = await Application.Current.MainPage.DisplayAlert("Aviso", "¿Seguro de comprar la subscripción?", "Si", "Cancelar");
+                            bool bandera = await Application.Current.MainPage.DisplayAlert("Aviso", "El precio de la subscripcion es de USD. " + precioSubscripcion + " Su saldo es de USD." + Cliente_Billetera.Total.ToString(), "Comprar", "Salir");
                             if (bandera == true)
                             {
                                 var contenido = new StringContent("{" + '"' + "id" + '"' + ":" + miTienda.id + "}", Encoding.UTF8, "application/json");
@@ -562,12 +579,10 @@ namespace Tzedaka.ViewModels
                                 respuesta = await cliente.PutAsync(url, contenido);
                                 if (respuesta.IsSuccessStatusCode == true)
                                 {
-                                    HttpResponseMessage response = await Actualizar_Reporte_Billetera_Comprador_funcion(Cliente.Id_Cliente, precioSubscripcion, "Compra de segunda subscripción");
-                                    if (response.IsSuccessStatusCode == true)
-                                    {
-                                        await GET_Tienda(Cliente.Id_Cliente);
-                                        await Application.Current.MainPage.DisplayAlert("Compra Exitosa", "Su subscripcion se ha realizado con exito", "Ok");
-                                    }
+                                    await ActualizaSaldoCliente(Cliente.Id_Cliente, Cliente_Billetera.Total - precioSubscripcion, DateTime.Now, 1, -precioSubscripcion, "Compra de segunda subscripción", 0, Cliente_Billetera.creditos);
+
+                                    await GET_Tienda(Cliente.Id_Cliente);
+                                    await Application.Current.MainPage.DisplayAlert("Compra Exitosa", "Su subscripcion se ha realizado con exito", "Ok");
                                 }
                             }
                         }
@@ -578,6 +593,70 @@ namespace Tzedaka.ViewModels
             catch (Exception ex)
             {
                 Debug.Write(ex.ToString());
+            }
+        }
+        private async Task ActualizaSaldoCliente(int idCliente, float saldoNuevo, DateTime fecha, float cantidad, float variacion, string motivo, int idProducto, float creditos)
+        {
+            try
+            {
+                HttpClient client = new HttpClient();
+                client.Timeout = TimeSpan.FromSeconds(120);
+                Billetera_Virtual nuevaCarga = new Billetera_Virtual
+                {
+                    Total = saldoNuevo,
+                    creditos = creditos
+                };
+                var json = JsonConvert.SerializeObject(nuevaCarga);
+                var contenido = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage respuesta = await client.PutAsync(Settings.Url + $"tzedakin/api/billetera_virtual/{idCliente}", contenido);
+
+                if (respuesta.IsSuccessStatusCode)
+                {
+                    await ActualizaHistorialSaldoCliente(fecha, cantidad, variacion, idCliente, motivo, idProducto);
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Registro fallido", "Se ha producido un fallo durante el registro", "ok");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message.ToString());
+            }
+        }
+        public async Task ActualizaHistorialSaldoCliente(DateTime fecha, float cantidad, float variacion, int idCliente, string motivo, int idProducto)
+        {
+            try
+            {
+                HttpClient client = new HttpClient();
+                client.Timeout = TimeSpan.FromSeconds(120);
+
+                Reporte_Billetera nuevaCarga = new Reporte_Billetera
+                {
+                    fecha = fecha.ToString("yyyy-MM-dd hh:mm:ss"),
+                    cantidad = cantidad,
+                    total = variacion,
+                    id_cliente = idCliente,
+                    motivo = motivo,
+                    codigo_producto = idProducto,
+                };
+                var json = JsonConvert.SerializeObject(nuevaCarga);
+                var contenido = new StringContent(json, Encoding.UTF8, "application/json");
+                HttpResponseMessage respuesta = await client.PostAsync(Settings.Url + $"tzedakin/api/reportes_billetera", contenido);
+
+                if (respuesta.IsSuccessStatusCode)
+                {
+                    Debug.WriteLine("Dinero Vendedor");
+
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Registro fallido", "Se ha producido un fallo durante el registro", "ok");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message.ToString());
             }
         }
         private async void Eliminar_Producto(int id)
@@ -640,6 +719,7 @@ namespace Tzedaka.ViewModels
                 {
                     PostProducto producto = new PostProducto
                     {
+                        Id_Producto = Producto_.Id_Producto,
                         Nombre = Producto_.Nombre,
                         Descripcion = Producto_.Descripcion,
                         Precio = Producto_.Precio,
@@ -657,14 +737,20 @@ namespace Tzedaka.ViewModels
 
                     var Json = JsonConvert.SerializeObject(producto);
                     var Contenido = new StringContent(Json, Encoding.UTF8, "application/json");
-                    HttpResponseMessage respuesta = await cliente.PostAsync(url, Contenido);
-
+                    HttpResponseMessage respuesta;
+                    if (producto.Id_Producto == 0)
+                        respuesta = await cliente.PostAsync(url, Contenido);
+                    else
+                        respuesta = await cliente.PutAsync(url, Contenido);
                     if (respuesta.IsSuccessStatusCode)
                     {
                         Producto_ = new Producto();
                         Cargar_Productos_Cliente();
+                        Post_Producto_Byte.Img_Blob = null;
+                        Ubicacion_Imagen = null;
+                        Seleccion_Categoria = null;
                         await Application.Current.MainPage.Navigation.PopAsync();
-                        await Application.Current.MainPage.DisplayAlert("Registro Exitoso.!", "Su producto fue creado con exito!", "ok");
+                        await Application.Current.MainPage.DisplayAlert("Registro Exitoso.!", "Su producto fue creado con exito!, Espere la aprobacion del administrador para que los compradores puedan verlo", "ok");
                     }
                 }
                 else
@@ -691,6 +777,11 @@ namespace Tzedaka.ViewModels
                 IsLoadingRegistro = true;
                 if (miTienda.CamposLLenos() && CiudadSeleccionada != null && PaisSeleccionado != null)
                 {
+                    if (!miTienda.telefono.ToCharArray().All(Char.IsDigit))
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Registro fallido", "El telefono debe ser numerico", "ok");
+                        return;
+                    }
                     miTienda.idCiudad = CiudadSeleccionada.Id_Ciudad;
                     miTienda.idPais = PaisSeleccionado.Id_Pais;
                     miTienda.idCliente = Cliente.Id_Cliente;
@@ -702,7 +793,7 @@ namespace Tzedaka.ViewModels
                     else
                         respuesta = await cliente.PutAsync(url, Contenido);
                     if (respuesta.IsSuccessStatusCode)
-                    {                       
+                    {
                         Cargar_Productos_Cliente();
                         await GET_Tienda(Cliente.Id_Cliente);
                         await Application.Current.MainPage.Navigation.PopAsync();
@@ -748,7 +839,7 @@ namespace Tzedaka.ViewModels
                             Productos_ = new ObservableCollection<Producto>(Produc);
                             foreach (var prods in Productos_)
                             {
-                                if (prods.Id_Cliente == Cliente.Id_Cliente || (prods.tipo_envio != "Internacional" && prods.idPais != Cliente.Id_Pais) || prods.Id_Estado ==1)
+                                if (prods.Id_Cliente == Cliente.Id_Cliente || (prods.tipo_envio != "Internacional" && prods.idPais != Cliente.Id_Pais) || prods.Id_Estado == 1)
                                 {
                                     prods.IsVisible = false;
                                 }
@@ -806,6 +897,16 @@ namespace Tzedaka.ViewModels
                                 prod.Img_Blob.Type = "image/jpeg"; // Or "image/jpeg" if applicable
                                 prod.Imagen_Ubicacion = ImageSource.FromStream(() => new MemoryStream(prod.Img_Blob.DatosImagen));
                             }
+                            if (prod.Id_Estado == 1)
+                            {
+                                prod.IsVisible = false;
+                            }
+                            else
+                            {
+
+                                prod.IsVisible = true;
+                            }
+
                         }
                     }
                 }
@@ -845,7 +946,7 @@ namespace Tzedaka.ViewModels
                         CiudadSeleccionada.Ciudad = miTienda.Ciudad;
                         PaisSeleccionado.Id_Pais = miTienda.idPais;
                         PaisSeleccionado.Nombre_Pais = miTienda.Pais;
-                        
+
                         ColorLetraFondo = miTienda.colorLetraFondo;
                         ColorFondo = miTienda.colorFondo;
                         ColorProducto = miTienda.colorProducto;
@@ -1075,7 +1176,7 @@ namespace Tzedaka.ViewModels
                 cantidad = precio,
                 total = NuevoTotal,
                 id_cliente = Cliente.Id_Cliente,
-                motivo = "Compra Producto",
+                motivo = motivo != null ? motivo : "Compra Producto",
                 codigo_producto = id,
 
             };
@@ -1224,6 +1325,18 @@ namespace Tzedaka.ViewModels
                 {
                     _Cliente = value;
                     OnPropertyChanged(nameof(Cliente));
+                }
+            }
+        }
+        public Categorias Seleccion_Categoria
+        {
+            get { return _Seleccion_Categoria; }
+            set
+            {
+                if (_Seleccion_Categoria != value)
+                {
+                    _Seleccion_Categoria = value;
+                    OnPropertyChanged(nameof(Seleccion_Categoria));
                 }
             }
         }
@@ -1388,7 +1501,7 @@ namespace Tzedaka.ViewModels
                 if (_colorProducto != value)
                 {
                     _colorProducto = value;
-                    
+
                 }
                 OnPropertyChanged(nameof(ColorProducto));
             }
@@ -1401,8 +1514,9 @@ namespace Tzedaka.ViewModels
                 if (_colorLetraProducto != value)
                 {
                     _colorLetraProducto = value;
-                    
-                }OnPropertyChanged(nameof(ColorLetraProducto));
+
+                }
+                OnPropertyChanged(nameof(ColorLetraProducto));
             }
         }
         public string ColorFondo
@@ -1426,7 +1540,7 @@ namespace Tzedaka.ViewModels
                 if (_colorLetraFondo != value)
                 {
                     _colorLetraFondo = value;
-                    
+
                 }
                 OnPropertyChanged(nameof(ColorLetraFondo));
             }

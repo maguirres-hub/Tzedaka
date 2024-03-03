@@ -4,6 +4,8 @@
              x:Class="Tzedaka.Views.ViewProductoCompra">
     <ContentPage.Content>
         <StackLayout BackgroundColor="White">
+            <ActivityIndicator  IsRunning="{Binding IsLoading}"
+                                IsVisible="{Binding IsLoading}" />
             <StackLayout Padding="36,15"
                          Spacing="20">
                 <Image Source="{Binding Parametrosrecibe.Imagen_Ubicacion}"

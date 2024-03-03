@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,12 +22,13 @@ namespace Tzedaka.ViewModels
         string _Preciotexto;
         private ObservableCollection<ComentarioCompra> _comentarios = new ObservableCollection<ComentarioCompra>();
         public event PropertyChangedEventHandler PropertyChanged;
-
+        private bool _isLoading;
         public Producto Parametrosrecibe { get; set; }
         #endregion
         #region CONSTRUCTOR
         public VMProductoCompra(Producto parametrosTrae)
         {
+            _isLoading = false;
             Parametrosrecibe = parametrosTrae;
             Preciotexto = "$" + Parametrosrecibe.Precio;
             getComentarios(parametrosTrae.Id_Producto);
@@ -57,6 +59,15 @@ namespace Tzedaka.ViewModels
             {
                 _Cantidad = value;
                 OnPropertyChanged(nameof(Cantidad));
+            }
+        }
+        public bool IsLoading
+        {
+            get => _isLoading;
+            set
+            {
+                _isLoading = value;
+                OnPropertyChanged(nameof(IsLoading));
             }
         }
         #endregion
@@ -156,9 +167,8 @@ namespace Tzedaka.ViewModels
                             await AgregaCompraTransaccion(Comprador.Id_Cliente, producto.Id_Cliente, cant, producto.Precio, fechaCompra, producto.Id_Producto);
                             await ActualizaHistorialSaldoCliente(fechaCompra, cant, (float)(producto.Precio * 0.1), Comprador.Id_Cliente, "Creditos por compra articulo", producto.Id_Producto);
                             await productoDisminuirStock(producto.Stock - 1, producto.Id_Producto);
+                            await Application.Current.MainPage.Navigation.PopAsync();
                             await Application.Current.MainPage.DisplayAlert("Compra Exitosa", "Se ha realizado la compra exitosamente, Consulte el menu de mis compras para validar con el vendedor", "ok");
-
-                            
                         }
                         else
                         {
@@ -355,12 +365,14 @@ namespace Tzedaka.ViewModels
         }
         private async Task IrTiendaCliente(int id_vendedor)
         {
+            IsLoading = true;
             ViewModel_Tienda viewModel = new ViewModel_Tienda();
             await viewModel.GET_Productos_Cliente(id_vendedor);
             await viewModel.GET_Vendedor(id_vendedor);
             await viewModel.getComentarios(id_vendedor);
             await viewModel.GET_Tienda(id_vendedor);
             await Application.Current.MainPage.Navigation.PushAsync(new ViewTiendaCliente() { BindingContext = viewModel });
+            IsLoading = false;
         }
 
         protected virtual void OnPropertyChanged(string propertyName)

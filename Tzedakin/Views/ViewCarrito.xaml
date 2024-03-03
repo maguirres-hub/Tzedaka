@@ -191,6 +191,10 @@
                                             <Label Text="{Binding Stock}" />
                                         </StackLayout>
                                     </StackLayout>
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Path=BindingContext.Btn_Ir_Editar_Producto,Source={x:Reference listaProductos}}"
+                                                              CommandParameter="{Binding .}" />
+                                    </StackLayout.GestureRecognizers>
                                 </StackLayout>
 
                             </Frame>

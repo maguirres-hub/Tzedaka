@@ -99,7 +99,8 @@
                             <Frame CornerRadius="12"
                                    Margin="10"
                                    BackgroundColor="{Binding Path=BindingContext.ColorProducto,Source={x:Reference listaProductos}}"
-                                   BorderColor="#DCDCE1">
+                                   BorderColor="#DCDCE1"
+                                   IsVisible="{Binding IsVisible}">
                                 <StackLayout>
                                     <Image Source="{Binding Imagen_Ubicacion}"
                                            Grid.Row="1">

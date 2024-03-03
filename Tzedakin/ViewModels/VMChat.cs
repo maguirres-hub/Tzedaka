@@ -95,10 +95,6 @@ namespace Tzedaka.ViewModels
                             else prod.propio = false;
                         }
                     }
-                    else
-                    {
-                        await Application.Current.MainPage.DisplayAlert("Notificacion", "No tienes compras publicados", "Ok");
-                    }
                 }
 
             }
